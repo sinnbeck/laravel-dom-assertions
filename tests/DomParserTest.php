@@ -3,7 +3,7 @@
 use Sinnbeck\DomAssertions\DomParser;
 
 it('can find a form', function () {
-    $html = <<<HTML
+    $html = <<<'HTML'
 <form id="form1"></form>
 <form id="form2"></form>
 HTML;
@@ -16,7 +16,7 @@ HTML;
 });
 
 it('can find a select inside a form', function () {
-    $html = <<<HTML
+    $html = <<<'HTML'
 <form id="form1"></form>
 <form id="form2">
     <input value="foo">
@@ -37,7 +37,7 @@ HTML;
 });
 
 it('can get an attribute', function () {
-    $html = <<<HTML
+    $html = <<<'HTML'
 <input type="text" value="foo"/>
 HTML;
 
@@ -48,7 +48,7 @@ HTML;
 });
 
 it('can get an element by type', function () {
-    $html = <<<HTML
+    $html = <<<'HTML'
 <input type="text" value="foo"/>
 HTML;
 

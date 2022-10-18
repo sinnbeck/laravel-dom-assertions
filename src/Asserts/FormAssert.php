@@ -72,7 +72,6 @@ class FormAssert
         );
 
         return $this;
-
     }
 
     public function doesntContainInput(array $attributes, $name = ''): self
@@ -92,7 +91,7 @@ class FormAssert
 
     public function containsSelect(\Closure $callback, $selector = 'select'): static
     {
-        if (!$select = $this->makeScopedParser()->query($selector)) {
+        if (! $select = $this->makeScopedParser()->query($selector)) {
             Assert::fail(sprintf('No select found for selector: %s', $selector));
         }
         $callback(new SelectAssert($this->parser->getContent(), $select));

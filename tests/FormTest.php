@@ -61,18 +61,18 @@ test('it can find a form with inputs', function () {
                 ->hasCSRF()
                 ->hasSpoofMethod('PUT')
                 ->containsInput([
-                    'name'  => 'first_name',
-                    'type'  => 'text',
+                    'name' => 'first_name',
+                    'type' => 'text',
                     'value' => 'Foo',
                 ])
                 ->containsInput([
-                    'name'  => 'tags[]',
-                    'type'  => 'text',
+                    'name' => 'tags[]',
+                    'type' => 'text',
                     'value' => 'Happy',
                 ])
                 ->containsInput([
-                    'name'  => 'tags[]',
-                    'type'  => 'text',
+                    'name' => 'tags[]',
+                    'type' => 'text',
                     'value' => 'Buys cheese',
                 ]);
         }, '#form2')
@@ -105,9 +105,9 @@ test('it can test a textarea', function () {
     $this->get('form')
         ->assertForm(function (FormAssert $form) {
             $form->containsTextarea([
-                    'name' => 'comment',
-                    'value' => 'foo'
-                ]);
+                'name' => 'comment',
+                'value' => 'foo',
+            ]);
         })->assertOk();
 });
 
@@ -118,7 +118,7 @@ test('it can parse a select functional ', function () {
                 $selectAssert->has('name', 'country')
                     ->containsOption([
                         'value' => 'dk',
-                        'text'  => 'Denmark',
+                        'text' => 'Denmark',
                     ])
                     ->containsOptions(
                         function (OptionAssert $optionAssert) {
@@ -131,16 +131,16 @@ test('it can parse a select functional ', function () {
                         },
                         [
                             'value' => 'dk',
-                            'text'  => 'Denmark',
+                            'text' => 'Denmark',
                         ],
                         [
                             'value' => 'us',
-                            'text'  => 'USA',
+                            'text' => 'USA',
                         ],
                         [
                             'x-data' => 'none',
-                            'value'  => 'none',
-                            'text'   => 'None',
+                            'value' => 'none',
+                            'text' => 'None',
                         ]
                     );
             }, 'select:nth-of-type(2)');
@@ -158,7 +158,7 @@ test('it can check arbitrary children', function () {
     $this->get('form')
         ->assertForm(function (FormAssert $form) {
             $form->containsLabel([
-                'for' => 'bar'
+                'for' => 'bar',
             ]);
         })->assertOk();
 });

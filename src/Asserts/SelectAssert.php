@@ -2,7 +2,6 @@
 
 namespace Sinnbeck\DomAssertions\Asserts;
 
-use PHPUnit\Framework\Assert;
 use Sinnbeck\DomAssertions\Asserts\Traits\CanGatherAttributes;
 use Sinnbeck\DomAssertions\Asserts\Traits\HasElementAsserts;
 use Sinnbeck\DomAssertions\DomParser;
@@ -13,6 +12,7 @@ class SelectAssert
     use CanGatherAttributes;
 
     protected DomParser $parser;
+
     protected array $attributes = [];
 
     public function __construct(string $html, $root)
@@ -33,7 +33,7 @@ class SelectAssert
             tap(
                 new OptionAssert(
                     $this->attributes['option']
-                ), fn($option) => $attributes($option)
+                ), fn ($option) => $attributes($option)
             )->validate();
         }
 
@@ -47,6 +47,5 @@ class SelectAssert
         }
 
         return $this;
-
     }
 }

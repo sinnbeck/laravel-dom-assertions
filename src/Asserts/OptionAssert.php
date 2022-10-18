@@ -2,15 +2,14 @@
 
 namespace Sinnbeck\DomAssertions\Asserts;
 
-
 use PHPUnit\Framework\Assert;
 
 class OptionAssert
 {
-
     protected $options;
 
     protected $touched = [];
+
     protected $matched = [];
 
     public function __construct($options)

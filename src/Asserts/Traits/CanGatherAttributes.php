@@ -20,8 +20,8 @@ trait CanGatherAttributes
                 $attributes[$attribute->nodeName] = $attribute->value;
             }
             $this->attributes[$type][] = $attributes + [
-                    'text' => trim($element->nodeValue)
-                ];
+                'text' => trim($element->nodeValue),
+            ];
         }
     }
 

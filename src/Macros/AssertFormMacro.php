@@ -7,7 +7,6 @@ use Illuminate\Testing\TestResponse;
 use PHPUnit\Framework\Assert;
 use Sinnbeck\DomAssertions\Asserts\FormAssert;
 use Sinnbeck\DomAssertions\DomParser;
-use Symfony\Component\VarDumper\VarDumper;
 
 class AssertFormMacro
 {
@@ -29,7 +28,7 @@ class AssertFormMacro
                 Assert::fail('Invalid selector!');
             }
 
-            if (is_null($form)){
+            if (is_null($form)) {
                 Assert::fail(sprintf('No form was found with selector: %s', $selector));
             }
 
@@ -39,7 +38,6 @@ class AssertFormMacro
 
             if ($callback) {
                 $callback(new FormAssert($this->getContent(), $form));
-
             }
 
             return $this;

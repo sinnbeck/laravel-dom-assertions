@@ -13,13 +13,11 @@ trait HasElementAsserts
         if (Str::startsWith($method, 'contains')) {
             $elementName = Str::of($method)->after('contains')->camel();
             $this->contains($elementName, ...$arguments);
-
         }
 
         if (Str::startsWith($method, 'has')) {
             $property = Str::of($method)->after('has')->snake()->slug('-');
             $this->has($property, $arguments[0]);
-
         }
 
         return $this;
@@ -41,7 +39,7 @@ trait HasElementAsserts
         $this->gatherAttributes($elementName);
 
         $first = collect($this->attributes[$elementName])
-            ->search(fn($input) => array_intersect_key($attributes, $input) === $attributes);
+            ->search(fn ($input) => array_intersect_key($attributes, $input) === $attributes);
 
         Assert::assertNotFalse(
             $first,
