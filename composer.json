@@ -1,0 +1,50 @@
+{
+    "name": "sinnbeck/dom-assertions",
+    "homepage": "https://github.com/sinnbeck/laravel-dom-assertions",
+    "license": "MIT",
+    "keywords": [
+        "laravel",
+        "assertions",
+        "view",
+        "dom",
+        "blade"
+    ],
+    "authors": [
+        {
+            "name": "René Sinnbeck",
+            "email": "rene.sinnbeck@gmail.com",
+            "homepage": "https://sinnbeck.dev",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Sinnbeck\\DomAssertions\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "require": {
+        "ext-dom": "*",
+        "ext-libxml": "*",
+        "php": "^8.0",
+        "illuminate/support": "^8.71|^9.0"
+    },
+    "require-dev": {
+        "pestphp/pest": "^1.0",
+        "orchestra/testbench": "^7.10",
+        "laravel/pint": "^1.2",
+        "vimeo/psalm": "^4.29"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        },
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
