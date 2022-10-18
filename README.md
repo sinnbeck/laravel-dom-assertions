@@ -69,8 +69,8 @@ $this->get('/some-route')
             'value' => 'Gunnar',
         ])
         ->containsTextarea([
-            'name' => 'first_name',
-            'value' => 'Gunnar',
+            'name' => 'comment',
+            'value' => '...',
         ]);
     });
 ```
