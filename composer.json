@@ -28,10 +28,10 @@
         }
     },
     "require": {
+        "php": "^8.0",
         "ext-dom": "*",
         "ext-libxml": "*",
-        "php": "^8.0",
-        "illuminate/support": "^8.71|^9.0"
+        "symfony/css-selector": "^6.0"
     },
     "require-dev": {
         "pestphp/pest": "^1.0",
