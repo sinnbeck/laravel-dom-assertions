@@ -65,13 +65,13 @@ You can also easily test for inputs or text areas
 $this->get('/some-route')
     ->assertForm(function (FormAssert $form) {
         $form->containsInput([
-                'name' => 'first_name',
-                'value' => 'Gunnar',
-            ])
-            ->containsTextarea([
-                'name' => 'first_name',
-                'value' => 'Gunnar',
-            ]);
+            'name' => 'first_name',
+            'value' => 'Gunnar',
+        ])
+        ->containsTextarea([
+            'name' => 'first_name',
+            'value' => 'Gunnar',
+        ]);
     });
 ```
 Or arbitrary children
@@ -79,11 +79,11 @@ Or arbitrary children
 $this->get('/some-route')
     ->assertForm(function (FormAssert $form) {
         $form->contains('label', [
-                'for' => 'username',
-            ])
-            ->containsLabel([
-                'for' => 'username',
-            ]); //it also works with magic methods
+            'for' => 'username',
+        ])
+        ->containsLabel([
+            'for' => 'username',
+        ]); //it also works with magic methods
     });
 ```
 Testing for selects is also easy but require a bit of special syntax. First of it requires a selector as the second argument, to get the correct select. It will only check inside the already selected form. Secondly it uses a closure just like the form, which allows some better assertions.
@@ -101,22 +101,22 @@ $this->get('/some-route')
     ->assertForm(function (FormAssert $form) {
         $form->containsSelect(function (SelectAssert $selectAssert) {
             $selectAssert->containsOption([
-                        [
-                            'x-data' => 'none',
-                            'value'  => 'none',
-                            'text'   => 'None',
-                        ]
-                    ])
-                    ->containsOptions(
-                        [
-                            'value' => 'dk',
-                            'text'  => 'Denmark',
-                        ],
-                        [
-                            'value' => 'us',
-                            'text'  => 'USA',
-                        ],
-                    );
+                [
+                    'x-data' => 'none',
+                    'value'  => 'none',
+                    'text'   => 'None',
+                ]
+            ])
+            ->containsOptions(
+                [
+                    'value' => 'dk',
+                    'text'  => 'Denmark',
+                ],
+                [
+                    'value' => 'us',
+                    'text'  => 'USA',
+                ],
+            );
         }, 'select:nth-of-type(2)');
     });
 ```
@@ -126,20 +126,20 @@ $this->get('/some-route')
     ->assertForm(function (FormAssert $form) {
         $form->containsSelect(function (SelectAssert $selectAssert) {
             $selectAssert->containsOption(function (OptionAssert $optionAssert) {
-                        $optionAssert->hasValue('none');
-                        $optionAssert->hasText('None');
-                        $optionAssert->hasXData('none');
-                    })
-                    ->containsOptions(
-                        function (OptionAssert $optionAssert) {
-                            $optionAssert->hasValue('dk');
-                            $optionAssert->hasText('Denmark');
-                        },
-                        function (OptionAssert $optionAssert) {
-                            $optionAssert->hasValue('us')
-                                ->hasText('USA');
-                        },
-                    );
+                $optionAssert->hasValue('none');
+                $optionAssert->hasText('None');
+                $optionAssert->hasXData('none');
+            })
+            ->containsOptions(
+                function (OptionAssert $optionAssert) {
+                    $optionAssert->hasValue('dk');
+                    $optionAssert->hasText('Denmark');
+                },
+                function (OptionAssert $optionAssert) {
+                    $optionAssert->hasValue('us')
+                        ->hasText('USA');
+                },
+            );
         }, 'select:nth-of-type(2)');
     });
 ```
