@@ -1,4 +1,4 @@
-name: Fix PHP cs issues
+name: Fix PHP code style issues
 
 on: [push]
 
