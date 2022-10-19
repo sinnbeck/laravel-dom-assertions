@@ -22,5 +22,6 @@ class TestCase extends \Orchestra\Testbench\TestCase
     protected function defineRoutes($router)
     {
         Route::view('form', 'form');
+        Route::view('nesting', 'nesting');
     }
 }

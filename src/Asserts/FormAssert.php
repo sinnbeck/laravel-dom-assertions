@@ -7,12 +7,14 @@ use Illuminate\Testing\Assert as PHPUnit;
 use PHPUnit\Framework\Assert;
 use Sinnbeck\DomAssertions\Asserts\Traits\CanGatherAttributes;
 use Sinnbeck\DomAssertions\Asserts\Traits\HasElementAsserts;
+use Sinnbeck\DomAssertions\Asserts\Traits\InteractsWithParser;
 use Sinnbeck\DomAssertions\DomParser;
 
 class FormAssert
 {
     use HasElementAsserts;
     use CanGatherAttributes;
+    use InteractsWithParser;
 
     /**
      * @var \Sinnbeck\DomAssertions\DomParser
@@ -67,7 +69,7 @@ class FormAssert
     public function containsInput(array $attributes): self
     {
         Assert::assertNotNull(
-            $this->makeScopedParser()->query($this->getSelectorFromAttributes('input', $attributes)),
+            $this->makeScopedParser('form')->query($this->getSelectorFromAttributes('input', $attributes)),
             sprintf('Could not find a matching input with data: %s', json_encode($attributes, JSON_PRETTY_PRINT))
         );
 
@@ -77,7 +79,7 @@ class FormAssert
     public function doesntContainInput(array $attributes, $name = ''): self
     {
         Assert::assertNull(
-            $this->makeScopedParser()->query($this->getSelectorFromAttributes('input', $attributes)),
+            $this->makeScopedParser('form')->query($this->getSelectorFromAttributes('input', $attributes)),
             sprintf('Found a matching input with data: %s', json_encode($attributes, JSON_PRETTY_PRINT))
         );
 
@@ -89,12 +91,19 @@ class FormAssert
         return $this->parser->getAttributeForRoot($attribute);
     }
 
-    public function containsSelect(\Closure $callback, $selector = 'select'): static
+    public function containsSelect($selector = 'select', $callback = null): static
     {
-        if (! $select = $this->makeScopedParser()->query($selector)) {
+        if (is_callable($selector)) {
+            $callback = $selector;
+            $selector = 'select';
+
+        }
+
+        if (! $select = $this->makeScopedParser('form')->query($selector)) {
             Assert::fail(sprintf('No select found for selector: %s', $selector));
         }
-        $callback(new SelectAssert($this->parser->getContent(), $select));
+
+        $callback(new SelectAssert($this->getContent(), $select));
 
         return $this;
     }
@@ -128,9 +137,4 @@ class FormAssert
         return $selector;
     }
 
-    protected function makeScopedParser(): DomParser
-    {
-        return $this->parser->cloneFromRoot()
-            ->setRootFromString('form');
-    }
 }

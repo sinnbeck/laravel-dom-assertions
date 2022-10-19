@@ -18,33 +18,42 @@ composer require sinnbeck/laravel-dom-assertions
 ## Usage
 
 ### Testing forms
-Let's say you have a view with a form. We want to ensure that it has the correct method and action. You can then use the `->assertForm()` method to assert that the form has the provided attributes.
+Let's say you have a view with a form. We want to ensure that it has the correct method and action. You can then use the `->assertForm()` method to assert that the form exists.
 ```php
 $this->get('/some-route')
     ->assertForm();
 ```
-The `->assertForm()` method will check the first form it finds. In case you have more than one form, and want to use a different form that the first, you can supply either a zero based index of the form as the second argument
+The `->assertForm()` method will check the first form it finds. In case you have more than one form, and want to use a different form that the first, you can supply a css selector as the first argument to get a specific one.
 ```php
 $this->get('/some-route')
-    ->assertForm(null, 1); //get the second form on the page
+    ->assertForm('#users-form');
 ```
-For even more control you can give it a css selector. It will always use the first match.
+If there is more than one hit, it will return the first matching form.
 ```php
 $this->get('/some-route')
-    ->assertForm(null, 'nav .logout-form'); //get a specific form in nav by class
+    ->assertForm(null, 'nav .logout-form');
 ```
-The first argument of `->assertForm()` is a closure that recieves an instance of `FormAssert`. This allows you to assert things about the form itself. Here we are asserting that it has a certain action and method
+The second argument of `->assertForm()` is a closure that receives an instance of `\Sinnbeck\DomAssertions\Asserts\FormAssert`. This allows you to assert things about the form itself. Here we are asserting that it has a certain action and method
 ```php
 $this->get('/some-route')
-    ->assertForm(function (FormAssert $form) {
+    ->assertForm('#form1', function (\Sinnbeck\DomAssertions\Asserts\FormAssert $form) {
         $form->hasAction('/logout')
             ->hasMethod('post');
     });
 ```
+If you leave out the css selector, it will automatically default to finding the first form on the page
+```php
+$this->get('/some-route')
+    ->assertForm(function (\Sinnbeck\DomAssertions\Asserts\FormAssert $form) {
+        $form->hasAction('/logout')
+            ->hasMethod('post');
+    });
+```
+
 You can also check for csrf and method spoofing
 ```php
 $this->get('/some-route')
-    ->assertForm(function (FormAssert $form) {
+    ->assertForm(function (\Sinnbeck\DomAssertions\Asserts\FormAssert $form) {
         $form->hasAction('/update-user')
             ->hasMethod('post')
             ->hasCSRF()
@@ -54,7 +63,7 @@ $this->get('/some-route')
 Or even arbitrary attributes
 ```php
 $this->get('/some-route')
-    ->assertForm(function (FormAssert $form) {
+    ->assertForm(function (\Sinnbeck\DomAssertions\Asserts\FormAssert $form) {
         $form->has('x-data', 'foo')
         $form->hasEnctype('multipart/form-data'); //it also works with magic methods
     });
@@ -63,7 +72,7 @@ $this->get('/some-route')
 You can also easily test for inputs or text areas 
 ```php
 $this->get('/some-route')
-    ->assertForm(function (FormAssert $form) {
+    ->assertForm(function (\Sinnbeck\DomAssertions\Asserts\FormAssert $form) {
         $form->containsInput([
             'name' => 'first_name',
             'value' => 'Gunnar',
@@ -77,7 +86,7 @@ $this->get('/some-route')
 Or arbitrary children
 ```php
 $this->get('/some-route')
-    ->assertForm(function (FormAssert $form) {
+    ->assertForm(function (\Sinnbeck\DomAssertions\Asserts\FormAssert $form) {
         $form->contains('label', [
             'for' => 'username',
         ])
@@ -86,20 +95,20 @@ $this->get('/some-route')
         ]);
     });
 ```
-Testing for selects is also easy but require a bit of special syntax. First of it requires a selector as the second argument, to get the correct select. It will only check inside the already selected form. Secondly it uses a closure just like the form, which allows some better assertions.
+Testing for selects is also easy and works a bit like the `assertForm()`. It takes a selector as the first argument, and closure as the second argument. The second argument returns an instance of `\Sinnbeck\DomAssertions\Asserts\SelectAssert::class`. This can be used to assert that the select has certain attributes.
 ```php
 $this->get('/some-route')
-    ->assertForm(function (FormAssert $form) {
-        $form->containsSelect(function (SelectAssert $selectAssert) {
+    ->assertForm(function (\Sinnbeck\DomAssertions\Asserts\FormAssert $form) {
+        $form->containsSelect('select:nth-of-type(2)', function (\Sinnbeck\DomAssertions\Asserts\SelectAssert $selectAssert) {
             $selectAssert->has('name', 'country')
-        }, 'select:nth-of-type(2)');
+        });
     });
 ```
 You can also assert that it has certain options. You can either check for one specific or an array of options
 ```php
 $this->get('/some-route')
-    ->assertForm(function (FormAssert $form) {
-        $form->containsSelect(function (SelectAssert $selectAssert) {
+    ->assertForm(function (\Sinnbeck\DomAssertions\Asserts\FormAssert $form) {
+        $form->containsSelect(function (\Sinnbeck\DomAssertions\Asserts\SelectAssert $selectAssert) {
             $selectAssert->containsOption([
                 [
                     'x-data' => 'none',
@@ -120,27 +129,27 @@ $this->get('/some-route')
         }, 'select:nth-of-type(2)');
     });
 ```
-It also works with callables if you prefer that syntax
+It also works with closures if you prefer that syntax
 ```php
 $this->get('/some-route')
-    ->assertForm(function (FormAssert $form) {
-        $form->containsSelect(function (SelectAssert $selectAssert) {
-            $selectAssert->containsOption(function (OptionAssert $optionAssert) {
+    ->assertForm(function (\Sinnbeck\DomAssertions\Asserts\FormAssert $form) {
+        $form->containsSelect('select:nth-of-type(2)', function (\Sinnbeck\DomAssertions\Asserts\SelectAssert $selectAssert) {
+            $selectAssert->containsOption(function (\Sinnbeck\DomAssertions\Asserts\OptionAssert\OptionAssert $optionAssert) {
                 $optionAssert->hasValue('none');
                 $optionAssert->hasText('None');
                 $optionAssert->hasXData('none');
             })
             ->containsOptions(
-                function (OptionAssert $optionAssert) {
+                function (\Sinnbeck\DomAssertions\Asserts\OptionAssert $optionAssert) {
                     $optionAssert->hasValue('dk');
                     $optionAssert->hasText('Denmark');
                 },
-                function (OptionAssert $optionAssert) {
+                function (\Sinnbeck\DomAssertions\Asserts\OptionAssert $optionAssert) {
                     $optionAssert->hasValue('us')
                         ->hasText('USA');
                 },
             );
-        }, 'select:nth-of-type(2)');
+        });
     });
 ```
 ## Testing

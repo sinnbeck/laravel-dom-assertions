@@ -7,75 +7,60 @@ use Sinnbeck\DomAssertions\Asserts\SelectAssert;
 
 it('can find a form by default', function () {
     $this->get('form')
-        ->assertForm(function (FormAssert $form) {
-            $form->hasAction('store-comment');
-        });
-});
-
-it('can find a form by index', function () {
-    $this->get('form')
-        ->assertForm(function (FormAssert $form) {
-            $form->hasAction('form');
-        }, 1);
+        ->assertForm();
 });
 
 it('can find a form by css selector', function () {
     $this->get('form')
-        ->assertForm(function (FormAssert $form) {
+        ->assertForm('form:nth-child(2)', function (FormAssert $form) {
             $form->hasAction('form');
-        }, 'form:nth-child(2)');
+        });
 });
 
 it('can fail to find a form', function () {
-    $this->expectException(AssertionFailedError::class);
-    $this->expectExceptionMessage('Element is not of type form!');
     $this->get('form')
-        ->assertForm(function (FormAssert $form) {
+        ->assertForm('div', function (FormAssert $form) {
             $form->hasAction('form');
-        }, 'div');
-});
+        });
+})->throws(AssertionFailedError::class, 'Element is not of type form!');
 
 it('can fail with wrong type of selector', function () {
-    $this->expectException(AssertionFailedError::class);
-    $this->expectExceptionMessage('Invalid selector!');
     $this->get('form')
-        ->assertForm(function (FormAssert $form) {
+        ->assertForm(['form'], function (FormAssert $form) {
             $form->hasAction('form');
-        }, ['form']);
-});
+        });
+})->throws(AssertionFailedError::class, 'Invalid selector!');
 
 it('can fail to find anything', function () {
-    $this->expectException(AssertionFailedError::class);
-    $this->expectExceptionMessage('No form was found with selector: 10');
     $this->get('form')
-        ->assertForm(function (FormAssert $form) {
+        ->assertForm('foobar', function (FormAssert $form) {
             $form->hasAction('form');
-        }, 10);
-});
+        });
+})->throws(AssertionFailedError::class, 'No form was found with selector "foobar"');
 
 it('can find elements', function () {
     $this->get('form')
-        ->assertForm(function (FormAssert $form) {
+        ->assertForm('#form2', function (FormAssert $form) {
             $form->hasAction('/form')
                 ->hasMethod('post')
                 ->hasCSRF()
                 ->hasSpoofMethod('PUT');
-        }, '#form2')
+        })
         ->assertOk();
 });
 
 it('can find enc type', function () {
     $this->get('form')
-        ->assertForm(function (FormAssert $form) {
+        ->assertForm('#form1', function (FormAssert $form) {
             $form->hasEnctype('multipart/form-data');
-        }, '#form1')
+        })
         ->assertOk();
 });
 
 
 it('can find inputs', function () {
     $this->get('form')
-        ->assertForm(function (FormAssert $form) {
+        ->assertForm('#form2', function (FormAssert $form) {
             $form->hasAction('/form')
                 ->hasMethod('post')
                 ->hasCSRF()
@@ -95,30 +80,30 @@ it('can find inputs', function () {
                     'type' => 'text',
                     'value' => 'Buys cheese',
                 ]);
-        }, '#form2')
+        })
         ->assertOk();
 });
 
 it('can detect a missing input', function () {
     $this->get('form')
-        ->assertForm(function (FormAssert $form) {
+        ->assertForm('#form2', function (FormAssert $form) {
             $form->hasAction('/form')
                 ->hasMethod('post')
                 ->doesntContainInput([
                     'name' => 'last_name',
                 ]);
-        }, '#form2')->assertOk();
+        })->assertOk();
 });
 
 it('can ignore an input outside the form ', function () {
     $this->get('form')
-        ->assertForm(function (FormAssert $form) {
+        ->assertForm('#form2', function (FormAssert $form) {
             $form->hasAction('/form')
                 ->hasMethod('post')
                 ->doesntContainInput([
                     'name' => 'outside',
                 ]);
-        }, '#form2')->assertOk();
+        })->assertOk();
 });
 
 it('can test a textarea', function () {
@@ -133,8 +118,8 @@ it('can test a textarea', function () {
 
 it('can parse a select with options', function () {
     $this->get('form')
-        ->assertForm(function (FormAssert $form) {
-            $form->containsSelect(function (SelectAssert $selectAssert) {
+        ->assertForm('#form2',function (FormAssert $form) {
+            $form->containsSelect('select:nth-of-type(2)', function (SelectAssert $selectAssert) {
                 $selectAssert->has('name', 'country')
                     ->containsOption([
                         'x-data' => 'none',
@@ -152,14 +137,14 @@ it('can parse a select with options', function () {
                         ],
 
                     );
-            }, 'select:nth-of-type(2)');
-        }, '#form2')->assertOk();
+            });
+        })->assertOk();
 });
 
 it('can parse a select with options functional', function () {
     $this->get('form')
-        ->assertForm(function (FormAssert $form) {
-            $form->containsSelect(function (SelectAssert $selectAssert) {
+        ->assertForm('#form2', function (FormAssert $form) {
+            $form->containsSelect('select:nth-of-type(2)', function (SelectAssert $selectAssert) {
                 $selectAssert->has('name', 'country')
                     ->containsOption(function (OptionAssert $optionAssert) {
                         $optionAssert->hasValue('none');
@@ -175,17 +160,17 @@ it('can parse a select with options functional', function () {
                                 ->hasText('USA');
                         },
                     );
-            }, 'select:nth-of-type(2)');
-        }, '#form2')->assertOk();
+            });
+        })->assertOk();
 });
 
 it('can find a button', function () {
     $this->get('form')
-        ->assertForm(function (FormAssert $form) {
+        ->assertForm('#form2', function (FormAssert $form) {
             $form->containsButton([
                 'type' => 'submit',
             ]);
-        }, '#form2')->assertOk();
+        })->assertOk();
 });
 
 it('can check arbitrary attributes', function () {

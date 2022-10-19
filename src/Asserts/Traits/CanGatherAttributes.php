@@ -4,6 +4,8 @@ namespace Sinnbeck\DomAssertions\Asserts\Traits;
 
 trait CanGatherAttributes
 {
+    use InteractsWithParser;
+
     public function gatherAttributesWithText($type)
     {
         if (isset($this->attributes[$type])) {

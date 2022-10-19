@@ -89,8 +89,18 @@ class DomParser
         return (new \DOMXPath($this->getRoot()->ownerDocument))->query($converter->toXpath($selector))->item(0);
     }
 
-    public function getAttributeFor(string $for, string $attribute)
+    public function getAttributeFor($for, string $attribute)
     {
-        return $this->getElementOfType($for)->getAttribute($attribute);
+        if (is_string($for)) {
+            return $this->getElementOfType($for)->getAttribute($attribute);
+
+        }
+
+        return $for->getAttribute($attribute);
+    }
+
+    public function getType()
+    {
+        return $this->root->nodeName;
     }
 }
