@@ -103,7 +103,6 @@ class DomParser
         return (new \DOMXPath($this->getRoot()->ownerDocument))->query($converter->toXpath($selector))->item(0);
     }
 
-
     public function queryAll(string $selector): \DOMNodeList
     {
         $converter = new CssSelectorConverter();
