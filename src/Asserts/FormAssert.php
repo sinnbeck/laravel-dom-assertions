@@ -52,7 +52,7 @@ class FormAssert
 
     public function hasMethod(string $method): self
     {
-        if (!in_array(strtolower($method), ['get', 'post'])) {
+        if (! in_array(strtolower($method), ['get', 'post'])) {
             return $this->hasSpoofMethod($method);
         }
         PHPUnit::assertEquals(
@@ -63,7 +63,6 @@ class FormAssert
 
         return $this;
     }
-
 
     public function hasSpoofMethod(string $type): self
     {
