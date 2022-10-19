@@ -23,4 +23,14 @@ trait InteractsWithParser
     {
         return $this->parser->getContent();
     }
+
+    protected function getAttribute(string $attribute)
+    {
+        return $this->parser->getAttributeForRoot($attribute);
+    }
+
+    protected function getAttributeFor($for, string $attribute)
+    {
+        return $this->parser->getAttributeFor($for, $attribute);
+    }
 }

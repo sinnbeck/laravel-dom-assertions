@@ -212,7 +212,7 @@ $this->get('/some-route')
 ```
 For even more power you are allowed to use a closure as the second argument. This lets you traverse the dom as deep as you need to.
 ```php
-$this->get('nesting')
+$this->get('/some-route')
     ->assertElement(function (ElementAssert $element) {
         $element->contains('div', function (ElementAssert $element) {
             $element->is('div');

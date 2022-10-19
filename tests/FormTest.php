@@ -192,7 +192,7 @@ it('can check arbitrary children', function () {
     $this->get('form')
         ->assertForm(function (FormAssert $form) {
             $form->containsLabel([
-                'for' => 'bar',
+                'for' => 'comment',
             ]);
         })->assertOk();
 });

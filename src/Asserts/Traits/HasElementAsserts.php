@@ -16,6 +16,11 @@ trait HasElementAsserts
             $this->contains($elementName, ...$arguments);
         }
 
+        if (Str::startsWith($method, 'doesntContain')) {
+            $elementName = Str::of($method)->after('doesntContain')->camel();
+            $this->doesntContain($elementName, ...$arguments);
+        }
+
         if (Str::startsWith($method, 'has')) {
             $property = Str::of($method)->after('has')->snake()->slug('-');
             $this->has($property, $arguments[0]);
@@ -68,11 +73,46 @@ trait HasElementAsserts
         $this->gatherAttributes($elementName);
 
         $first = collect($this->attributes[$elementName])
-            ->search(fn ($input) => array_intersect_key($attributes, $input) === $attributes);
+            ->search(fn ($attribute) => $this->compareAttributesArrays($attributes, $attribute));
 
         Assert::assertNotFalse(
             $first,
             sprintf('Could not find a matching %s with data: %s', $elementName, json_encode($attributes, JSON_PRETTY_PRINT))
+        );
+
+        return $this;
+    }
+
+    public function doesntContain(string $elementName, array $attributes = []): self
+    {
+        if (! $attributes) {
+            Assert::assertNull(
+                $this->parser->query($elementName),
+                sprintf('Found a matching element of type "%s"', $elementName)
+            );
+
+            return $this;
+        }
+
+        if (! preg_match('/^[\w]+$/', $elementName)) {
+            $element = $this->parser->query($elementName);
+            foreach ($attributes as $attribute => $value) {
+                Assert::assertEquals(
+                    $value,
+                    $this->getAttributeFor($element, $attribute),
+                    sprintf('Found attribute "%s" with value "%s"', $attribute, $value)
+                );
+            }
+        }
+
+        $this->gatherAttributes($elementName);
+
+        $first = collect($this->attributes[$elementName])
+            ->search(fn ($foundAttributes) => $this->compareAttributesArrays($attributes, $foundAttributes));
+
+        Assert::assertFalse(
+            $first,
+            sprintf('Found a matching %s with data: %s', $elementName, json_encode($attributes, JSON_PRETTY_PRINT))
         );
 
         return $this;
@@ -89,13 +129,8 @@ trait HasElementAsserts
         return $this;
     }
 
-    protected function getAttribute(string $attribute)
+    private function compareAttributesArrays($attributes, $foundAttributes)
     {
-        return $this->parser->getAttributeForRoot($attribute);
-    }
-
-    protected function getAttributeFor($for, string $attribute)
-    {
-        return $this->parser->getAttributeFor($for, $attribute);
+        return ! array_diff($attributes, $foundAttributes);
     }
 }

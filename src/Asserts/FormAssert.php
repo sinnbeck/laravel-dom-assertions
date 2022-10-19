@@ -90,31 +90,6 @@ class FormAssert
         return $this;
     }
 
-    public function containsTextarea(array $attributes): self
-    {
-        return $this->contains('textarea', $attributes);
-    }
-
-    public function containsInput(array $attributes): self
-    {
-        Assert::assertNotNull(
-            $this->makeScopedParser('form')->query($this->getSelectorFromAttributes('input', $attributes)),
-            sprintf('Could not find a matching input with data: %s', json_encode($attributes, JSON_PRETTY_PRINT))
-        );
-
-        return $this;
-    }
-
-    public function doesntContainInput(array $attributes, $name = ''): self
-    {
-        Assert::assertNull(
-            $this->makeScopedParser('form')->query($this->getSelectorFromAttributes('input', $attributes)),
-            sprintf('Found a matching input with data: %s', json_encode($attributes, JSON_PRETTY_PRINT))
-        );
-
-        return $this;
-    }
-
     protected function getAttributeFromForm(string $attribute)
     {
         return $this->parser->getAttributeForRoot($attribute);
