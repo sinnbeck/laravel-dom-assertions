@@ -172,6 +172,28 @@ it('can parse a select with options functional', function () {
         })->assertOk();
 });
 
+it('can assert that select has value', function () {
+    $this->get('form')
+        ->assertForm('#form2', function (FormAssert $form) {
+            $form->containsSelect('select:nth-of-type(2)', function (SelectAssert $selectAssert) {
+                $selectAssert->hasValue('none');
+            });
+        })->assertOk();
+});
+
+it('can assert that option is selected', function () {
+    $this->get('form')
+        ->assertForm('#form2', function (FormAssert $form) {
+            $form->containsSelect('select:nth-of-type(2)', function (SelectAssert $selectAssert) {
+                $selectAssert->containsOption(function (OptionAssert $optionAssert) {
+                    $optionAssert->hasValue('none');
+                    $optionAssert->hasText('None');
+                    $optionAssert->isSelected();
+                });
+            });
+        })->assertOk();
+});
+
 it('can find a button', function () {
     $this->get('form')
         ->assertForm('#form2', function (FormAssert $form) {

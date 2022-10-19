@@ -2,6 +2,7 @@
 
 namespace Sinnbeck\DomAssertions\Asserts;
 
+use PHPUnit\Framework\Assert;
 use Sinnbeck\DomAssertions\Asserts\Traits\CanGatherAttributes;
 use Sinnbeck\DomAssertions\Asserts\Traits\HasElementAsserts;
 use Sinnbeck\DomAssertions\Asserts\Traits\InteractsWithParser;
@@ -38,6 +39,20 @@ class SelectAssert
                 ), fn ($option) => $attributes($option)
             )->validate();
         }
+
+        return $this;
+    }
+
+    public function hasValue($value)
+    {
+        Assert::assertNotNull(
+            $option = $this->parser->query('option[selected="selected"]'),
+            'No options are selected!'
+        );
+        Assert::assertEquals(
+            $value,
+            $option->getAttribute('value')
+        );
 
         return $this;
     }

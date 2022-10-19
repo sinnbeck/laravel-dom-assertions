@@ -3,9 +3,16 @@
 namespace Sinnbeck\DomAssertions\Asserts;
 
 use PHPUnit\Framework\Assert;
+use Sinnbeck\DomAssertions\Asserts\Traits\CanGatherAttributes;
+use Sinnbeck\DomAssertions\Asserts\Traits\HasElementAsserts;
+use Sinnbeck\DomAssertions\Asserts\Traits\InteractsWithParser;
 
 class OptionAssert
 {
+    use CanGatherAttributes;
+    use HasElementAsserts;
+    use InteractsWithParser;
+
     protected $options;
 
     protected $touched = [];
@@ -44,5 +51,15 @@ class OptionAssert
             array_diff($this->touched, $this->matched),
             sprintf('Could not find a matching option with data: %s', json_encode($this->touched, JSON_PRETTY_PRINT))
         );
+    }
+
+    public function isSelected(): self
+    {
+        $this->touched['value'] = 'selected';
+        if ($this->options->firstWhere('selected', 'selected')) {
+            $this->matched['selected'] = 'selected';
+        }
+
+        return $this;
     }
 }

@@ -136,7 +136,7 @@ $this->get('/some-route')
         }, 'select:nth-of-type(2)');
     });
 ```
-It also works with closures if you prefer that syntax. The closure retuns an instance of `\Sinnbeck\DomAssertions\Asserts\OptionAssert`
+It also works with closures if you prefer that syntax. The closure returns an instance of `\Sinnbeck\DomAssertions\Asserts\OptionAssert`
 ```php
 $this->get('/some-route')
     ->assertForm(function (FormAssert $form) {
@@ -158,6 +158,28 @@ $this->get('/some-route')
             );
         });
     });
+```
+You can of course also check that a select has a certain value
+```php
+$this->get('/some-route')
+        ->assertForm('#form1', function (FormAssert $form) {
+            $form->containsSelect('select:nth-of-type(2)', function (SelectAssert $selectAssert) {
+                $selectAssert->hasValue('dk');
+            });
+        });
+```
+or that an option is selected
+```php
+$this->get('/some-route')
+        ->assertForm('#form1', function (FormAssert $form) {
+            $form->containsSelect('select:nth-of-type(2)', function (SelectAssert $selectAssert) {
+                $selectAssert->containsOption(function (OptionAssert $optionAssert) {
+                        $optionAssert->hasValue('dk');
+                        $optionAssert->hasText('Denmark');
+                        $optionAssert->isSelected();
+                    });
+            });
+        });
 ```
 ### Testing regular dom
 The testing of generic html elements works a lot like forms.

@@ -22,7 +22,7 @@
         </select>
 
         <select name="country" >
-            <option x-data="none" value="none">None</option>
+            <option x-data="none" value="none" selected>None</option>
             @foreach(['us' => 'USA', 'ua' => 'Ukraine', 'dk' => 'Denmark'] as $value => $label)
                 <option value="{{$value}}">{{$label}}</option>
             @endforeach
