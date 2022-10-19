@@ -36,7 +36,7 @@ $this->get('/some-route')
 The second argument of `->assertForm()` is a closure that receives an instance of `\Sinnbeck\DomAssertions\Asserts\FormAssert`. This allows you to assert things about the form itself. Here we are asserting that it has a certain action and method
 ```php
 $this->get('/some-route')
-    ->assertForm('#form1', function (\Sinnbeck\DomAssertions\Asserts\FormAssert $form) {
+    ->assertForm('#form1', function (FormAssert $form) {
         $form->hasAction('/logout')
             ->hasMethod('post');
     });
@@ -44,7 +44,7 @@ $this->get('/some-route')
 If you leave out the css selector, it will automatically default to finding the first form on the page
 ```php
 $this->get('/some-route')
-    ->assertForm(function (\Sinnbeck\DomAssertions\Asserts\FormAssert $form) {
+    ->assertForm(function (FormAssert $form) {
         $form->hasAction('/logout')
             ->hasMethod('post');
     });
@@ -53,7 +53,7 @@ $this->get('/some-route')
 You can also check for csrf and method spoofing
 ```php
 $this->get('/some-route')
-    ->assertForm(function (\Sinnbeck\DomAssertions\Asserts\FormAssert $form) {
+    ->assertForm(function (FormAssert $form) {
         $form->hasAction('/update-user')
             ->hasMethod('post')
             ->hasCSRF()
@@ -63,7 +63,7 @@ $this->get('/some-route')
 Or even arbitrary attributes
 ```php
 $this->get('/some-route')
-    ->assertForm(function (\Sinnbeck\DomAssertions\Asserts\FormAssert $form) {
+    ->assertForm(function (FormAssert $form) {
         $form->has('x-data', 'foo')
         $form->hasEnctype('multipart/form-data'); //it also works with magic methods
     });
@@ -72,7 +72,7 @@ $this->get('/some-route')
 You can also easily test for inputs or text areas 
 ```php
 $this->get('/some-route')
-    ->assertForm(function (\Sinnbeck\DomAssertions\Asserts\FormAssert $form) {
+    ->assertForm(function (FormAssert $form) {
         $form->containsInput([
             'name' => 'first_name',
             'value' => 'Gunnar',
@@ -86,7 +86,7 @@ $this->get('/some-route')
 Or arbitrary children
 ```php
 $this->get('/some-route')
-    ->assertForm(function (\Sinnbeck\DomAssertions\Asserts\FormAssert $form) {
+    ->assertForm(function (FormAssert $form) {
         $form->contains('label', [
             'for' => 'username',
         ])
@@ -95,11 +95,11 @@ $this->get('/some-route')
         ]);
     });
 ```
-Testing for selects is also easy and works a bit like the `assertForm()`. It takes a selector as the first argument, and closure as the second argument. The second argument returns an instance of `\Sinnbeck\DomAssertions\Asserts\SelectAssert::class`. This can be used to assert that the select has certain attributes.
+Testing for selects is also easy and works a bit like the `assertForm()`. It takes a selector as the first argument, and closure as the second argument. The second argument returns an instance of `\Sinnbeck\DomAssertions\Asserts\SelectAssert`. This can be used to assert that the select has certain attributes.
 ```php
 $this->get('/some-route')
-    ->assertForm(function (\Sinnbeck\DomAssertions\Asserts\FormAssert $form) {
-        $form->containsSelect('select:nth-of-type(2)', function (\Sinnbeck\DomAssertions\Asserts\SelectAssert $selectAssert) {
+    ->assertForm(function (FormAssert $form) {
+        $form->containsSelect('select:nth-of-type(2)', function (SelectAssert $selectAssert) {
             $selectAssert->has('name', 'country')
         });
     });
@@ -107,8 +107,8 @@ $this->get('/some-route')
 You can also assert that it has certain options. You can either check for one specific or an array of options
 ```php
 $this->get('/some-route')
-    ->assertForm(function (\Sinnbeck\DomAssertions\Asserts\FormAssert $form) {
-        $form->containsSelect(function (\Sinnbeck\DomAssertions\Asserts\SelectAssert $selectAssert) {
+    ->assertForm(function (FormAssert $form) {
+        $form->containsSelect(function (SelectAssert $selectAssert) {
             $selectAssert->containsOption([
                 [
                     'x-data' => 'none',
@@ -129,22 +129,22 @@ $this->get('/some-route')
         }, 'select:nth-of-type(2)');
     });
 ```
-It also works with closures if you prefer that syntax
+It also works with closures if you prefer that syntax. The closure retuns an instance of `\Sinnbeck\DomAssertions\Asserts\OptionAssert`
 ```php
 $this->get('/some-route')
-    ->assertForm(function (\Sinnbeck\DomAssertions\Asserts\FormAssert $form) {
-        $form->containsSelect('select:nth-of-type(2)', function (\Sinnbeck\DomAssertions\Asserts\SelectAssert $selectAssert) {
-            $selectAssert->containsOption(function (\Sinnbeck\DomAssertions\Asserts\OptionAssert\OptionAssert $optionAssert) {
+    ->assertForm(function (FormAssert $form) {
+        $form->containsSelect('select:nth-of-type(2)', function (SelectAssert $selectAssert) {
+            $selectAssert->containsOption(function (OptionAssert $optionAssert) {
                 $optionAssert->hasValue('none');
                 $optionAssert->hasText('None');
                 $optionAssert->hasXData('none');
             })
             ->containsOptions(
-                function (\Sinnbeck\DomAssertions\Asserts\OptionAssert $optionAssert) {
+                function (OptionAssert $optionAssert) {
                     $optionAssert->hasValue('dk');
                     $optionAssert->hasText('Denmark');
                 },
-                function (\Sinnbeck\DomAssertions\Asserts\OptionAssert $optionAssert) {
+                function (OptionAssert $optionAssert) {
                     $optionAssert->hasValue('us')
                         ->hasText('USA');
                 },

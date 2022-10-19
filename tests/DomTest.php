@@ -3,9 +3,16 @@
 use PHPUnit\Framework\AssertionFailedError;
 use Sinnbeck\DomAssertions\Asserts\ElementAssert;
 
-it('can find the body', function () {
+it('can find the an element', function () {
         $this->get('nesting')
             ->assertElement();
+});
+
+it('can find the body', function () {
+    $this->get('nesting')
+        ->assertElement(function (ElementAssert $assert) {
+            $assert->is('body');
+        });
 });
 
 it('can find an element by selector', function () {
