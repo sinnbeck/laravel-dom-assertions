@@ -45,6 +45,7 @@ trait HasElementAsserts
         if (is_callable($attributes)) {
             $elementAssert = new ElementAssert($this->getContent(), $element);
             $attributes($elementAssert);
+
             return $this;
         }
 
@@ -52,14 +53,13 @@ trait HasElementAsserts
             return $this;
         }
 
-        if (!preg_match('/^[\w]+$/', $elementName)) {
+        if (! preg_match('/^[\w]+$/', $elementName)) {
             foreach ($attributes as $attribute => $value) {
                 Assert::assertEquals(
                     $value,
                     $this->getAttributeFor($element, $attribute),
                     sprintf('Could not find attribute "%s" with value "%s"', $attribute, $value)
                 );
-
             }
 
             return $this;

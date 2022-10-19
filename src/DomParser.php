@@ -93,7 +93,6 @@ class DomParser
     {
         if (is_string($for)) {
             return $this->getElementOfType($for)->getAttribute($attribute);
-
         }
 
         return $for->getAttribute($attribute);

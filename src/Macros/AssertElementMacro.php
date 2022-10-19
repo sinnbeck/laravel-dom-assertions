@@ -2,11 +2,9 @@
 
 namespace Sinnbeck\DomAssertions\Macros;
 
-use Closure;
 use Illuminate\Testing\TestResponse;
 use PHPUnit\Framework\Assert;
 use Sinnbeck\DomAssertions\Asserts\ElementAssert;
-use Sinnbeck\DomAssertions\Asserts\FormAssert;
 use Sinnbeck\DomAssertions\DomParser;
 
 class AssertElementMacro
@@ -20,7 +18,6 @@ class AssertElementMacro
             if (is_callable($selector)) {
                 $callback = $selector;
                 $selector = 'body';
-
             }
 
             if (is_string($selector)) {

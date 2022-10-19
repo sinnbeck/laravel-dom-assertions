@@ -57,7 +57,6 @@ it('can find enc type', function () {
         ->assertOk();
 });
 
-
 it('can find inputs', function () {
     $this->get('form')
         ->assertForm('#form2', function (FormAssert $form) {
@@ -118,7 +117,7 @@ it('can test a textarea', function () {
 
 it('can parse a select with options', function () {
     $this->get('form')
-        ->assertForm('#form2',function (FormAssert $form) {
+        ->assertForm('#form2', function (FormAssert $form) {
             $form->containsSelect('select:nth-of-type(2)', function (SelectAssert $selectAssert) {
                 $selectAssert->has('name', 'country')
                     ->containsOption([

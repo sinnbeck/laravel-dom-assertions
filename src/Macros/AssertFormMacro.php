@@ -2,7 +2,6 @@
 
 namespace Sinnbeck\DomAssertions\Macros;
 
-use Closure;
 use Illuminate\Testing\TestResponse;
 use PHPUnit\Framework\Assert;
 use Sinnbeck\DomAssertions\Asserts\FormAssert;
@@ -19,7 +18,6 @@ class AssertFormMacro
             if (is_callable($selector)) {
                 $callback = $selector;
                 $selector = 'form';
-
             }
 
             if (is_string($selector)) {

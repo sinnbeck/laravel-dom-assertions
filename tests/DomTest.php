@@ -4,8 +4,8 @@ use PHPUnit\Framework\AssertionFailedError;
 use Sinnbeck\DomAssertions\Asserts\ElementAssert;
 
 it('can find the body', function () {
-        $this->get('nesting')
-            ->assertElement();
+    $this->get('nesting')
+        ->assertElement();
 });
 
 it('can find an element by selector', function () {
@@ -38,7 +38,6 @@ it('can fail matching element type', function () {
     'Element is not of type "div"'
 );
 
-
 it('can find a nested element', function () {
     $this->get('nesting')
         ->assertElement(function (ElementAssert $element) {
@@ -50,7 +49,7 @@ it('can find a nested element with content', function () {
     $this->get('nesting')
         ->assertElement(function (ElementAssert $element) {
             $element->containsDiv([
-                'class' => 'foobar'
+                'class' => 'foobar',
             ]);
         }, 'div');
 });
@@ -100,7 +99,7 @@ it('can find a nested element multiple levels by query and attributes', function
             $element->containsDiv(function (ElementAssert $element) {
                 $element->is('div');
                 $element->contains('.deep', [
-                    'class' => 'deep'
+                    'class' => 'deep',
                 ]);
             });
         }, 'div');

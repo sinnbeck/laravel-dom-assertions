@@ -27,9 +27,8 @@ class ElementAssert
         $this->html = $html;
         $this->parser = DomParser::new($html);
 
-        if (!is_null($element)) {
+        if (! is_null($element)) {
             $this->parser->setRoot($element);
-
         }
     }
 }

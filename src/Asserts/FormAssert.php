@@ -96,7 +96,6 @@ class FormAssert
         if (is_callable($selector)) {
             $callback = $selector;
             $selector = 'select';
-
         }
 
         if (! $select = $this->makeScopedParser('form')->query($selector)) {
@@ -136,5 +135,4 @@ class FormAssert
 
         return $selector;
     }
-
 }
