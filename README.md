@@ -18,7 +18,7 @@ composer require sinnbeck/laravel-dom-assertions --dev
 ## Usage
 
 ### Testing forms
-Let's say you have a view with a form. We want to ensure that it has the correct method and action. You can then use the `->assertForm()` method to assert that the form exists.
+When calling a route in a test you might want to make sure that the view contains a form. To test this you can use the `->assertForm()` method on the test response.
 ```php
 $this->get('/some-route')
     ->assertForm();
@@ -159,10 +159,76 @@ $this->get('/some-route')
         });
     });
 ```
-## Testing
+### Testing regular dom
+The testing of generic html elements works a lot like forms.
+When calling a route in a test you might want to make sure that the view contains certain elements. To test this you can use the `->assertElement()` method on the test response.
+The following will ensure that there is a body tag in the parsed response. Be aware that this package assumes a proper html structure and will wrap your html in a html and body tag if one is missing!
+```php
+$this->get('/some-route')
+    ->assertElement();
+```
+In case you want to get a specific element on the page, you can supply a css selector as the first argument to get a specific one.
+```php
+$this->get('/some-route')
+    ->assertElement('#nav');
+```
+The second argument of `->assertElement()` is a closure that receives an instance of \Sinnbeck\DomAssertions\Asserts\ElementAssert. This allows you to assert things about the elementitself. Here we are asserting that the element is an `div`.
+
+```php
+$this->get('/some-route')
+    ->assertElement('#overview', function (ElementAssert $assert) {
+        $assert->is('div');
+    });
+```
+Just like with forms you can assert that certain attributes are present
+```php
+$this->get('/some-route')
+    ->assertElement('#overview', function (ElementAssert $assert) {
+        $assert->has('x-data', '{foo: 1}');
+    });
+```
+You can also ensure that certain children exist.
+```php
+$this->get('/some-route')
+    ->assertElement('#overview', function (ElementAssert $assert) {
+        $assert->contains('div');
+    });
+```
+Be aware that this will only check on the first child of that type. If you need to be more specific you can use a css selector.
+```php
+$this->get('/some-route')
+    ->assertElement('#overview', function (ElementAssert $assert) {
+        $assert->contains('div:nth-of-type(3)');
+    });
+```
+You can also check that the child element has certain attributes
+```php
+$this->get('/some-route')
+    ->assertElement('#overview', function (ElementAssert $assert) {
+        $assert->contains('div:nth-of-type(3)', [
+            'x-data' => 'foobar'
+        ]);
+    });
+```
+For even more power you are allowed to use a closure as the second argument. This lets you traverse the dom as deep as you need to.
+```php
+$this->get('nesting')
+    ->assertElement(function (ElementAssert $element) {
+        $element->contains('div', function (ElementAssert $element) {
+            $element->is('div');
+            $element->contains('p', function (ElementAssert $element) {
+                $element->is('p');
+                $element->contains('#label', function (ElementAssert $element) {
+                    $element->is('span');
+                });
+            });
+        });
+    });
+```
+## Testing this package
 
 ```bash
-composer test
+vendor/bin/pest
 ```
 
 ## Changelog

@@ -82,7 +82,7 @@ it('can find a nested element multiple levels', function () {
                     });
                 });
             });
-        }, 'div');
+        });
 });
 
 it('can find a nested element multiple levels by query', function () {
@@ -97,7 +97,7 @@ it('can find a nested element multiple levels by query', function () {
                     });
                 });
             });
-        }, 'div');
+        });
 });
 
 it('can find a nested element multiple levels by query and attributes', function () {
@@ -109,5 +109,5 @@ it('can find a nested element multiple levels by query and attributes', function
                     'class' => 'deep',
                 ]);
             });
-        }, 'div');
+        });
 });
