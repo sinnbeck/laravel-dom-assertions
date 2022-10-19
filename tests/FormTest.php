@@ -149,7 +149,7 @@ it('can parse a select with options functional', function () {
                     ->containsOption(function (OptionAssert $optionAssert) {
                         $optionAssert->hasValue('none');
                         $optionAssert->hasText('None');
-                    },)
+                    }, )
                     ->containsOptions(
                         function (OptionAssert $optionAssert) {
                             $optionAssert->hasValue('dk');
