@@ -5,28 +5,28 @@ use Sinnbeck\DomAssertions\Asserts\FormAssert;
 use Sinnbeck\DomAssertions\Asserts\OptionAssert;
 use Sinnbeck\DomAssertions\Asserts\SelectAssert;
 
-test('it can find a form by default', function () {
+it('can find a form by default', function () {
     $this->get('form')
         ->assertForm(function (FormAssert $form) {
             $form->hasAction('store-comment');
         });
 });
 
-test('it can find a form by index', function () {
+it('can find a form by index', function () {
     $this->get('form')
         ->assertForm(function (FormAssert $form) {
             $form->hasAction('form');
         }, 1);
 });
 
-test('it can find a form by css selector', function () {
+it('can find a form by css selector', function () {
     $this->get('form')
         ->assertForm(function (FormAssert $form) {
             $form->hasAction('form');
         }, 'form:nth-child(2)');
 });
 
-test('it can fail to find a form', function () {
+it('can fail to find a form', function () {
     $this->expectException(AssertionFailedError::class);
     $this->expectExceptionMessage('Element is not of type form!');
     $this->get('form')
@@ -35,7 +35,7 @@ test('it can fail to find a form', function () {
         }, 'div');
 });
 
-test('it can fail with wrong type of selector', function () {
+it('can fail with wrong type of selector', function () {
     $this->expectException(AssertionFailedError::class);
     $this->expectExceptionMessage('Invalid selector!');
     $this->get('form')
@@ -44,7 +44,7 @@ test('it can fail with wrong type of selector', function () {
         }, ['form']);
 });
 
-test('it can fail to find anything', function () {
+it('can fail to find anything', function () {
     $this->expectException(AssertionFailedError::class);
     $this->expectExceptionMessage('No form was found with selector: 10');
     $this->get('form')
@@ -53,7 +53,7 @@ test('it can fail to find anything', function () {
         }, 10);
 });
 
-test('it can find elements', function () {
+it('can find elements', function () {
     $this->get('form')
         ->assertForm(function (FormAssert $form) {
             $form->hasAction('/form')
@@ -64,7 +64,7 @@ test('it can find elements', function () {
         ->assertOk();
 });
 
-test('it can find enc type', function () {
+it('can find enc type', function () {
     $this->get('form')
         ->assertForm(function (FormAssert $form) {
             $form->hasEnctype('multipart/form-data');
@@ -73,7 +73,7 @@ test('it can find enc type', function () {
 });
 
 
-test('it can find inputs', function () {
+it('can find inputs', function () {
     $this->get('form')
         ->assertForm(function (FormAssert $form) {
             $form->hasAction('/form')
@@ -99,7 +99,7 @@ test('it can find inputs', function () {
         ->assertOk();
 });
 
-test('it can detect a missing input', function () {
+it('can detect a missing input', function () {
     $this->get('form')
         ->assertForm(function (FormAssert $form) {
             $form->hasAction('/form')
@@ -110,7 +110,7 @@ test('it can detect a missing input', function () {
         }, '#form2')->assertOk();
 });
 
-test('it can ignore an input outside the form ', function () {
+it('can ignore an input outside the form ', function () {
     $this->get('form')
         ->assertForm(function (FormAssert $form) {
             $form->hasAction('/form')
@@ -121,7 +121,7 @@ test('it can ignore an input outside the form ', function () {
         }, '#form2')->assertOk();
 });
 
-test('it can test a textarea', function () {
+it('can test a textarea', function () {
     $this->get('form')
         ->assertForm(function (FormAssert $form) {
             $form->containsTextarea([
@@ -131,7 +131,7 @@ test('it can test a textarea', function () {
         })->assertOk();
 });
 
-test('it can parse a select with options', function () {
+it('can parse a select with options', function () {
     $this->get('form')
         ->assertForm(function (FormAssert $form) {
             $form->containsSelect(function (SelectAssert $selectAssert) {
@@ -156,7 +156,7 @@ test('it can parse a select with options', function () {
         }, '#form2')->assertOk();
 });
 
-test('it can parse a select with options functional', function () {
+it('can parse a select with options functional', function () {
     $this->get('form')
         ->assertForm(function (FormAssert $form) {
             $form->containsSelect(function (SelectAssert $selectAssert) {
@@ -179,7 +179,7 @@ test('it can parse a select with options functional', function () {
         }, '#form2')->assertOk();
 });
 
-test('it can find a button', function () {
+it('can find a button', function () {
     $this->get('form')
         ->assertForm(function (FormAssert $form) {
             $form->containsButton([
@@ -188,14 +188,14 @@ test('it can find a button', function () {
         }, '#form2')->assertOk();
 });
 
-test('it can check arbitrary attributes', function () {
+it('can check arbitrary attributes', function () {
     $this->get('form')
         ->assertForm(function (FormAssert $form) {
             $form->hasXData('foo');
         })->assertOk();
 });
 
-test('it can check arbitrary children', function () {
+it('can check arbitrary children', function () {
     $this->get('form')
         ->assertForm(function (FormAssert $form) {
             $form->containsLabel([
