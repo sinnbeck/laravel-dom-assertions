@@ -1,5 +1,5 @@
 <div>
-    <form id="form1" x-data="foo" action="store-comment">
+    <form id="form1" x-data="foo" action="store-comment" enctype="multipart/form-data">
         <label for="comment">Comment</label>
         <textarea name="comment" id="comment">
             foo

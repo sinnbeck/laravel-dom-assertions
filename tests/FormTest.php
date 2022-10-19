@@ -53,7 +53,27 @@ test('it can fail to find anything', function () {
         }, 10);
 });
 
-test('it can find a form with inputs', function () {
+test('it can find elements', function () {
+    $this->get('form')
+        ->assertForm(function (FormAssert $form) {
+            $form->hasAction('/form')
+                ->hasMethod('post')
+                ->hasCSRF()
+                ->hasSpoofMethod('PUT');
+        }, '#form2')
+        ->assertOk();
+});
+
+test('it can find enc type', function () {
+    $this->get('form')
+        ->assertForm(function (FormAssert $form) {
+            $form->hasEnctype('multipart/form-data');
+        }, '#form1')
+        ->assertOk();
+});
+
+
+test('it can find inputs', function () {
     $this->get('form')
         ->assertForm(function (FormAssert $form) {
             $form->hasAction('/form')

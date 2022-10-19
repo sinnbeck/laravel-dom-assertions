@@ -56,7 +56,7 @@ Or even arbitrary attributes
 $this->get('/some-route')
     ->assertForm(function (FormAssert $form) {
         $form->has('x-data', 'foo')
-        $form->hasEncType('multipart/form-data'); //it also works with magic methods
+        $form->hasEnctype('multipart/form-data'); //it also works with magic methods
     });
 ```
 
