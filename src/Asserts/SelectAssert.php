@@ -43,10 +43,20 @@ class SelectAssert
         return $this;
     }
 
+    public function containsOptions(...$attributes): self
+    {
+        foreach ($attributes as $attribute) {
+            $this->containsOption($attribute);
+        }
+
+        return $this;
+    }
+
+
     public function hasValue($value)
     {
         Assert::assertNotNull(
-            $option = $this->parser->query('option[selected="selected"]'),
+            $option = $this->makeScopedParser()->query('option[selected="selected"]'),
             'No options are selected!'
         );
         Assert::assertEquals(
@@ -57,12 +67,21 @@ class SelectAssert
         return $this;
     }
 
-    public function containsOptions(...$attributes): self
+    public function hasValues(array $values)
     {
-        foreach ($attributes as $attribute) {
-            $this->containsOption($attribute);
+        Assert::assertNotNull(
+            $this->makeScopedParser()->query('option[selected="selected"]'),
+            'No options are selected!'
+        );
+
+        foreach ($this->makeScopedParser()->queryAll('option[selected="selected"]') as $option) {
+            $selected[] = $this->getAttributeFor($option, 'value');
         }
 
-        return $this;
+        Assert::assertEqualsCanonicalizing(
+            $values,
+            $selected,
+            sprintf('Selected values does not match')
+        );
     }
 }

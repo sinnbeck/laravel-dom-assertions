@@ -194,6 +194,15 @@ it('can assert that option is selected', function () {
         })->assertOk();
 });
 
+it('can assert that select has multiple values', function () {
+    $this->get('form')
+        ->assertForm('#form2', function (FormAssert $form) {
+            $form->containsSelect('select', function (SelectAssert $selectAssert) {
+                $selectAssert->hasValues(['da', 'en']);
+            });
+        })->assertOk();
+});
+
 it('can find a button', function () {
     $this->get('form')
         ->assertForm('#form2', function (FormAssert $form) {

@@ -14,10 +14,13 @@
             <input type="text" name="tags[]" value="{{$tag}}" />
         @endforeach
 
-        <select name="language">
+        @php
+            $selected = ['da', 'en'];
+        @endphp
+        <select name="languages multiple">
             <option>None</option>
-            @foreach(['en' => 'English', 'da' => 'Danish'] as $value => $label)
-                <option value="{{$value}}">{{$label}}</option>
+            @foreach(['en' => 'English', 'da' => 'Danish', 'fi' => 'Finland'] as $value => $label)
+                <option {{in_array($value, $selected) ? 'selected' : ''}} value="{{$value}}">{{$label}}</option>
             @endforeach
         </select>
 

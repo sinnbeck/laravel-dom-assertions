@@ -181,6 +181,15 @@ $this->get('/some-route')
             });
         });
 ```
+You can also check selects with multiple values
+```php
+$this->get('/some-route')
+        ->assertForm('#form1', function (FormAssert $form) {
+            $form->containsSelect('select', function (SelectAssert $selectAssert) {
+                $selectAssert->hasValues(['da', 'en']);
+            });
+        });
+```
 ### Testing regular dom
 The testing of generic html elements works a lot like forms.
 When calling a route in a test you might want to make sure that the view contains certain elements. To test this you can use the `->assertElement()` method on the test response.

@@ -82,13 +82,6 @@ class DomParser
         return $this->getRoot()->C14N();
     }
 
-    public function query($selector): DOMNode|null
-    {
-        $converter = new CssSelectorConverter();
-
-        return (new \DOMXPath($this->getRoot()->ownerDocument))->query($converter->toXpath($selector))->item(0);
-    }
-
     public function getAttributeFor($for, string $attribute)
     {
         if (is_string($for)) {
@@ -101,5 +94,20 @@ class DomParser
     public function getType()
     {
         return $this->root->nodeName;
+    }
+
+    public function query($selector): DOMNode|null
+    {
+        $converter = new CssSelectorConverter();
+
+        return (new \DOMXPath($this->getRoot()->ownerDocument))->query($converter->toXpath($selector))->item(0);
+    }
+
+
+    public function queryAll(string $selector): \DOMNodeList
+    {
+        $converter = new CssSelectorConverter();
+
+        return (new \DOMXPath($this->getRoot()->ownerDocument))->query($converter->toXpath($selector));
     }
 }
