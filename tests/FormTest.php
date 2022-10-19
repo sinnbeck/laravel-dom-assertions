@@ -49,6 +49,15 @@ it('can find elements', function () {
         ->assertOk();
 });
 
+it('can pass no spoff methods', function () {
+    $this->get('form')
+        ->assertForm('#form2', function (FormAssert $form) {
+            $form->hasAction('/form')
+                ->hasMethod('PUT');
+        })
+        ->assertOk();
+});
+
 it('can find enc type', function () {
     $this->get('form')
         ->assertForm('#form1', function (FormAssert $form) {

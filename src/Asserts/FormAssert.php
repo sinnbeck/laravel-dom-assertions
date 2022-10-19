@@ -52,11 +52,41 @@ class FormAssert
 
     public function hasMethod(string $method): self
     {
+        if (!in_array(strtolower($method), ['get', 'post'])) {
+            return $this->hasSpoofMethod($method);
+        }
         PHPUnit::assertEquals(
             Str::of($this->getAttributeFromForm('method'))->lower(),
             Str::of($method)->lower(),
             sprintf('Could not find a method on the form with the value %s', $method)
         );
+
+        return $this;
+    }
+
+
+    public function hasSpoofMethod(string $type): self
+    {
+        $element = $this->parser->query('input[type="hidden"][name="_method"]');
+        Assert::assertNotNull(
+            $element,
+            sprintf('No spoof methods was found in form!', $type)
+        );
+
+        Assert::assertEquals(
+            $type,
+            $this->getAttributeFor($element, 'value'),
+            sprintf('No spoof method for %s was found in form!', $type)
+        );
+
+        return $this;
+    }
+
+    public function hasCSRF(): self
+    {
+        Assert::assertNotNull(
+            $this->parser->query('input[type="hidden"][name="_token"]'),
+            'No CSRF was found in form!');
 
         return $this;
     }
@@ -103,24 +133,6 @@ class FormAssert
         }
 
         $callback(new SelectAssert($this->getContent(), $select));
-
-        return $this;
-    }
-
-    public function hasCSRF(): self
-    {
-        Assert::assertNotNull(
-            $this->parser->query('input[type="hidden"][name="_token"]'),
-            'No CSRF was found in form!');
-
-        return $this;
-    }
-
-    public function hasSpoofMethod(string $type): self
-    {
-        Assert::assertNotNull(
-            $this->parser->query(sprintf('input[type="hidden"][name="_method"][value="%s"]', $type)),
-            sprintf('No spoof method for %s was found in form!', $type));
 
         return $this;
     }

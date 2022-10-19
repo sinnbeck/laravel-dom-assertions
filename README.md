@@ -12,7 +12,7 @@ This package provides some extra assertion helpers to use in HTTP Tests. If you 
 You can install the package via composer:
 
 ```bash
-composer require sinnbeck/laravel-dom-assertions
+composer require sinnbeck/laravel-dom-assertions --dev
 ```
 
 ## Usage
@@ -58,6 +58,13 @@ $this->get('/some-route')
             ->hasMethod('post')
             ->hasCSRF()
             ->hasSpoofMethod('PUT');
+    });
+```
+Checking for methods other than GET and POST will automatically forward the call to `->hasSpoofMethod()`
+```php
+$this->get('/some-route')
+    ->assertForm(function (FormAssert $form) {
+        $form->hasMethod('PUT');
     });
 ```
 Or even arbitrary attributes
