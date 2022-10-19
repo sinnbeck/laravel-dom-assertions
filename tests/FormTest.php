@@ -111,15 +111,40 @@ test('it can test a textarea', function () {
         })->assertOk();
 });
 
-test('it can parse a select functional ', function () {
+test('it can parse a select with options', function () {
     $this->get('form')
         ->assertForm(function (FormAssert $form) {
             $form->containsSelect(function (SelectAssert $selectAssert) {
                 $selectAssert->has('name', 'country')
                     ->containsOption([
-                        'value' => 'dk',
-                        'text' => 'Denmark',
+                        'x-data' => 'none',
+                        'value' => 'none',
+                        'text' => 'None',
                     ])
+                    ->containsOptions(
+                        [
+                            'value' => 'dk',
+                            'text' => 'Denmark',
+                        ],
+                        [
+                            'value' => 'us',
+                            'text' => 'USA',
+                        ],
+
+                    );
+            }, 'select:nth-of-type(2)');
+        }, '#form2')->assertOk();
+});
+
+test('it can parse a select with options functional', function () {
+    $this->get('form')
+        ->assertForm(function (FormAssert $form) {
+            $form->containsSelect(function (SelectAssert $selectAssert) {
+                $selectAssert->has('name', 'country')
+                    ->containsOption(function (OptionAssert $optionAssert) {
+                        $optionAssert->hasValue('none');
+                        $optionAssert->hasText('None');
+                    },)
                     ->containsOptions(
                         function (OptionAssert $optionAssert) {
                             $optionAssert->hasValue('dk');
@@ -129,21 +154,17 @@ test('it can parse a select functional ', function () {
                             $optionAssert->hasValue('us')
                                 ->hasText('USA');
                         },
-                        [
-                            'value' => 'dk',
-                            'text' => 'Denmark',
-                        ],
-                        [
-                            'value' => 'us',
-                            'text' => 'USA',
-                        ],
-                        [
-                            'x-data' => 'none',
-                            'value' => 'none',
-                            'text' => 'None',
-                        ]
                     );
             }, 'select:nth-of-type(2)');
+        }, '#form2')->assertOk();
+});
+
+test('it can find a button', function () {
+    $this->get('form')
+        ->assertForm(function (FormAssert $form) {
+            $form->containsButton([
+                'type' => 'submit',
+            ]);
         }, '#form2')->assertOk();
 });
 

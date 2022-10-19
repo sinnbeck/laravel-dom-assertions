@@ -56,7 +56,7 @@ Or even arbitrary attributes
 $this->get('/some-route')
     ->assertForm(function (FormAssert $form) {
         $form->has('x-data', 'foo')
-        $form->hasXData('foo'); //it also works with magic methods
+        $form->hasEncType('multipart/form-data'); //it also works with magic methods
     });
 ```
 
@@ -81,9 +81,9 @@ $this->get('/some-route')
         $form->contains('label', [
             'for' => 'username',
         ])
-        ->containsLabel([
-            'for' => 'username',
-        ]); //it also works with magic methods
+        ->containsButton([ //or use a magic method
+            'type' => 'submit',
+        ]);
     });
 ```
 Testing for selects is also easy but require a bit of special syntax. First of it requires a selector as the second argument, to get the correct select. It will only check inside the already selected form. Secondly it uses a closure just like the form, which allows some better assertions.

@@ -27,6 +27,8 @@
                 <option value="{{$value}}">{{$label}}</option>
             @endforeach
         </select>
+
+        <button type="submit"></button>
     </form>
     <input type="text" name="outside">
 </div>

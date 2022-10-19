@@ -31,6 +31,8 @@ trait CanGatherAttributes
             return;
         }
 
+        $this->attributes[$type] = [];
+
         $elements = $this->parser->getElementsByType($type);
         $extra = [];
 

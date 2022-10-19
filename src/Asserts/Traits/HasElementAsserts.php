@@ -43,7 +43,7 @@ trait HasElementAsserts
 
         Assert::assertNotFalse(
             $first,
-            sprintf('Could not find a matching textarea with data: %s', json_encode($attributes, JSON_PRETTY_PRINT))
+            sprintf('Could not find a matching %s with data: %s', $elementName, json_encode($attributes, JSON_PRETTY_PRINT))
         );
 
         return $this;
