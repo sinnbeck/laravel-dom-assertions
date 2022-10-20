@@ -102,6 +102,15 @@ $this->get('/some-route')
         ]);
     });
 ```
+You can also ensure that certain children does not exist.
+```php
+$this->get('/some-route')
+    ->assertForm(function (FormAssert $form) {
+        $form->doesntContain('label', [
+            'for' => 'username',
+        ]);
+    });
+```
 Testing for selects is also easy and works a bit like the `assertForm()`. It takes a selector as the first argument, and closure as the second argument. The second argument returns an instance of `\Sinnbeck\DomAssertions\Asserts\SelectAssert`. This can be used to assert that the select has certain attributes.
 ```php
 $this->get('/some-route')
@@ -237,6 +246,15 @@ You can also check that the child element has certain attributes.
 $this->get('/some-route')
     ->assertElement('#overview', function (ElementAssert $assert) {
         $assert->contains('li.list-item', [
+            'x-data' => 'foobar'
+        ]);
+    });
+```
+or ensure that certain children does not exist
+```php
+$this->get('/some-route')
+    ->assertElement('#overview', function (ElementAssert $assert) {
+        $assert->doesntContain('li.list-item', [
             'x-data' => 'foobar'
         ]);
     });
