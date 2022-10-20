@@ -111,3 +111,13 @@ it('can find a nested element multiple levels by query and attributes', function
             });
         });
 });
+
+it('can find a nested element and ensure doesnt contain', function () {
+    $this->get('nesting')
+        ->assertElement(function (ElementAssert $element) {
+            $element->findDiv(function (ElementAssert $element) {
+                $element->is('div');
+                $element->doesntContain('nav');
+            });
+        });
+});

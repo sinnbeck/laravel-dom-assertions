@@ -102,7 +102,7 @@ class FormAssert
             $selector = 'select';
         }
 
-        if (! $select = $this->makeScopedParser('form')->query($selector)) {
+        if (! $select = $this->getParser()->query($selector)) {
             Assert::fail(sprintf('No select found for selector: %s', $selector));
         }
 

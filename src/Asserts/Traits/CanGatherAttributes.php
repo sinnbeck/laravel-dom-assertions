@@ -6,28 +6,7 @@ trait CanGatherAttributes
 {
     use InteractsWithParser;
 
-    public function gatherAttributesWithText($type)
-    {
-        if (isset($this->attributes[$type])) {
-            return;
-        }
-
-        $this->attributes[$type] = [];
-        $elements = $this->parser->getElementsByType($type);
-
-        /** @var \DOMElement $element */
-        foreach ($elements as $element) {
-            $attributes = [];
-            foreach ($element->attributes as $attribute) {
-                $attributes[$attribute->nodeName] = $attribute->value;
-            }
-            $this->attributes[$type][] = $attributes + [
-                'text' => trim($element->nodeValue),
-            ];
-        }
-    }
-
-    public function gatherAttributes($type)
+    public function gatherAttributes($type): void
     {
         if (isset($this->attributes[$type])) {
             return;
@@ -35,7 +14,7 @@ trait CanGatherAttributes
 
         $this->attributes[$type] = [];
 
-        $elements = $this->makeScopedParser()->queryAll($type);
+        $elements = $this->getParser()->queryAll($type);
         $extra = [];
 
         /** @var \DOMElement $element */

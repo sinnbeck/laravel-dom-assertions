@@ -6,31 +6,23 @@ use Sinnbeck\DomAssertions\DomParser;
 
 trait InteractsWithParser
 {
-    protected function makeScopedParser($root = null): DomParser
+    protected function getParser(): DomParser
     {
-        $clone = $this->parser->cloneFromRoot();
-
-        if (is_string($root)) {
-            $clone->setRootFromString($root);
-        } elseif ($root instanceof \DOMElement) {
-            $clone->setRoot($root);
-        }
-
-        return $clone;
+        return $this->parser;
     }
 
     protected function getContent()
     {
-        return $this->parser->getContent();
+        return $this->getParser()->getContent();
     }
 
     protected function getAttribute(string $attribute)
     {
-        return $this->parser->getAttributeForRoot($attribute);
+        return $this->getParser()->getAttributeForRoot($attribute);
     }
 
     protected function getAttributeFor($for, string $attribute)
     {
-        return $this->parser->getAttributeFor($for, $attribute);
+        return $this->getParser()->getAttributeFor($for, $attribute);
     }
 }

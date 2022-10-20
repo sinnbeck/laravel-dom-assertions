@@ -133,6 +133,7 @@ it('can parse a select with options', function () {
                         'x-data' => 'none',
                         'value' => 'none',
                         'text' => 'None',
+                        'selected' => 'selected',
                     ])
                     ->containsOptions(
                         [

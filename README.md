@@ -17,8 +17,107 @@ composer require sinnbeck/laravel-dom-assertions --dev
 
 ## Usage
 
+### Testing regular dom
+When calling a route in a test you might want to make sure that the view contains certain elements. To test this you can use the `->assertElement()` method on the test response.
+The following will ensure that there is a body tag in the parsed response. Be aware that this package assumes a proper html structure and will wrap your html in a html and body tag if one is missing!
+```php
+$this->get('/some-route')
+    ->assertElement();
+```
+In case you want to get a specific element on the page, you can supply a css selector as the first argument to get a specific one.
+```php
+$this->get('/some-route')
+    ->assertElement('#nav');
+```
+The second argument of `->assertElement()` is a closure that receives an instance of `\Sinnbeck\DomAssertions\Asserts\ElementAssert`. This allows you to assert things about the element itself. Here we are asserting that the element is a `div`.
+
+```php
+$this->get('/some-route')
+    ->assertElement('#overview', function (ElementAssert $assert) {
+        $assert->is('div');
+    });
+```
+Just like with forms you can assert that certain attributes are present
+```php
+$this->get('/some-route')
+    ->assertElement('#overview', function (ElementAssert $assert) {
+        $assert->has('x-data', '{foo: 1}');
+    });
+```
+You can also ensure that certain children exist.
+```php
+$this->get('/some-route')
+    ->assertElement('#overview', function (ElementAssert $assert) {
+        $assert->contains('div');
+    });
+```
+If you need to be more specific you can use a css selector.
+```php
+$this->get('/some-route')
+    ->assertElement('#overview', function (ElementAssert $assert) {
+        $assert->contains('div:nth-of-type(3)');
+    });
+```
+You can also check that the child element has certain attributes.
+```php
+$this->get('/some-route')
+    ->assertElement('#overview', function (ElementAssert $assert) {
+        $assert->contains('li.list-item', [
+            'x-data' => 'foobar'
+        ]);
+    });
+```
+or ensure that certain children does not exist
+```php
+$this->get('/some-route')
+    ->assertElement('#overview', function (ElementAssert $assert) {
+        $assert->doesntContain('li.list-item', [
+            'x-data' => 'foobar'
+        ]);
+    });
+```
+You can also find a certain element and do assertions on it. Be aware that it will only check the first matching element.
+```php
+$this->get('/some-route')
+    ->assertElement('#overview', function (ElementAssert $assert) {
+        $assert->find('li.list-item');
+    });
+```
+You can add a closure as the second argument which receives an instance of `\Sinnbeck\DomAssertions\Asserts\ElementAssert`.
+```php
+$this->get('/some-route')
+    ->assertElement('#overview', function (ElementAssert $assert) {
+        $assert->find('li.nth-of-type(3)', function (ElementAssert $element) {
+            $this->is('li');
+        })
+    });
+```
+
+This means that you can infinitely assert down the dom structure.
+```php
+$this->get('/some-route')
+    ->assertElement(function (ElementAssert $element) {
+        $element->find('div', function (ElementAssert $element) {
+            $element->is('div');
+            $element->contains('p', function (ElementAssert $element) {
+                $element->is('p');
+                $element->contains('#label', function (ElementAssert $element) {
+                    $element->is('span');
+                });
+            });
+            $element->contains('p:nth-of-type(2)', function (ElementAssert $element) {
+                $element->is('p');
+                $element->contains('.sub-header', function (ElementAssert $element) {
+                    $element->is('h4');
+                });
+            });
+        });
+    });
+```
+
 ### Testing forms
-When calling a route in a test you might want to make sure that the view contains a form. To test this you can use the `->assertForm()` method on the test response.
+Testing forms allows using all the dom asserts from above, but has a few special helpers to help test for forms.
+Instead of using `->assertElement()` we will use `->assertForm()` method on the test response.
 ```php
 $this->get('/some-route')
     ->assertForm();
@@ -199,104 +298,7 @@ $this->get('/some-route')
             });
         });
 ```
-### Testing regular dom
-The testing of generic html elements works a lot like forms.
-When calling a route in a test you might want to make sure that the view contains certain elements. To test this you can use the `->assertElement()` method on the test response.
-The following will ensure that there is a body tag in the parsed response. Be aware that this package assumes a proper html structure and will wrap your html in a html and body tag if one is missing!
-```php
-$this->get('/some-route')
-    ->assertElement();
-```
-In case you want to get a specific element on the page, you can supply a css selector as the first argument to get a specific one.
-```php
-$this->get('/some-route')
-    ->assertElement('#nav');
-```
-The second argument of `->assertElement()` is a closure that receives an instance of `\Sinnbeck\DomAssertions\Asserts\ElementAssert`. This allows you to assert things about the element itself. Here we are asserting that the element is a `div`.
 
-```php
-$this->get('/some-route')
-    ->assertElement('#overview', function (ElementAssert $assert) {
-        $assert->is('div');
-    });
-```
-Just like with forms you can assert that certain attributes are present
-```php
-$this->get('/some-route')
-    ->assertElement('#overview', function (ElementAssert $assert) {
-        $assert->has('x-data', '{foo: 1}');
-    });
-```
-You can also ensure that certain children exist.
-```php
-$this->get('/some-route')
-    ->assertElement('#overview', function (ElementAssert $assert) {
-        $assert->contains('div');
-    });
-```
-If you need to be more specific you can use a css selector.
-```php
-$this->get('/some-route')
-    ->assertElement('#overview', function (ElementAssert $assert) {
-        $assert->contains('div:nth-of-type(3)');
-    });
-```
-You can also check that the child element has certain attributes.
-```php
-$this->get('/some-route')
-    ->assertElement('#overview', function (ElementAssert $assert) {
-        $assert->contains('li.list-item', [
-            'x-data' => 'foobar'
-        ]);
-    });
-```
-or ensure that certain children does not exist
-```php
-$this->get('/some-route')
-    ->assertElement('#overview', function (ElementAssert $assert) {
-        $assert->doesntContain('li.list-item', [
-            'x-data' => 'foobar'
-        ]);
-    });
-```
-You can also find a certain element and do assertions on it. Be aware that it will only check the first matching element.
-```php
-$this->get('/some-route')
-    ->assertElement('#overview', function (ElementAssert $assert) {
-        $assert->find('li.list-item');
-    });
-```
-You can add a closure as the second argument which receives an instance of `\Sinnbeck\DomAssertions\Asserts\ElementAssert`.
-```php
-$this->get('/some-route')
-    ->assertElement('#overview', function (ElementAssert $assert) {
-        $assert->find('li.nth-of-type(3)', function (ElementAssert $element) {
-            $this->is('li');
-        })
-    });
-```
-
-This means that you can infinitely assert down the dom structure.
-```php
-$this->get('/some-route')
-    ->assertElement(function (ElementAssert $element) {
-        $element->find('div', function (ElementAssert $element) {
-            $element->is('div');
-            $element->contains('p', function (ElementAssert $element) {
-                $element->is('p');
-                $element->contains('#label', function (ElementAssert $element) {
-                    $element->is('span');
-                });
-            });
-            $element->contains('p:nth-of-type(2)', function (ElementAssert $element) {
-                $element->is('p');
-                $element->contains('.sub-header', function (ElementAssert $element) {
-                    $element->is('h4');
-                });
-            });
-        });
-    });
-```
 ## Testing this package
 
 ```bash

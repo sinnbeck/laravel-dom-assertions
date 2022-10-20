@@ -26,11 +26,11 @@ class SelectAssert
 
     public function containsOption(mixed $attributes): self
     {
-        $this->gatherAttributesWithText('option');
-
         if (is_array($attributes)) {
-            $this->contains('option', $attributes);
+            return $this->contains('option', $attributes);
         }
+
+        $this->gatherAttributes('option');
 
         if (is_callable($attributes)) {
             tap(
@@ -52,12 +52,13 @@ class SelectAssert
         return $this;
     }
 
-    public function hasValue($value)
+    public function hasValue($value): self
     {
         Assert::assertNotNull(
-            $option = $this->makeScopedParser()->query('option[selected="selected"]'),
+            $option = $this->getParser()->query('option[selected="selected"]'),
             'No options are selected!'
         );
+
         Assert::assertEquals(
             $value,
             $option->getAttribute('value')
@@ -66,14 +67,15 @@ class SelectAssert
         return $this;
     }
 
-    public function hasValues(array $values)
+    public function hasValues(array $values): self
     {
         Assert::assertNotNull(
-            $this->makeScopedParser()->query('option[selected="selected"]'),
+            $this->getParser()->query('option[selected="selected"]'),
             'No options are selected!'
         );
 
-        foreach ($this->makeScopedParser()->queryAll('option[selected="selected"]') as $option) {
+        $selected = [];
+        foreach ($this->getParser()->queryAll('option[selected="selected"]') as $option) {
             $selected[] = $this->getAttributeFor($option, 'value');
         }
 
@@ -82,5 +84,7 @@ class SelectAssert
             $selected,
             sprintf('Selected values does not match')
         );
+
+        return $this;
     }
 }

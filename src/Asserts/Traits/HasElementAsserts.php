@@ -12,17 +12,17 @@ trait HasElementAsserts
     public function __call(string $method, array $arguments)
     {
         if (Str::startsWith($method, 'has')) {
-            $property = Str::of($method)->after('has')->snake()->slug('-');
+            $property = Str::of($method)->after('has')->snake()->slug();
             $this->has($property, $arguments[0]);
         }
 
         if (Str::startsWith($method, 'is')) {
-            $property = Str::of($method)->after('is')->snake()->slug('-');
+            $property = Str::of($method)->after('is')->snake()->slug();
             $this->is($property);
         }
 
         if (Str::startsWith($method, 'find')) {
-            $property = Str::of($method)->after('find')->snake()->slug('-');
+            $property = Str::of($method)->after('find')->snake()->slug();
             $this->find($property, $arguments[0]);
         }
 
@@ -53,7 +53,7 @@ trait HasElementAsserts
     public function find(string $selector, $callback = null): self
     {
         Assert::assertNotNull(
-            $element = $this->parser->query($selector),
+            $element = $this->getParser()->query($selector),
             sprintf('Could not find any matching element for selector "%s"', $selector)
         );
 
@@ -68,7 +68,7 @@ trait HasElementAsserts
     public function contains(string $elementName, array $attributes = []): self
     {
         Assert::assertNotNull(
-            $this->parser->query($elementName),
+            $this->getParser()->query($elementName),
             sprintf('Could not find any matching element of type "%s"', $elementName)
         );
 
@@ -93,7 +93,7 @@ trait HasElementAsserts
     {
         if (! $attributes) {
             Assert::assertNull(
-                $this->parser->query($elementName),
+                $this->getParser()->query($elementName),
                 sprintf('Found a matching element of type "%s"', $elementName)
             );
 
@@ -117,14 +117,14 @@ trait HasElementAsserts
     {
         PHPUnit::assertEquals(
             $type,
-            $this->parser->getType(),
+            $this->getParser()->getType(),
             sprintf('Element is not of type "%s"', $type)
         );
 
         return $this;
     }
 
-    private function compareAttributesArrays($attributes, $foundAttributes)
+    private function compareAttributesArrays($attributes, $foundAttributes): bool
     {
         return ! array_diff($attributes, $foundAttributes);
     }

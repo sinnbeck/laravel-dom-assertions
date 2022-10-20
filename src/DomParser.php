@@ -98,15 +98,14 @@ class DomParser
 
     public function query($selector): DOMNode|null
     {
-        $converter = new CssSelectorConverter();
-
-        return (new \DOMXPath($this->getRoot()->ownerDocument))->query($converter->toXpath($selector))->item(0);
+        return $this->queryAll($selector)->item(0);
     }
 
     public function queryAll(string $selector): \DOMNodeList
     {
         $converter = new CssSelectorConverter();
+        $parser = $this->cloneFromRoot();
 
-        return (new \DOMXPath($this->getRoot()->ownerDocument))->query($converter->toXpath($selector));
+        return (new \DOMXPath($parser->getRoot()->ownerDocument))->query($converter->toXpath($selector));
     }
 }

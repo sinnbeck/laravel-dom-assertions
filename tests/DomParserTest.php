@@ -56,3 +56,22 @@ HTML;
 
     $this->assertEquals($parser->getElementOfType('input')->nodeName, 'input');
 });
+
+it('can query a scope', function () {
+    $html = <<<'HTML'
+<div>
+    <div>
+        <span class="foo"></span>
+    </div>
+    <ul>
+        <li class="foo"></li>
+    </ul>
+</div>
+HTML;
+
+    $parser = DomParser::new($html);
+    $ul = $parser->getElementOfType('ul');
+    $parser->setRoot($ul);
+
+    $this->assertEquals($parser->query('.foo')->nodeName, 'li');
+});
