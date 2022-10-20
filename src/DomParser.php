@@ -60,7 +60,6 @@ class DomParser
         return $this->root->getAttribute($attribute);
     }
 
-
     public function hasAttributeForRoot(string $attribute)
     {
         return $this->root->hasAttribute($attribute);
@@ -102,5 +101,4 @@ class DomParser
     {
         return $this->getRoot()->nodeValue;
     }
-
 }

@@ -3,7 +3,6 @@
 use PHPUnit\Framework\AssertionFailedError;
 use Sinnbeck\DomAssertions\Asserts\ElementAssert;
 use Sinnbeck\DomAssertions\Asserts\FormAssert;
-use Sinnbeck\DomAssertions\Asserts\OptionAssert;
 use Sinnbeck\DomAssertions\Asserts\SelectAssert;
 
 it('can find a form by default', function () {
@@ -151,7 +150,6 @@ it('can test an input has required false', function () {
             ]);
         })->assertOk();
 });
-
 
 it('can parse a select with options', function () {
     $this->get('form')
