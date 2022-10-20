@@ -3,14 +3,22 @@
 namespace Sinnbeck\DomAssertions\Asserts\Traits;
 
 use Illuminate\Support\Str;
+use Illuminate\Support\Traits\Macroable;
 use Illuminate\Testing\Assert as PHPUnit;
 use PHPUnit\Framework\Assert;
 use Sinnbeck\DomAssertions\Asserts\ElementAssert;
 
 trait HasElementAsserts
 {
+    use Macroable {
+        __call as protected callMacro;
+    }
+
     public function __call(string $method, array $arguments)
     {
+        if (static::hasMacro($method)) {
+            return $this->macroCall($method, $arguments);
+        }
         if (Str::startsWith($method, 'has')) {
             $property = Str::of($method)->after('has')->snake()->slug();
             $this->has($property, $arguments[0] ?? null);
