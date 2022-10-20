@@ -27,6 +27,13 @@
             "Tests\\": "tests/"
         }
     },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Sinnbeck\\DomAssertions\\DomAssertionsServiceProvider"
+            ]
+        }
+    },
     "require": {
         "php": "^8.0",
         "ext-dom": "*",
