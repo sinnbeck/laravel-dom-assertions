@@ -11,6 +11,21 @@ trait HasElementAsserts
 {
     public function __call(string $method, array $arguments)
     {
+        if (Str::startsWith($method, 'has')) {
+            $property = Str::of($method)->after('has')->snake()->slug('-');
+            $this->has($property, $arguments[0]);
+        }
+
+        if (Str::startsWith($method, 'is')) {
+            $property = Str::of($method)->after('is')->snake()->slug('-');
+            $this->is($property);
+        }
+
+        if (Str::startsWith($method, 'find')) {
+            $property = Str::of($method)->after('find')->snake()->slug('-');
+            $this->find($property, $arguments[0]);
+        }
+
         if (Str::startsWith($method, 'contains')) {
             $elementName = Str::of($method)->after('contains')->camel();
             $this->contains($elementName, ...$arguments);
@@ -21,11 +36,6 @@ trait HasElementAsserts
             $this->doesntContain($elementName, ...$arguments);
         }
 
-        if (Str::startsWith($method, 'has')) {
-            $property = Str::of($method)->after('has')->snake()->slug('-');
-            $this->has($property, $arguments[0]);
-        }
-
         return $this;
     }
 
@@ -34,39 +44,35 @@ trait HasElementAsserts
         PHPUnit::assertEquals(
             $value,
             $this->getAttribute($attribute),
-            sprintf('Could not find an attribute %s with value %s', $attribute, $value)
+            sprintf('Could not find an attribute "%s" with value "%s"', $attribute, $value)
         );
 
         return $this;
     }
 
-    public function contains(string $elementName, mixed $attributes = null): self
+    public function find(string $selector, $callback = null): self
     {
         Assert::assertNotNull(
-            $element = $this->parser->query($elementName),
+            $element = $this->parser->query($selector),
+            sprintf('Could not find any matching element for selector "%s"', $selector)
+        );
+
+        if (! is_null($callback)) {
+            $elementAssert = new ElementAssert($this->getContent(), $element);
+            $callback($elementAssert);
+        }
+
+        return $this;
+    }
+
+    public function contains(string $elementName, array $attributes = []): self
+    {
+        Assert::assertNotNull(
+            $this->parser->query($elementName),
             sprintf('Could not find any matching element of type "%s"', $elementName)
         );
 
-        if (is_callable($attributes)) {
-            $elementAssert = new ElementAssert($this->getContent(), $element);
-            $attributes($elementAssert);
-
-            return $this;
-        }
-
         if (! $attributes) {
-            return $this;
-        }
-
-        if (! preg_match('/^[\w]+$/', $elementName)) {
-            foreach ($attributes as $attribute => $value) {
-                Assert::assertEquals(
-                    $value,
-                    $this->getAttributeFor($element, $attribute),
-                    sprintf('Could not find attribute "%s" with value "%s"', $attribute, $value)
-                );
-            }
-
             return $this;
         }
 
@@ -77,7 +83,7 @@ trait HasElementAsserts
 
         Assert::assertNotFalse(
             $first,
-            sprintf('Could not find a matching %s with data: %s', $elementName, json_encode($attributes, JSON_PRETTY_PRINT))
+            sprintf('Could not find a matching "%s" with data: %s', $elementName, json_encode($attributes, JSON_PRETTY_PRINT))
         );
 
         return $this;
@@ -94,17 +100,6 @@ trait HasElementAsserts
             return $this;
         }
 
-        if (! preg_match('/^[\w]+$/', $elementName)) {
-            $element = $this->parser->query($elementName);
-            foreach ($attributes as $attribute => $value) {
-                Assert::assertEquals(
-                    $value,
-                    $this->getAttributeFor($element, $attribute),
-                    sprintf('Found attribute "%s" with value "%s"', $attribute, $value)
-                );
-            }
-        }
-
         $this->gatherAttributes($elementName);
 
         $first = collect($this->attributes[$elementName])
@@ -112,7 +107,7 @@ trait HasElementAsserts
 
         Assert::assertFalse(
             $first,
-            sprintf('Found a matching %s with data: %s', $elementName, json_encode($attributes, JSON_PRETTY_PRINT))
+            sprintf('Found a matching "%s" with data: %s', $elementName, json_encode($attributes, JSON_PRETTY_PRINT))
         );
 
         return $this;

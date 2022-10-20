@@ -203,7 +203,7 @@ In case you want to get a specific element on the page, you can supply a css sel
 $this->get('/some-route')
     ->assertElement('#nav');
 ```
-The second argument of `->assertElement()` is a closure that receives an instance of \Sinnbeck\DomAssertions\Asserts\ElementAssert. This allows you to assert things about the elementitself. Here we are asserting that the element is an `div`.
+The second argument of `->assertElement()` is a closure that receives an instance of `\Sinnbeck\DomAssertions\Asserts\ElementAssert`. This allows you to assert things about the element itself. Here we are asserting that the element is a `div`.
 
 ```php
 $this->get('/some-route')
@@ -225,32 +225,55 @@ $this->get('/some-route')
         $assert->contains('div');
     });
 ```
-Be aware that this will only check on the first child of that type. If you need to be more specific you can use a css selector.
+If you need to be more specific you can use a css selector.
 ```php
 $this->get('/some-route')
     ->assertElement('#overview', function (ElementAssert $assert) {
         $assert->contains('div:nth-of-type(3)');
     });
 ```
-You can also check that the child element has certain attributes
+You can also check that the child element has certain attributes.
 ```php
 $this->get('/some-route')
     ->assertElement('#overview', function (ElementAssert $assert) {
-        $assert->contains('div:nth-of-type(3)', [
+        $assert->contains('li.list-item', [
             'x-data' => 'foobar'
         ]);
     });
 ```
-For even more power you are allowed to use a closure as the second argument. This lets you traverse the dom as deep as you need to.
+You can also find a certain element and do assertions on it. Be aware that it will only check the first matching element.
+```php
+$this->get('/some-route')
+    ->assertElement('#overview', function (ElementAssert $assert) {
+        $assert->find('li.list-item');
+    });
+```
+You can add a closure as the second argument which receives an instance of `\Sinnbeck\DomAssertions\Asserts\ElementAssert`.
+```php
+$this->get('/some-route')
+    ->assertElement('#overview', function (ElementAssert $assert) {
+        $assert->find('li.nth-of-type(3)', function (ElementAssert $element) {
+            $this->is('li');
+        })
+    });
+```
+
+This means that you can infinitely assert down the dom structure.
 ```php
 $this->get('/some-route')
     ->assertElement(function (ElementAssert $element) {
-        $element->contains('div', function (ElementAssert $element) {
+        $element->find('div', function (ElementAssert $element) {
             $element->is('div');
             $element->contains('p', function (ElementAssert $element) {
                 $element->is('p');
                 $element->contains('#label', function (ElementAssert $element) {
                     $element->is('span');
+                });
+            });
+            $element->contains('p:nth-of-type(2)', function (ElementAssert $element) {
+                $element->is('p');
+                $element->contains('.sub-header', function (ElementAssert $element) {
+                    $element->is('h4');
                 });
             });
         });

@@ -55,7 +55,7 @@ it('can find a nested element', function () {
 it('can find a nested element with content', function () {
     $this->get('nesting')
         ->assertElement(function (ElementAssert $element) {
-            $element->containsDiv([
+            $element->contains('div', [
                 'class' => 'foobar',
             ]);
         }, 'div');
@@ -64,7 +64,7 @@ it('can find a nested element with content', function () {
 it('can find a nested element with content functional', function () {
     $this->get('nesting')
         ->assertElement(function (ElementAssert $element) {
-            $element->containsDiv(function (ElementAssert $element) {
+            $element->findDiv(function (ElementAssert $element) {
                 $element->is('div');
             });
         }, 'div');
@@ -73,11 +73,11 @@ it('can find a nested element with content functional', function () {
 it('can find a nested element multiple levels', function () {
     $this->get('nesting')
         ->assertElement(function (ElementAssert $element) {
-            $element->containsDiv(function (ElementAssert $element) {
+            $element->findDiv(function (ElementAssert $element) {
                 $element->is('div');
-                $element->contains('div', function (ElementAssert $element) {
+                $element->find('div', function (ElementAssert $element) {
                     $element->is('div');
-                    $element->containsDiv(function (ElementAssert $element) {
+                    $element->findDiv(function (ElementAssert $element) {
                         $element->is('div');
                     });
                 });
@@ -88,11 +88,11 @@ it('can find a nested element multiple levels', function () {
 it('can find a nested element multiple levels by query', function () {
     $this->get('nesting')
         ->assertElement(function (ElementAssert $element) {
-            $element->containsDiv(function (ElementAssert $element) {
+            $element->findDiv(function (ElementAssert $element) {
                 $element->is('div');
-                $element->contains('.deep', function (ElementAssert $element) {
+                $element->find('.deep', function (ElementAssert $element) {
                     $element->is('div');
-                    $element->containsSpan(function (ElementAssert $element) {
+                    $element->findSpan(function (ElementAssert $element) {
                         $element->is('span');
                     });
                 });
@@ -103,7 +103,7 @@ it('can find a nested element multiple levels by query', function () {
 it('can find a nested element multiple levels by query and attributes', function () {
     $this->get('nesting')
         ->assertElement(function (ElementAssert $element) {
-            $element->containsDiv(function (ElementAssert $element) {
+            $element->findDiv(function (ElementAssert $element) {
                 $element->is('div');
                 $element->contains('.deep', [
                     'class' => 'deep',

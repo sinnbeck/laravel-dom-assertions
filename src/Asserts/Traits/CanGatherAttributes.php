@@ -35,7 +35,7 @@ trait CanGatherAttributes
 
         $this->attributes[$type] = [];
 
-        $elements = $this->parser->getElementsByType($type);
+        $elements = $this->makeScopedParser()->queryAll($type);
         $extra = [];
 
         /** @var \DOMElement $element */
