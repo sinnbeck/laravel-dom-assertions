@@ -17,7 +17,7 @@ composer require sinnbeck/laravel-dom-assertions --dev
 
 ## Usage
 
-### Testing regular dom
+### Testing the DOM
 When calling a route in a test you might want to make sure that the view contains certain elements. To test this you can use the `->assertElement()` method on the test response.
 The following will ensure that there is a body tag in the parsed response. Be aware that this package assumes a proper html structure and will wrap your html in a html and body tag if one is missing!
 ```php
