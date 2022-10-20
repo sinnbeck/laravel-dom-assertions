@@ -73,9 +73,7 @@ it('can fail finding a nested element with content', function () {
                 'class' => 'foo',
             ]);
         });
-})->throws(AssertionFailedError::class, 'Could not find a matching "div" with data: {
-    "class": "foo"
-}');
+})->throws(AssertionFailedError::class, 'Could not find a matching "div" with data:');
 
 it('can find a nested element with content functional', function () {
     $this->get('nesting')
