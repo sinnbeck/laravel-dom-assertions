@@ -26,21 +26,7 @@ class SelectAssert
 
     public function containsOption(mixed $attributes): self
     {
-        if (is_array($attributes)) {
-            return $this->contains('option', $attributes);
-        }
-
-        $this->gatherAttributes('option');
-
-        if (is_callable($attributes)) {
-            tap(
-                new OptionAssert(
-                    $this->attributes['option']
-                ), fn ($option) => $attributes($option)
-            )->validate();
-        }
-
-        return $this;
+        return $this->contains('option', $attributes);
     }
 
     public function containsOptions(...$attributes): self

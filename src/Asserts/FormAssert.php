@@ -95,7 +95,7 @@ class FormAssert
         return $this->parser->getAttributeForRoot($attribute);
     }
 
-    public function containsSelect($selector = 'select', $callback = null): static
+    public function findSelect($selector = 'select', $callback = null): static
     {
         if (is_callable($selector)) {
             $callback = $selector;
@@ -111,14 +111,14 @@ class FormAssert
         return $this;
     }
 
-    protected function getSelectorFromAttributes($type, array $attributes): string
-    {
-        $selector = $type;
-
-        foreach ($attributes as $attribute => $value) {
-            $selector .= sprintf('[%s="%s"]', $attribute, $value);
-        }
-
-        return $selector;
-    }
+//    protected function getSelectorFromAttributes($type, array $attributes): string
+//    {
+//        $selector = $type;
+//
+//        foreach ($attributes as $attribute => $value) {
+//            $selector .= sprintf('[%s="%s"]', $attribute, $value);
+//        }
+//
+//        return $selector;
+//    }
 }

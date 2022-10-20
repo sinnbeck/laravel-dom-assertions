@@ -45,11 +45,16 @@ it('can fail matching element type', function () {
     'Element is not of type "div"'
 );
 
+it('can fail with wrong type of selector', function () {
+    $this->get('form')
+        ->assertElement(['div']);
+})->throws(AssertionFailedError::class, 'Invalid selector!');
+
 it('can find a nested element', function () {
     $this->get('nesting')
         ->assertElement(function (ElementAssert $element) {
             $element->containsDiv();
-        }, 'div');
+        });
 });
 
 it('can find a nested element with content', function () {
@@ -58,8 +63,19 @@ it('can find a nested element with content', function () {
             $element->contains('div', [
                 'class' => 'foobar',
             ]);
-        }, 'div');
+        });
 });
+
+it('can fail finding a nested element with content', function () {
+    $this->get('nesting')
+        ->assertElement(function (ElementAssert $element) {
+            $element->contains('div', [
+                'class' => 'foo',
+            ]);
+        });
+})->throws(AssertionFailedError::class, 'Could not find a matching "div" with data: {
+    "class": "foo"
+}');
 
 it('can find a nested element with content functional', function () {
     $this->get('nesting')
@@ -67,7 +83,7 @@ it('can find a nested element with content functional', function () {
             $element->findDiv(function (ElementAssert $element) {
                 $element->is('div');
             });
-        }, 'div');
+        });
 });
 
 it('can find a nested element multiple levels', function () {

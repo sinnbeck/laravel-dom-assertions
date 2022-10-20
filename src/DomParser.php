@@ -38,16 +38,6 @@ class DomParser
         return $this->getRoot()->getElementsByTagName($type)->item($index);
     }
 
-    public function getFirstElementOfType(string $type): ?DOMNode
-    {
-        return $this->getRoot()->getElementsByTagName($type)->item(0);
-    }
-
-    public function getElementsByType(string $type): \DOMNodeList
-    {
-        return $this->getRoot()->getElementsByTagName($type);
-    }
-
     public function getRoot(): DOMElement|DOMNode
     {
         return $this->root;
@@ -70,11 +60,10 @@ class DomParser
         return $this->root->getAttribute($attribute);
     }
 
-    public function setRootFromString(string $root): static
-    {
-        $this->setRoot($this->getFirstElementOfType($root));
 
-        return $this;
+    public function hasAttributeForRoot(string $attribute)
+    {
+        return $this->root->hasAttribute($attribute);
     }
 
     public function getContent(): string
@@ -108,4 +97,10 @@ class DomParser
 
         return (new \DOMXPath($parser->getRoot()->ownerDocument))->query($converter->toXpath($selector));
     }
+
+    public function getText()
+    {
+        return $this->getRoot()->nodeValue;
+    }
+
 }

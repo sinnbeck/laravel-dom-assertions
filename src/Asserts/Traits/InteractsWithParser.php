@@ -18,7 +18,16 @@ trait InteractsWithParser
 
     protected function getAttribute(string $attribute)
     {
+        if ($this->getParser()->getType() === 'option' && $attribute === 'text') {
+            return $this->getParser()->getText();
+        }
+
         return $this->getParser()->getAttributeForRoot($attribute);
+    }
+
+    protected function hasAttribute(string $attribute)
+    {
+        return $this->getParser()->hasAttributeForRoot($attribute);
     }
 
     protected function getAttributeFor($for, string $attribute)

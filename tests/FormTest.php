@@ -1,6 +1,7 @@
 <?php
 
 use PHPUnit\Framework\AssertionFailedError;
+use Sinnbeck\DomAssertions\Asserts\ElementAssert;
 use Sinnbeck\DomAssertions\Asserts\FormAssert;
 use Sinnbeck\DomAssertions\Asserts\OptionAssert;
 use Sinnbeck\DomAssertions\Asserts\SelectAssert;
@@ -124,10 +125,38 @@ it('can test a textarea', function () {
         })->assertOk();
 });
 
+it('can test a textarea is required', function () {
+    $this->get('form')
+        ->assertForm(function (FormAssert $form) {
+            $form->findTextarea(function (ElementAssert $textArea) {
+                $textArea->hasRequired();
+            });
+        })->assertOk();
+});
+
+it('can test a textarea has required true', function () {
+    $this->get('form')
+        ->assertForm(function (FormAssert $form) {
+            $form->contains('textarea', [
+                'required' => true,
+            ]);
+        })->assertOk();
+});
+
+it('can test an input has required false', function () {
+    $this->get('form')
+        ->assertForm(function (FormAssert $form) {
+            $form->contains('input', [
+                'required' => false,
+            ]);
+        })->assertOk();
+});
+
+
 it('can parse a select with options', function () {
     $this->get('form')
         ->assertForm('#form2', function (FormAssert $form) {
-            $form->containsSelect('select:nth-of-type(2)', function (SelectAssert $selectAssert) {
+            $form->findSelect('select:nth-of-type(2)', function (SelectAssert $selectAssert) {
                 $selectAssert->has('name', 'country')
                     ->containsOption([
                         'x-data' => 'none',
@@ -153,22 +182,12 @@ it('can parse a select with options', function () {
 it('can parse a select with options functional', function () {
     $this->get('form')
         ->assertForm('#form2', function (FormAssert $form) {
-            $form->containsSelect('select:nth-of-type(2)', function (SelectAssert $selectAssert) {
+            $form->findSelect('select:nth-of-type(2)', function (SelectAssert $selectAssert) {
                 $selectAssert->has('name', 'country')
-                    ->containsOption(function (OptionAssert $optionAssert) {
+                    ->findOption(function (ElementAssert $optionAssert) {
                         $optionAssert->hasValue('none');
                         $optionAssert->hasText('None');
-                    }, )
-                    ->containsOptions(
-                        function (OptionAssert $optionAssert) {
-                            $optionAssert->hasValue('dk');
-                            $optionAssert->hasText('Denmark');
-                        },
-                        function (OptionAssert $optionAssert) {
-                            $optionAssert->hasValue('us')
-                                ->hasText('USA');
-                        },
-                    );
+                    });
             });
         })->assertOk();
 });
@@ -176,7 +195,7 @@ it('can parse a select with options functional', function () {
 it('can assert that select has value', function () {
     $this->get('form')
         ->assertForm('#form2', function (FormAssert $form) {
-            $form->containsSelect('select:nth-of-type(2)', function (SelectAssert $selectAssert) {
+            $form->findSelect('select:nth-of-type(2)', function (SelectAssert $selectAssert) {
                 $selectAssert->hasValue('none');
             });
         })->assertOk();
@@ -185,11 +204,11 @@ it('can assert that select has value', function () {
 it('can assert that option is selected', function () {
     $this->get('form')
         ->assertForm('#form2', function (FormAssert $form) {
-            $form->containsSelect('select:nth-of-type(2)', function (SelectAssert $selectAssert) {
-                $selectAssert->containsOption(function (OptionAssert $optionAssert) {
-                    $optionAssert->hasValue('none');
-                    $optionAssert->hasText('None');
-                    $optionAssert->isSelected();
+            $form->findSelect('select:nth-of-type(2)', function (SelectAssert $selectAssert) {
+                $selectAssert->findOption(function (ElementAssert $option) {
+                    $option->hasValue('none');
+                    $option->hasText('None');
+                    $option->hasSelected();
                 });
             });
         })->assertOk();
@@ -198,7 +217,7 @@ it('can assert that option is selected', function () {
 it('can assert that select has multiple values', function () {
     $this->get('form')
         ->assertForm('#form2', function (FormAssert $form) {
-            $form->containsSelect('select', function (SelectAssert $selectAssert) {
+            $form->findSelect('select', function (SelectAssert $selectAssert) {
                 $selectAssert->hasValues(['da', 'en']);
             });
         })->assertOk();

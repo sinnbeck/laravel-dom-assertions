@@ -13,7 +13,7 @@ trait HasElementAsserts
     {
         if (Str::startsWith($method, 'has')) {
             $property = Str::of($method)->after('has')->snake()->slug();
-            $this->has($property, $arguments[0]);
+            $this->has($property, $arguments[0] ?? null);
         }
 
         if (Str::startsWith($method, 'is')) {
@@ -23,7 +23,7 @@ trait HasElementAsserts
 
         if (Str::startsWith($method, 'find')) {
             $property = Str::of($method)->after('find')->snake()->slug();
-            $this->find($property, $arguments[0]);
+            $this->find($property, $arguments[0] ?? null);
         }
 
         if (Str::startsWith($method, 'contains')) {
@@ -39,8 +39,17 @@ trait HasElementAsserts
         return $this;
     }
 
-    public function has(string $attribute, mixed $value): self
+    public function has(string $attribute, mixed $value = null): self
     {
+        if (! $value) {
+            PHPUnit::assertTrue(
+                $this->hasAttribute($attribute),
+                sprintf('Could not find an attribute "%s"', $attribute)
+            );
+
+            return $this;
+        }
+
         PHPUnit::assertEquals(
             $value,
             $this->getAttribute($attribute),

@@ -214,7 +214,7 @@ Testing for selects is also easy and works a bit like the `assertForm()`. It tak
 ```php
 $this->get('/some-route')
     ->assertForm(function (FormAssert $form) {
-        $form->containsSelect('select:nth-of-type(2)', function (SelectAssert $selectAssert) {
+        $form->findSelect('select:nth-of-type(2)', function (SelectAssert $selectAssert) {
             $selectAssert->has('name', 'country')
         });
     });
@@ -223,7 +223,7 @@ You can also assert that it has certain options. You can either check for one sp
 ```php
 $this->get('/some-route')
     ->assertForm(function (FormAssert $form) {
-        $form->containsSelect(function (SelectAssert $selectAssert) {
+        $form->findSelect(function (SelectAssert $selectAssert) {
             $selectAssert->containsOption([
                 [
                     'x-data' => 'none',
@@ -244,56 +244,22 @@ $this->get('/some-route')
         }, 'select:nth-of-type(2)');
     });
 ```
-It also works with closures if you prefer that syntax. The closure returns an instance of `\Sinnbeck\DomAssertions\Asserts\OptionAssert`
-```php
-$this->get('/some-route')
-    ->assertForm(function (FormAssert $form) {
-        $form->containsSelect('select:nth-of-type(2)', function (SelectAssert $selectAssert) {
-            $selectAssert->containsOption(function (OptionAssert $optionAssert) {
-                $optionAssert->hasValue('none');
-                $optionAssert->hasText('None');
-                $optionAssert->hasXData('none');
-            })
-            ->containsOptions(
-                function (OptionAssert $optionAssert) {
-                    $optionAssert->hasValue('dk');
-                    $optionAssert->hasText('Denmark');
-                },
-                function (OptionAssert $optionAssert) {
-                    $optionAssert->hasValue('us')
-                        ->hasText('USA');
-                },
-            );
-        });
-    });
-```
-You can of course also check that a select has a certain value
+You can check if a select has a value.
 ```php
 $this->get('/some-route')
         ->assertForm('#form1', function (FormAssert $form) {
-            $form->containsSelect('select:nth-of-type(2)', function (SelectAssert $selectAssert) {
-                $selectAssert->hasValue('dk');
+            $form->findSelect('select', function (SelectAssert $selectAssert) {
+                $selectAssert->hasValue('da');
             });
         });
 ```
-or that an option is selected
-```php
-$this->get('/some-route')
-        ->assertForm('#form1', function (FormAssert $form) {
-            $form->containsSelect('select:nth-of-type(2)', function (SelectAssert $selectAssert) {
-                $selectAssert->containsOption(function (OptionAssert $optionAssert) {
-                        $optionAssert->hasValue('dk');
-                        $optionAssert->hasText('Denmark');
-                        $optionAssert->isSelected();
-                    });
-            });
-        });
-```
+
+
 You can also check selects with multiple values
 ```php
 $this->get('/some-route')
         ->assertForm('#form1', function (FormAssert $form) {
-            $form->containsSelect('select', function (SelectAssert $selectAssert) {
+            $form->findSelect('select', function (SelectAssert $selectAssert) {
                 $selectAssert->hasValues(['da', 'en']);
             });
         });
