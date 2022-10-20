@@ -52,7 +52,6 @@ class SelectAssert
         return $this;
     }
 
-
     public function hasValue($value)
     {
         Assert::assertNotNull(
