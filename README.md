@@ -76,6 +76,22 @@ $this->get('/some-route')
         ]);
     });
 ```
+Contains also allow a third argument to specify how many times the element should be matched.
+```php
+$this->get('/some-route')
+    ->assertElement('#overview', function (ElementAssert $assert) {
+        $assert->contains('li.list-item', [
+            'x-data' => 'foobar'
+        ], 3);
+    });
+```
+If you just want to check for the element type you can leave out the second argument.
+```php
+$this->get('/some-route')
+    ->assertElement('#overview', function (ElementAssert $assert) {
+        $assert->contains('li.list-item', 3);
+    });
+```
 You can also find a certain element and do assertions on it. Be aware that it will only check the first matching element.
 ```php
 $this->get('/some-route')
