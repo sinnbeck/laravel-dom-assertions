@@ -7,40 +7,13 @@ use Illuminate\Testing\Assert as PHPUnit;
 use PHPUnit\Framework\Assert;
 use Sinnbeck\DomAssertions\Asserts\Traits\CanGatherAttributes;
 use Sinnbeck\DomAssertions\Asserts\Traits\Debugging;
-use Sinnbeck\DomAssertions\Asserts\Traits\HasElementAsserts;
+use Sinnbeck\DomAssertions\Asserts\Traits\NormalizesData;
+use Sinnbeck\DomAssertions\Asserts\Traits\UsesElementAsserts;
 use Sinnbeck\DomAssertions\Asserts\Traits\InteractsWithParser;
-use Sinnbeck\DomAssertions\DomParser;
+use Sinnbeck\DomAssertions\Parsers\DomParser;
 
-class FormAssert
+class FormAssert extends BaseAssert
 {
-    use HasElementAsserts;
-    use CanGatherAttributes;
-    use InteractsWithParser;
-    use Debugging;
-
-    /**
-     * @var \Sinnbeck\DomAssertions\DomParser
-     */
-    protected DomParser $parser;
-
-    protected string $html;
-
-    protected array $attributes = [];
-
-    public function __construct($html, $form)
-    {
-        $this->html = $html;
-        $this->parser = DomParser::new($html)
-            ->setRoot($form);
-    }
-
-    public function setParser($parser): static
-    {
-        $this->parser = $parser;
-
-        return $this;
-    }
-
     public function hasAction(string $action): self
     {
         PHPUnit::assertEquals(
@@ -117,14 +90,4 @@ class FormAssert
         return $this;
     }
 
-//    protected function getSelectorFromAttributes($type, array $attributes): string
-//    {
-//        $selector = $type;
-//
-//        foreach ($attributes as $attribute => $value) {
-//            $selector .= sprintf('[%s="%s"]', $attribute, $value);
-//        }
-//
-//        return $selector;
-//    }
 }

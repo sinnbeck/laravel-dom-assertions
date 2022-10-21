@@ -5,7 +5,7 @@ namespace Sinnbeck\DomAssertions\Macros;
 use Illuminate\Testing\TestResponse;
 use PHPUnit\Framework\Assert;
 use Sinnbeck\DomAssertions\Asserts\ElementAssert;
-use Sinnbeck\DomAssertions\DomParser;
+use Sinnbeck\DomAssertions\Parsers\DomParser;
 
 class AssertElementMacro
 {
@@ -34,5 +34,6 @@ class AssertElementMacro
 
             return $this;
         };
+
     }
 }

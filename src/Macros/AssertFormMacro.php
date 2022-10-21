@@ -5,7 +5,7 @@ namespace Sinnbeck\DomAssertions\Macros;
 use Illuminate\Testing\TestResponse;
 use PHPUnit\Framework\Assert;
 use Sinnbeck\DomAssertions\Asserts\FormAssert;
-use Sinnbeck\DomAssertions\DomParser;
+use Sinnbeck\DomAssertions\Parsers\DomParser;
 
 class AssertFormMacro
 {

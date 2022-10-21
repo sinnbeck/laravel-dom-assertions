@@ -2,12 +2,10 @@
 
 namespace Sinnbeck\DomAssertions\Asserts\Traits;
 
-use Sinnbeck\DomAssertions\DomParser;
+use Sinnbeck\DomAssertions\Parsers\DomParser;
 
 trait InteractsWithParser
 {
-    use NormalizesData;
-
     protected function getParser(): DomParser
     {
         return $this->parser;

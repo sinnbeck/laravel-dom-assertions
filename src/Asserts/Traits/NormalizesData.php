@@ -6,7 +6,7 @@ use Illuminate\Support\Str;
 
 trait NormalizesData
 {
-    protected function normalizeAttributesArray(array $attributes)
+    protected function normalizeAttributesArray(array $attributes): array
     {
         foreach ($attributes as $attribute => $value) {
             $attributes[$attribute] = $this->normalizeAttributeValue($attribute, $value);
@@ -15,7 +15,7 @@ trait NormalizesData
         return $attributes;
     }
 
-    protected function normalizeAttributeValue($attribute, $value)
+    protected function normalizeAttributeValue($attribute, $value): mixed
     {
         if ($attribute === 'class') {
             return $this->normalizeClass($value);
@@ -28,8 +28,11 @@ trait NormalizesData
         return $value;
     }
 
-    protected function normalizeClass(string $class)
+    protected function normalizeClass(string $class): string
     {
-        return Str::of($class)->explode(' ')->sort()->implode(' ');
+        return Str::of($class)
+            ->explode(' ')
+            ->sort()
+            ->implode(' ');
     }
 }

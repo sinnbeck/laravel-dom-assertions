@@ -8,9 +8,8 @@ use Illuminate\Testing\Assert as PHPUnit;
 use PHPUnit\Framework\Assert;
 use Sinnbeck\DomAssertions\Asserts\ElementAssert;
 
-trait HasElementAsserts
+trait UsesElementAsserts
 {
-    use NormalizesData;
     use Macroable {
         __call as protected callMacro;
     }

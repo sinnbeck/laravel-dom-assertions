@@ -5,27 +5,13 @@ namespace Sinnbeck\DomAssertions\Asserts;
 use PHPUnit\Framework\Assert;
 use Sinnbeck\DomAssertions\Asserts\Traits\CanGatherAttributes;
 use Sinnbeck\DomAssertions\Asserts\Traits\Debugging;
-use Sinnbeck\DomAssertions\Asserts\Traits\HasElementAsserts;
+use Sinnbeck\DomAssertions\Asserts\Traits\NormalizesData;
+use Sinnbeck\DomAssertions\Asserts\Traits\UsesElementAsserts;
 use Sinnbeck\DomAssertions\Asserts\Traits\InteractsWithParser;
-use Sinnbeck\DomAssertions\DomParser;
+use Sinnbeck\DomAssertions\Parsers\DomParser;
 
-class SelectAssert
+class SelectAssert extends BaseAssert
 {
-    use HasElementAsserts;
-    use CanGatherAttributes;
-    use InteractsWithParser;
-    use Debugging;
-
-    protected DomParser $parser;
-
-    protected array $attributes = [];
-
-    public function __construct(string $html, $root)
-    {
-        $this->parser = DomParser::new($html)
-            ->setRoot($root);
-    }
-
     public function containsOption(mixed $attributes): self
     {
         return $this->contains('option', $attributes);

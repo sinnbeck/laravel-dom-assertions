@@ -1,6 +1,6 @@
 <?php
 
-namespace Sinnbeck\DomAssertions;
+namespace Sinnbeck\DomAssertions\Parsers;
 
 use DOMDocument;
 use DOMElement;

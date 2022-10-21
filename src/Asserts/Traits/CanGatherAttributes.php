@@ -4,9 +4,6 @@ namespace Sinnbeck\DomAssertions\Asserts\Traits;
 
 trait CanGatherAttributes
 {
-    use NormalizesData;
-    use InteractsWithParser;
-
     public function gatherAttributes($type): void
     {
         if (isset($this->attributes[$type])) {
