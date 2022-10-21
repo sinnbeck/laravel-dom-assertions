@@ -66,6 +66,18 @@ it('can find a nested element with content', function () {
         });
 });
 
+it('can find assert a class works no matter the order', function () {
+    $this->get('nesting')
+        ->assertElement(function (ElementAssert $element) {
+            $element->contains('span', [
+                'class' => 'foo bar',
+            ]);
+            $element->find('span', function (ElementAssert $span) {
+                $span->has('class', 'foo bar');
+            });
+        });
+});
+
 it('can find multiple identical items', function () {
     $this->get('nesting')
         ->assertElement(function (ElementAssert $element) {
@@ -86,6 +98,15 @@ it('can find multiple identical items with content', function () {
             $element->contains('ul > li', [
                 'x-data' => 'foobar',
             ], 2);
+        });
+});
+
+it('can find multiple identical items with content ensuring no wrong matches', function () {
+    $this->get('nesting')
+        ->assertElement(function (ElementAssert $element) {
+            $element->contains('div', [
+                'x-data' => 'foobar',
+            ], 1);
         });
 });
 

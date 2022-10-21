@@ -4,6 +4,7 @@ namespace Sinnbeck\DomAssertions\Asserts\Traits;
 
 trait CanGatherAttributes
 {
+    use NormalizesData;
     use InteractsWithParser;
 
     public function gatherAttributes($type): void
@@ -21,7 +22,7 @@ trait CanGatherAttributes
         foreach ($elements as $element) {
             $attributes = [];
             foreach ($element->attributes as $attribute) {
-                $attributes[$attribute->nodeName] = $attribute->value ?: true;
+                $attributes[$attribute->nodeName] = $this->extractAttribute($attribute);
             }
 
             if ($type === 'textarea') {
@@ -32,5 +33,10 @@ trait CanGatherAttributes
 
             $this->attributes[$type][] = $attributes + $extra;
         }
+    }
+
+    protected function extractAttribute(mixed $attribute): mixed
+    {
+        return $this->normalizeAttributeValue($attribute->nodeName, $attribute->value);
     }
 }

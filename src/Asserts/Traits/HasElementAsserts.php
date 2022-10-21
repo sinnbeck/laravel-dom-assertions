@@ -10,6 +10,7 @@ use Sinnbeck\DomAssertions\Asserts\ElementAssert;
 
 trait HasElementAsserts
 {
+    use NormalizesData;
     use Macroable {
         __call as protected callMacro;
     }
@@ -57,6 +58,8 @@ trait HasElementAsserts
 
             return $this;
         }
+
+        $value = $this->normalizeAttributeValue($attribute, $value);
 
         PHPUnit::assertEquals(
             $value,
@@ -109,6 +112,7 @@ trait HasElementAsserts
         }
 
         $this->gatherAttributes($elementName);
+        $attributes = $this->normalizeAttributesArray($attributes);
 
         if ($count) {
             $found = collect($this->attributes[$elementName])

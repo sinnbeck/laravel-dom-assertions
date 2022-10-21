@@ -6,6 +6,8 @@ use Sinnbeck\DomAssertions\DomParser;
 
 trait InteractsWithParser
 {
+    use NormalizesData;
+
     protected function getParser(): DomParser
     {
         return $this->parser;
@@ -22,7 +24,7 @@ trait InteractsWithParser
             return $this->getParser()->getText();
         }
 
-        return $this->getParser()->getAttributeForRoot($attribute);
+        return $this->normalizeAttributeValue($attribute, $this->getParser()->getAttributeForRoot($attribute));
     }
 
     protected function hasAttribute(string $attribute)

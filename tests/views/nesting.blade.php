@@ -10,8 +10,9 @@
     <body>
         <nav id="nav"></nav>
         <div>
+            <span class="bar foo"></span>
             <div class="foobar">
-                <div>
+                <div x-data="foobar">
                     <div class="deep">
                         <span></span>
                     </div>
@@ -20,7 +21,6 @@
                     <li x-data="foobar"></li>
                     <li x-data="foobar"></li>
                 </ul>
-
             </div>
         </div>
     </body>

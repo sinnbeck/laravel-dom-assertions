@@ -4,6 +4,7 @@ namespace Sinnbeck\DomAssertions\Asserts;
 
 use PHPUnit\Framework\Assert;
 use Sinnbeck\DomAssertions\Asserts\Traits\CanGatherAttributes;
+use Sinnbeck\DomAssertions\Asserts\Traits\Debugging;
 use Sinnbeck\DomAssertions\Asserts\Traits\HasElementAsserts;
 use Sinnbeck\DomAssertions\Asserts\Traits\InteractsWithParser;
 use Sinnbeck\DomAssertions\DomParser;
@@ -13,6 +14,7 @@ class SelectAssert
     use HasElementAsserts;
     use CanGatherAttributes;
     use InteractsWithParser;
+    use Debugging;
 
     protected DomParser $parser;
 
