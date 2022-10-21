@@ -66,6 +66,29 @@ it('can find a nested element with content', function () {
         });
 });
 
+it('can find multiple identical items', function () {
+    $this->get('nesting')
+        ->assertElement(function (ElementAssert $element) {
+            $element->contains('div', [], 4);
+        });
+});
+
+it('can find multiple identical items simplified', function () {
+    $this->get('nesting')
+        ->assertElement(function (ElementAssert $element) {
+            $element->contains('div', 4);
+        });
+});
+
+it('can find multiple identical items with content', function () {
+    $this->get('nesting')
+        ->assertElement(function (ElementAssert $element) {
+            $element->contains('ul > li', [
+                'x-data' => 'foobar',
+            ], 2);
+        });
+});
+
 it('can fail finding a nested element with content', function () {
     $this->get('nesting')
         ->assertElement(function (ElementAssert $element) {

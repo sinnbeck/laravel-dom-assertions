@@ -16,6 +16,11 @@
                         <span></span>
                     </div>
                 </div>
+                <ul>
+                    <li x-data="foobar"></li>
+                    <li x-data="foobar"></li>
+                </ul>
+
             </div>
         </div>
     </body>

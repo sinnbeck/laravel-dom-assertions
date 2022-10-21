@@ -142,11 +142,11 @@ it('can test a textarea has required true', function () {
         })->assertOk();
 });
 
-it('can test an input has required false', function () {
+it('can find no inputs with required', function () {
     $this->get('form')
         ->assertForm(function (FormAssert $form) {
-            $form->contains('input', [
-                'required' => false,
+            $form->doesntContain('input', [
+                'required' => true,
             ]);
         })->assertOk();
 });

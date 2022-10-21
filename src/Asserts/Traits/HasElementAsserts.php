@@ -82,18 +82,49 @@ trait HasElementAsserts
         return $this;
     }
 
-    public function contains(string $elementName, array $attributes = []): self
+    public function contains(string $elementName, $attributes= null, $count = 0): self
     {
         Assert::assertNotNull(
             $this->getParser()->query($elementName),
             sprintf('Could not find any matching element of type "%s"', $elementName)
         );
 
+        if (is_numeric($attributes)) {
+            $count = $attributes;
+            $attributes = null;
+
+        }
+
+        if (! $attributes && ! $count) {
+            return $this;
+        }
+
         if (! $attributes) {
+            Assert::assertEquals(
+                $count,
+                $found = $this->getParser()->queryAll($elementName)->count(),
+                sprintf('Expected to find %s elements but found %s for %s', $count, $found, $elementName)
+            );
+
             return $this;
         }
 
         $this->gatherAttributes($elementName);
+
+        if ($count) {
+            $found = collect($this->attributes[$elementName])
+                ->filter(fn($foundAttributes) => $this->compareAttributesArrays($attributes, $foundAttributes))
+                ->count();
+
+            Assert::assertEquals(
+                $count,
+                $found,
+                sprintf('Expected to find %s elements but found %s for %s', $count, $found, $elementName)
+            );
+
+
+        }
+
 
         $first = collect($this->attributes[$elementName])
             ->search(fn ($attribute) => $this->compareAttributesArrays($attributes, $attribute));
@@ -143,6 +174,6 @@ trait HasElementAsserts
 
     private function compareAttributesArrays($attributes, $foundAttributes): bool
     {
-        return ! array_diff($attributes, $foundAttributes);
+        return ! array_diff_assoc($attributes, $foundAttributes);
     }
 }
