@@ -5,6 +5,8 @@ namespace Sinnbeck\DomAssertions;
 use DOMDocument;
 use DOMElement;
 use DOMNode;
+use DOMNodeList;
+use DOMXPath;
 use Symfony\Component\CssSelector\CssSelectorConverter;
 
 class DomParser
@@ -89,12 +91,12 @@ class DomParser
         return $this->queryAll($selector)->item(0);
     }
 
-    public function queryAll(string $selector): \DOMNodeList
+    public function queryAll(string $selector): DOMNodeList
     {
         $converter = new CssSelectorConverter();
         $parser = $this->cloneFromRoot();
 
-        return (new \DOMXPath($parser->getRoot()->ownerDocument))->query($converter->toXpath($selector));
+        return (new DOMXPath($parser->getRoot()->ownerDocument))->query($converter->toXpath($selector));
     }
 
     public function getText()

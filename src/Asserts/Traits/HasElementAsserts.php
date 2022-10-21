@@ -82,7 +82,7 @@ trait HasElementAsserts
         return $this;
     }
 
-    public function contains(string $elementName, $attributes= null, $count = 0): self
+    public function contains(string $elementName, $attributes = null, $count = 0): self
     {
         Assert::assertNotNull(
             $this->getParser()->query($elementName),
@@ -92,7 +92,6 @@ trait HasElementAsserts
         if (is_numeric($attributes)) {
             $count = $attributes;
             $attributes = null;
-
         }
 
         if (! $attributes && ! $count) {
@@ -113,7 +112,7 @@ trait HasElementAsserts
 
         if ($count) {
             $found = collect($this->attributes[$elementName])
-                ->filter(fn($foundAttributes) => $this->compareAttributesArrays($attributes, $foundAttributes))
+                ->filter(fn ($foundAttributes) => $this->compareAttributesArrays($attributes, $foundAttributes))
                 ->count();
 
             Assert::assertEquals(
@@ -121,10 +120,7 @@ trait HasElementAsserts
                 $found,
                 sprintf('Expected to find %s elements but found %s for %s', $count, $found, $elementName)
             );
-
-
         }
-
 
         $first = collect($this->attributes[$elementName])
             ->search(fn ($attribute) => $this->compareAttributesArrays($attributes, $attribute));

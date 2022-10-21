@@ -52,9 +52,13 @@ class FormAssert
 
     public function hasMethod(string $method): self
     {
-        if (! in_array(strtolower($method), ['get', 'post'])) {
+        if (! in_array(strtolower($method), [
+            'get',
+            'post',
+        ])) {
             return $this->hasSpoofMethod($method);
         }
+
         PHPUnit::assertEquals(
             Str::of($this->getAttributeFromForm('method'))->lower(),
             Str::of($method)->lower(),
@@ -69,12 +73,12 @@ class FormAssert
         $element = $this->parser->query('input[type="hidden"][name="_method"]');
         Assert::assertNotNull(
             $element,
-            sprintf('No spoof methods was found in form!', $type)
+            sprintf('No spoof methods was found in form!')
         );
 
         Assert::assertEquals(
-            $type,
-            $this->getAttributeFor($element, 'value'),
+            Str::lower($type),
+            Str::lower($this->getAttributeFor($element, 'value')),
             sprintf('No spoof method for %s was found in form!', $type)
         );
 

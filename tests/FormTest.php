@@ -49,11 +49,29 @@ it('can find elements', function () {
         ->assertOk();
 });
 
+it('can assert method with wrong casing', function () {
+    $this->get('form')
+        ->assertForm('#form2', function (FormAssert $form) {
+            $form->hasMethod('PoSt');
+        })
+        ->assertOk();
+});
+
 it('can pass no spoff methods', function () {
     $this->get('form')
         ->assertForm('#form2', function (FormAssert $form) {
             $form->hasAction('/form')
                 ->hasMethod('PUT');
+        })
+        ->assertOk();
+});
+
+it('can pass no spoff methods with wrong casing', function () {
+    $this->get('form')
+        ->assertForm('#form2', function (FormAssert $form) {
+            $form->hasAction('/form')
+                ->hasMethod('puT')
+                ->hasSpoofMethod('Put');
         })
         ->assertOk();
 });
