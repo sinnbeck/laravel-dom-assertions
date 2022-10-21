@@ -26,5 +26,4 @@ abstract class BaseAssert
             $this->parser->setRoot($element);
         }
     }
-
 }
