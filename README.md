@@ -280,6 +280,34 @@ $this->get('/some-route')
             });
         });
 ```
+## Overview of methods
+| Base methods                                   | Description                                                                         |
+|------------------------------------------------|-------------------------------------------------------------------------------------|
+| `->has($attribute, $value)`                    | Checks if element has a certain attribute with a certain value                      |
+| `->hasXdata('foo')`                            | Magic method. Same as `->has('x-data', 'foo')`                                      |
+| `->is($type)`                                  | Checks if the element is of a specific type (div, span etc)                         |
+| `->isDiv()`                                    | Magic method. Same as `->is('div')`                                                 |
+| `->contains($selector, $attributes, $count)`   | Checks for any children of the current element                                      |
+| `->containsDiv, ['class' => 'foo'], 3)`        | Magic method. Same as `->contains('div', ['class' => 'foo'], 3)`                    |
+| `->doesntContain($selector, $attributes)`      | Ensures that there are no matching children                                         |
+| `->doesntContainDiv, ['class' => 'foo'])`      | Magic method. Same as `->doesntContain('div', ['class' => 'foo'])`                  |
+| `->find($selector, $callback)`                 | Find a specific child element and get a new ElementAssert. Returns the first match. |
+| `->findDiv(fn (AssertElement $element) => {})` | Magic method. Same as `->find('div', fn (AssertElement $element) => {})`            |
+
+| Form specific methods                   | Description                            |
+|-----------------------------------------|----------------------------------------|
+| `->hasAction($url)`                       | Ensures the form has a specific action |
+| `->hasMethod($method)`                    | Ensures a form has a specific method   |
+| `->hasSpoofMethod($method)`               | Ensures form has a spoofed method      |
+| `->hasCSRF()`                             | Ensures form has a csrf token          |
+| `->findSelect($selector, $callback)`      | Finds a select to run assertions on    |
+
+| Select specific methods        | Description                                                        |
+|--------------------------------|--------------------------------------------------------------------|
+| `->hasValue($value)`             | Ensures a select has a specific value                              |
+| `->hasValues($values)`           | Ensures a select has an array of values (multiple select)          |
+| `->containsOption($attributes)`  | Checks for an option with the given attributes                     |
+| `->containsOptions($attributes)` | Checks for any options with the given attributes (array of arrays) |
 
 ## Testing this package
 
