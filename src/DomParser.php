@@ -31,7 +31,6 @@ class DomParser
 
         $html = '<?xml encoding="UTF-8">'.trim($html);
         $dom->loadHTML($html, LIBXML_NOERROR | LIBXML_COMPACT | LIBXML_HTML_NODEFDTD | LIBXML_NOBLANKS | LIBXML_NOXMLDECL);
-        //$this->setRoot($dom);
         $this->setRoot($dom->getElementsByTagName('body')->item(0));
     }
 
