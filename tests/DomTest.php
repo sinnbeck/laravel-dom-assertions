@@ -21,9 +21,7 @@ it('can handle an empty body', function () {
 
 it('can parse broken html', function () {
     $this->get('broken')
-        ->assertElement(function ($d) {
-            $d->dd();
-        });
+        ->assertElement();
 });
 
 it('can find the an element', function () {
