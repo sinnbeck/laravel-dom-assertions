@@ -13,7 +13,16 @@ class AssertFormMacro
     {
         return function ($selector = 'form', $callback = null): TestResponse {
             /** @var TestResponse $this */
-            $parser = DomParser::new($this->getContent());
+            Assert::assertNotEmpty(
+                $this->getContent(),
+                'The view is empty!'
+            );
+
+            try {
+                $parser = DomParser::new($this->getContent());
+            } catch (\DOMException $exception) {
+                Assert::fail($exception->getMessage());
+            }
 
             if (is_callable($selector)) {
                 $callback = $selector;

@@ -23,5 +23,8 @@ class TestCase extends \Orchestra\Testbench\TestCase
     {
         Route::view('form', 'form');
         Route::view('nesting', 'nesting');
+        Route::view('empty', 'empty');
+        Route::view('empty-body', 'empty-body');
+        Route::view('broken', 'broken');
     }
 }

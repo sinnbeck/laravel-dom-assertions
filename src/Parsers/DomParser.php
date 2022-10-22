@@ -31,7 +31,11 @@ class DomParser
 
         $html = '<?xml encoding="UTF-8">'.trim($html);
         $dom->loadHTML($html, LIBXML_NOERROR | LIBXML_COMPACT | LIBXML_HTML_NODEFDTD | LIBXML_NOBLANKS | LIBXML_NOXMLDECL);
-        $this->setRoot($dom->getElementsByTagName('body')->item(0));
+        $root = $dom->getElementsByTagName('body')->item(0);
+        if (is_null($root)) {
+            throw new \DOMException('No body element found!');
+        }
+        $this->setRoot($root);
     }
 
     public function getElementOfType(string $type, $index = 0): ?DOMNode

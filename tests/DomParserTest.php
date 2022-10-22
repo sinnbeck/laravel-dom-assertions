@@ -34,6 +34,7 @@ HTML;
     $parser->setRoot($parser->query('#form2'));
 
     $this->assertNotNull($parser->query('select:nth-of-type(2)'));
+    $this->assertNotNull($parser->query('input'));
 });
 
 it('can get an attribute', function () {

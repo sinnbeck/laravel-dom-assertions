@@ -3,6 +3,29 @@
 use PHPUnit\Framework\AssertionFailedError;
 use Sinnbeck\DomAssertions\Asserts\ElementAssert;
 
+it('can handle an empty view', function () {
+    $this->get('empty')
+        ->assertElement();
+})->throws(
+    AssertionFailedError::class,
+    'The view is empty!'
+);
+
+it('can handle an empty body', function () {
+    $this->get('empty-body')
+        ->assertElement();
+})->throws(
+    AssertionFailedError::class,
+    'No body element found!'
+);
+
+it('can parse broken html', function () {
+    $this->get('broken')
+        ->assertElement(function ($d) {
+            $d->dd();
+        });
+});
+
 it('can find the an element', function () {
     $this->get('nesting')
         ->assertElement();
