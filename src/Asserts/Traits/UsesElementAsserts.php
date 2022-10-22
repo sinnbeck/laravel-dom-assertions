@@ -2,51 +2,13 @@
 
 namespace Sinnbeck\DomAssertions\Asserts\Traits;
 
-use Illuminate\Support\Str;
-use Illuminate\Support\Traits\Macroable;
 use Illuminate\Testing\Assert as PHPUnit;
 use PHPUnit\Framework\Assert;
 use Sinnbeck\DomAssertions\Asserts\ElementAssert;
+use Sinnbeck\DomAssertions\Formatters\Normalize;
 
 trait UsesElementAsserts
 {
-    use Macroable {
-        __call as protected callMacro;
-    }
-
-    public function __call(string $method, array $arguments)
-    {
-        if (static::hasMacro($method)) {
-            return $this->macroCall($method, $arguments);
-        }
-        if (Str::startsWith($method, 'has')) {
-            $property = Str::of($method)->after('has')->snake()->slug();
-            $this->has($property, $arguments[0] ?? null);
-        }
-
-        if (Str::startsWith($method, 'is')) {
-            $property = Str::of($method)->after('is')->snake()->slug();
-            $this->is($property);
-        }
-
-        if (Str::startsWith($method, 'find')) {
-            $property = Str::of($method)->after('find')->snake()->slug();
-            $this->find($property, $arguments[0] ?? null);
-        }
-
-        if (Str::startsWith($method, 'contains')) {
-            $elementName = Str::of($method)->after('contains')->camel();
-            $this->contains($elementName, ...$arguments);
-        }
-
-        if (Str::startsWith($method, 'doesntContain')) {
-            $elementName = Str::of($method)->after('doesntContain')->camel();
-            $this->doesntContain($elementName, ...$arguments);
-        }
-
-        return $this;
-    }
-
     public function has(string $attribute, mixed $value = null): self
     {
         if (! $value) {
@@ -58,7 +20,7 @@ trait UsesElementAsserts
             return $this;
         }
 
-        $value = $this->normalizeAttributeValue($attribute, $value);
+        $value = Normalize::attributeValue($attribute, $value);
 
         PHPUnit::assertEquals(
             $value,
@@ -111,7 +73,7 @@ trait UsesElementAsserts
         }
 
         $this->gatherAttributes($elementName);
-        $attributes = $this->normalizeAttributesArray($attributes);
+        $attributes = Normalize::attributesArray($attributes);
 
         if ($count) {
             $found = collect($this->attributes[$elementName])

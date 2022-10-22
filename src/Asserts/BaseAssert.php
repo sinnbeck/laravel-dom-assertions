@@ -2,10 +2,12 @@
 
 namespace Sinnbeck\DomAssertions\Asserts;
 
+use Carbon\Exceptions\UnknownMethodException;
+use Illuminate\Support\Str;
+use Illuminate\Support\Traits\Macroable;
 use Sinnbeck\DomAssertions\Asserts\Traits\CanGatherAttributes;
 use Sinnbeck\DomAssertions\Asserts\Traits\Debugging;
 use Sinnbeck\DomAssertions\Asserts\Traits\InteractsWithParser;
-use Sinnbeck\DomAssertions\Asserts\Traits\NormalizesData;
 use Sinnbeck\DomAssertions\Asserts\Traits\UsesElementAsserts;
 use Sinnbeck\DomAssertions\Parsers\DomParser;
 
@@ -14,8 +16,10 @@ abstract class BaseAssert
     use UsesElementAsserts;
     use CanGatherAttributes;
     use InteractsWithParser;
-    use NormalizesData;
     use Debugging;
+    use Macroable {
+        __call as protected callMacro;
+    }
 
     public function __construct($html, $element = null)
     {
@@ -27,4 +31,41 @@ abstract class BaseAssert
         }
     }
 
+    public function __call($method, $arguments)
+    {
+        if (static::hasMacro($method)) {
+            return $this->macroCall($method, $arguments);
+        }
+        if (Str::startsWith($method, 'has')) {
+            $property = Str::of($method)->after('has')->snake()->slug();
+
+            return $this->has($property, $arguments[0] ?? null);
+        }
+
+        if (Str::startsWith($method, 'is')) {
+            $property = Str::of($method)->after('is')->snake()->slug();
+
+            return $this->is($property);
+        }
+
+        if (Str::startsWith($method, 'find')) {
+            $property = Str::of($method)->after('find')->snake()->slug();
+
+            return $this->find($property, $arguments[0] ?? null);
+        }
+
+        if (Str::startsWith($method, 'contains')) {
+            $elementName = Str::of($method)->after('contains')->camel();
+
+            return $this->contains($elementName, ...$arguments);
+        }
+
+        if (Str::startsWith($method, 'doesntContain')) {
+            $elementName = Str::of($method)->after('doesntContain')->camel();
+
+            return $this->doesntContain($elementName, ...$arguments);
+        }
+
+        throw new UnknownMethodException($method);
+    }
 }
