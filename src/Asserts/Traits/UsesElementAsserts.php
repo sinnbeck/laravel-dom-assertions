@@ -101,8 +101,9 @@ trait UsesElementAsserts
     public function doesntContain(string $elementName, array $attributes = []): self
     {
         if (! $attributes) {
+            $found = $this->getParser()->query($elementName);
             Assert::assertNull(
-                $this->getParser()->query($elementName),
+                $found ? get_class($found): null,
                 sprintf('Found a matching element of type "%s"', $elementName)
             );
 

@@ -212,3 +212,28 @@ it('can find a nested element and ensure doesnt contain', function () {
             });
         });
 });
+
+it('can fail finding an contained element', function () {
+    $this->get('nesting')
+        ->assertElement(function (ElementAssert $element) {
+            $element->findDiv(function (ElementAssert $element) {
+                $element->doesntContain('div');
+            });
+        });
+})->throws(
+    AssertionFailedError::class,
+    'Found a matching element of type "div'
+);
+
+
+it('can fail finding an contained element with query', function () {
+    $this->get('nesting')
+        ->assertElement(function (ElementAssert $element) {
+            $element->findDiv(function (ElementAssert $element) {
+                $element->doesntContain('div.foobar');
+            });
+        });
+})->throws(
+    AssertionFailedError::class,
+    'Found a matching element of type "div'
+);
