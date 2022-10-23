@@ -5,13 +5,13 @@ namespace Sinnbeck\DomAssertions\Asserts\Traits;
 use Illuminate\Testing\Assert as PHPUnit;
 use PHPUnit\Framework\Assert;
 use Sinnbeck\DomAssertions\Asserts\ElementAssert;
-use Sinnbeck\DomAssertions\Formatters\Normalize;
+use Sinnbeck\DomAssertions\Utilities\CompareAttributes;
 
 trait UsesElementAsserts
 {
     public function has(string $attribute, mixed $value = null): self
     {
-        if (!$value) {
+        if (! $value) {
             PHPUnit::assertTrue(
                 $this->hasAttribute($attribute),
                 sprintf('Could not find an attribute "%s"', $attribute)
@@ -20,21 +20,12 @@ trait UsesElementAsserts
             return $this;
         }
 
-        if ($attribute === 'class') {
-            PHPUnit::assertTrue(
-                ! array_diff(
-                    Normalize::attributeValue($attribute, $value),
-                    $this->getAttribute($attribute)
-                ),
-                sprintf('Could not find an attribute "%s" with value "%s"', $attribute, $value)
-            );
-
-            return $this;
-        }
-
-        PHPUnit::assertEquals(
-            Normalize::attributeValue($attribute, $value),
-            $this->getAttribute($attribute),
+        PHPUnit::assertTrue(
+            CompareAttributes::compare(
+                $attribute,
+                $value,
+                $this->getAttribute($attribute)
+            ),
             sprintf('Could not find an attribute "%s" with value "%s"', $attribute, $value)
         );
 
@@ -48,7 +39,7 @@ trait UsesElementAsserts
             sprintf('Could not find any matching element for selector "%s"', $selector)
         );
 
-        if (!is_null($callback)) {
+        if (! is_null($callback)) {
             $elementAssert = new ElementAssert($this->getContent(), $element);
             $callback($elementAssert);
         }
@@ -68,11 +59,11 @@ trait UsesElementAsserts
             $attributes = null;
         }
 
-        if (!$attributes && !$count) {
+        if (! $attributes && ! $count) {
             return $this;
         }
 
-        if (!$attributes) {
+        if (! $attributes) {
             Assert::assertEquals(
                 $count,
                 $found = $this->getParser()->queryAll($elementName)->count(),
@@ -83,11 +74,10 @@ trait UsesElementAsserts
         }
 
         $this->gatherAttributes($elementName);
-        $normalizedAttributes = Normalize::attributesArray($attributes);
 
         if ($count) {
             $found = collect($this->attributes[$elementName])
-                ->filter(fn($foundAttributes) => $this->compareAttributesArrays($normalizedAttributes, $foundAttributes))
+                ->filter(fn ($foundAttributes) => $this->compareAttributesArrays($attributes, $foundAttributes))
                 ->count();
 
             Assert::assertEquals(
@@ -98,7 +88,7 @@ trait UsesElementAsserts
         }
 
         $first = collect($this->attributes[$elementName])
-            ->search(fn($attribute) => $this->compareAttributesArrays($normalizedAttributes, $attribute));
+            ->search(fn ($attribute) => $this->compareAttributesArrays($attributes, $attribute));
 
         Assert::assertNotFalse(
             $first,
@@ -110,7 +100,7 @@ trait UsesElementAsserts
 
     public function doesntContain(string $elementName, array $attributes = []): self
     {
-        if (!$attributes) {
+        if (! $attributes) {
             Assert::assertNull(
                 $this->getParser()->query($elementName),
                 sprintf('Found a matching element of type "%s"', $elementName)
@@ -122,7 +112,7 @@ trait UsesElementAsserts
         $this->gatherAttributes($elementName);
 
         $first = collect($this->attributes[$elementName])
-            ->search(fn($foundAttributes) => $this->compareAttributesArrays(Normalize::attributesArray($attributes), $foundAttributes));
+            ->search(fn ($foundAttributes) => $this->compareAttributesArrays($attributes, $foundAttributes));
 
         Assert::assertFalse(
             $first,
@@ -150,15 +140,13 @@ trait UsesElementAsserts
                 return false;
             }
 
-            if ($attribute === 'class') {
-                return ! array_diff($value, $foundAttributes[$attribute]);
-            }
+            $match = CompareAttributes::compare($attribute, $value, $foundAttributes[$attribute]);
 
-             if ($value != $foundAttributes[$attribute]) {
-                 return false;
-             }
+            if (! $match) {
+                return false;
+            }
         }
+
         return true;
-        return !array_diff_assoc($attributes, $foundAttributes);
     }
 }

@@ -2,10 +2,11 @@
 
 namespace Sinnbeck\DomAssertions\Macros;
 
+use DOMException;
 use Illuminate\Testing\TestResponse;
 use PHPUnit\Framework\Assert;
 use Sinnbeck\DomAssertions\Asserts\ElementAssert;
-use Sinnbeck\DomAssertions\Parsers\DomParser;
+use Sinnbeck\DomAssertions\Utilities\DomParser;
 
 class AssertElementMacro
 {
@@ -20,7 +21,7 @@ class AssertElementMacro
 
             try {
                 $parser = DomParser::new($this->getContent());
-            } catch (\DOMException $exception) {
+            } catch (DOMException $exception) {
                 Assert::fail($exception->getMessage());
             }
 

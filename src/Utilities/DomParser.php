@@ -1,9 +1,10 @@
 <?php
 
-namespace Sinnbeck\DomAssertions\Parsers;
+namespace Sinnbeck\DomAssertions\Utilities;
 
 use DOMDocument;
 use DOMElement;
+use DOMException;
 use DOMNode;
 use DOMNodeList;
 use DOMXPath;
@@ -33,7 +34,7 @@ class DomParser
         $dom->loadHTML($html, LIBXML_NOERROR | LIBXML_COMPACT | LIBXML_HTML_NODEFDTD | LIBXML_NOBLANKS | LIBXML_NOXMLDECL);
         $root = $dom->getElementsByTagName('body')->item(0);
         if (is_null($root)) {
-            throw new \DOMException('No body element found!');
+            throw new DOMException('No body element found!');
         }
         $this->setRoot($root);
     }

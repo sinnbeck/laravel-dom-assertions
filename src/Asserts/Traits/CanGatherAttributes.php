@@ -2,8 +2,6 @@
 
 namespace Sinnbeck\DomAssertions\Asserts\Traits;
 
-use Sinnbeck\DomAssertions\Formatters\Normalize;
-
 trait CanGatherAttributes
 {
     public function gatherAttributes($type): void
@@ -21,13 +19,13 @@ trait CanGatherAttributes
         foreach ($elements as $element) {
             $attributes = [];
             foreach ($element->attributes as $attribute) {
-                $attributes[$attribute->nodeName] = Normalize::attributeValue($attribute->nodeName, $attribute->value);
+                $attributes[$attribute->nodeName] = $attribute->value;
             }
 
-            $extra['text'] = Normalize::attributeValue('text', $element->nodeValue);
+            $extra['text'] = $element->nodeValue;
 
             if ($type === 'textarea') {
-                $extra['value'] = $extra['text'];
+                $extra['value'] = $element->nodeValue;
             }
 
             $this->attributes[$type][] = $attributes + $extra;

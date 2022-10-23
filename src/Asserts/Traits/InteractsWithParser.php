@@ -2,8 +2,7 @@
 
 namespace Sinnbeck\DomAssertions\Asserts\Traits;
 
-use Sinnbeck\DomAssertions\Formatters\Normalize;
-use Sinnbeck\DomAssertions\Parsers\DomParser;
+use Sinnbeck\DomAssertions\Utilities\DomParser;
 
 trait InteractsWithParser
 {
@@ -23,7 +22,7 @@ trait InteractsWithParser
             return $this->getParser()->getText();
         }
 
-        return Normalize::attributeValue($attribute, $this->getParser()->getAttributeForRoot($attribute));
+        return $this->getParser()->getAttributeForRoot($attribute);
     }
 
     protected function hasAttribute(string $attribute)
