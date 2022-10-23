@@ -103,7 +103,7 @@ trait UsesElementAsserts
         if (! $attributes) {
             $found = $this->getParser()->query($elementName);
             Assert::assertNull(
-                $found ? get_class($found): null,
+                $found ? get_class($found) : null,
                 sprintf('Found a matching element of type "%s"', $elementName)
             );
 

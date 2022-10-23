@@ -225,7 +225,6 @@ it('can fail finding an contained element', function () {
     'Found a matching element of type "div'
 );
 
-
 it('can fail finding an contained element with query', function () {
     $this->get('nesting')
         ->assertElement(function (ElementAssert $element) {
