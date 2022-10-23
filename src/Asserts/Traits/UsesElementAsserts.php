@@ -76,13 +76,11 @@ trait UsesElementAsserts
         $this->gatherAttributes($elementName);
 
         if ($count) {
-            $found = collect($this->attributes[$elementName])
-                ->filter(fn ($foundAttributes) => $this->compareAttributesArrays($attributes, $foundAttributes))
-                ->count();
-
             Assert::assertEquals(
                 $count,
-                $found,
+                $found = collect($this->attributes[$elementName])
+                    ->filter(fn ($foundAttributes) => $this->compareAttributesArrays($attributes, $foundAttributes))
+                    ->count(),
                 sprintf('Expected to find %s elements but found %s for %s', $count, $found, $elementName)
             );
         }
@@ -141,13 +139,13 @@ trait UsesElementAsserts
                 return false;
             }
 
-            $match = CompareAttributes::compare($attribute, $value, $foundAttributes[$attribute]);
-
-            if (! $match) {
+            if (! CompareAttributes::compare($attribute, $value, $foundAttributes[$attribute])) {
                 return false;
             }
         }
 
         return true;
     }
+
+    abstract protected function getParser();
 }

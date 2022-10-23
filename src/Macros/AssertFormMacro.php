@@ -10,7 +10,7 @@ use Sinnbeck\DomAssertions\Utilities\DomParser;
 
 class AssertFormMacro
 {
-    public function __invoke()
+    public function __invoke(): \Closure
     {
         return function ($selector = 'form', $callback = null): TestResponse {
             /** @var TestResponse $this */

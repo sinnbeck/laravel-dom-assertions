@@ -31,4 +31,6 @@ trait CanGatherAttributes
             $this->attributes[$type][] = $attributes + $extra;
         }
     }
+
+    abstract protected function getParser();
 }

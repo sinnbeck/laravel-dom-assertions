@@ -9,7 +9,7 @@ use Sinnbeck\DomAssertions\Utilities\Matchers\Values;
 
 class CompareAttributes
 {
-    public static function compare($attribute, $value, $actual)
+    public static function compare($attribute, $value, $actual): bool
     {
         if (! $value) {
             return NoValues::compare($value, $actual);

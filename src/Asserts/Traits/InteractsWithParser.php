@@ -11,12 +11,12 @@ trait InteractsWithParser
         return $this->parser;
     }
 
-    protected function getContent()
+    protected function getContent(): string
     {
         return $this->getParser()->getContent();
     }
 
-    protected function getAttribute(string $attribute)
+    protected function getAttribute(string $attribute): string
     {
         if ($this->getParser()->getType() === 'option' && $attribute === 'text') {
             return $this->getParser()->getText();
@@ -25,7 +25,7 @@ trait InteractsWithParser
         return $this->getParser()->getAttributeForRoot($attribute);
     }
 
-    protected function hasAttribute(string $attribute)
+    protected function hasAttribute(string $attribute): string|bool
     {
         return $this->getParser()->hasAttributeForRoot($attribute);
     }

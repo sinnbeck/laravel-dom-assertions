@@ -6,7 +6,7 @@ use Sinnbeck\DomAssertions\Utilities\Normalize;
 
 class Classes implements Matcher
 {
-    public static function compare($expected, $actual)
+    public static function compare($expected, $actual): bool
     {
         return ! array_diff(Normalize::class($expected), Normalize::class($actual));
     }
