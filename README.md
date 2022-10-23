@@ -15,6 +15,50 @@ You can install the package via composer:
 composer require sinnbeck/laravel-dom-assertions --dev
 ```
 
+## Example
+
+Imagine we have a view with this html
+```html
+<nav>
+    <ul>
+        @foreach ($menuItems as $menuItem)
+            <li @class([
+                "p-3 text-white",
+                "text-blue-500 active" => Route::is($menuItem->route)
+            ])>
+            <a href="{{route($menuItem->route)}}">{{$menuItem->name}}</a>
+        </li>
+        @endforeach
+    </ul>
+</nav>
+```
+Now we want to make sure that the correct menu item is selected when on this route. 
+We could try with some regex to match it, but it might be easily break.
+```php
+$response = $this->get(route('about'))
+    ->assertOk();
+$this->assertMatchesRegularExpression(
+    '/<li(.)*class="(.)*active(.)*">(.|\n)*About(.|\n)*?<\/li>/',
+    $response->getContent()
+);
+```
+But this can be very brittle, and a simple linebreak can cause it to fail.
+
+With this package you can now use an expressive syntax like this.
+```php
+$this->get(route('about'))
+    ->assertOk()
+    ->assertElement('nav > ul', function(\Sinnbeck\DomAssertions\Asserts\ElementAssert $ul) {
+        $ul->contains('li', [
+            'class' => 'active',
+            'text' => 'About'
+        ]);
+        $ul->doesntContain('li', [
+            'class' => 'active',
+            'text' => 'Home'
+        ]);
+    });
+```
 ## Usage
 
 ### Testing the DOM

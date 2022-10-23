@@ -26,5 +26,25 @@ class TestCase extends \Orchestra\Testbench\TestCase
         Route::view('empty', 'empty');
         Route::view('empty-body', 'empty-body');
         Route::view('broken', 'broken');
+        Route::get('about', function () {
+            $menuItems = [
+                [
+                    'route' => 'home',
+                    'name' => 'Home',
+                ],
+                [
+                    'route' => 'about',
+                    'name' => 'About',
+                ],
+                [
+                    'route' => 'links',
+                    'name' => 'Links',
+                ],
+            ];
+
+            return view('nav-example', ['menuItems' => $menuItems]);
+        })->name('about');
+        Route::view('home', 'broken')->name('home');
+        Route::view('links', 'broken')->name('links');
     }
 }

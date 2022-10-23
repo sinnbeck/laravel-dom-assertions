@@ -236,3 +236,18 @@ it('can fail finding an contained element with query', function () {
     AssertionFailedError::class,
     'Found a matching element of type "div'
 );
+
+it('can run the example from the readme', function () {
+    $this->get(route('about'))
+        ->assertOk()
+        ->assertElement('nav > ul', function (ElementAssert $ul) {
+            $ul->contains('li', [
+                'class' => 'active',
+                'text' => 'About',
+            ]);
+            $ul->doesntContain('li', [
+                'class' => 'active',
+                'text' => 'Home',
+            ]);
+        });
+});
