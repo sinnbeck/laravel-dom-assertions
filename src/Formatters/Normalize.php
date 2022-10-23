@@ -35,11 +35,12 @@ class Normalize
         return $value;
     }
 
-    protected static function className(string $class): string
+    protected static function className(string $class): array
     {
         return Str::of($class)
             ->explode(' ')
             ->sort()
-            ->implode(' ');
+            ->values()
+            ->toArray();
     }
 }

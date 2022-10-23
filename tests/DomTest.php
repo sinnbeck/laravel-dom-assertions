@@ -87,7 +87,7 @@ it('can find a nested element with content', function () {
         });
 });
 
-it('can find assert a class works no matter the order', function () {
+it('can match a class no matter the order', function () {
     $this->get('nesting')
         ->assertElement(function (ElementAssert $element) {
             $element->contains('span', [
@@ -95,6 +95,18 @@ it('can find assert a class works no matter the order', function () {
             ]);
             $element->find('span', function (ElementAssert $span) {
                 $span->has('class', 'foo bar');
+            });
+        });
+});
+
+it('can match a partial class', function () {
+    $this->get('nesting')
+        ->assertElement(function (ElementAssert $element) {
+            $element->contains('span', [
+                'class' => 'foo bar',
+            ]);
+            $element->find('span', function (ElementAssert $span) {
+                $span->has('class', 'bar');
             });
         });
 });
