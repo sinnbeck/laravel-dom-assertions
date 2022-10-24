@@ -67,7 +67,8 @@ class HtmlFormatter
 
     private function removeBody(string $html)
     {
-        $html = str_replace(["<body>\n", "\n</body>"], ['', ''], $html);
+        $linebreak = PHP_OS_FAMILY === 'Windows' ? "\n\r" : "\n";
+        $html = str_replace(["<body>{$linebreak}", "{$linebreak}</body>"], ['', ''], $html);
         $html = preg_replace('/^[ ]{2}/m', '', $html);
 
         return $html;
