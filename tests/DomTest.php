@@ -94,8 +94,6 @@ it('can match text content', function () {
         });
 });
 
-
-
 it('can match a class no matter the order', function () {
     $this->get('nesting')
         ->assertElement(function (ElementAssert $element) {
