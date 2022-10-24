@@ -273,7 +273,7 @@ it('can match on livewire contains as attribute', function () {
         ->assertOk()
         ->assertElement(function (ElementAssert $element) {
             $element->contains('input', [
-                'wire:model' => 'foo'
+                'wire:model' => 'foo',
             ]);
         });
 });
