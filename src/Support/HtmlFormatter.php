@@ -35,6 +35,7 @@ class HtmlFormatter
 
         if (PHP_OS_FAMILY === 'Windows') {
             $html = $this->normalizeNewlines($html, "\r\n");
+            $html = str_replace('&#13;', '', $html);
         }
 
         $html = $this->closeElementWithoutClosingElement($html);
@@ -67,7 +68,7 @@ class HtmlFormatter
 
     private function removeBody(string $html)
     {
-        $linebreak = PHP_OS_FAMILY === 'Windows' ? "\r\n" : "\n";
+        $linebreak = PHP_EOL;
         $html = str_replace(["<body>{$linebreak}", "{$linebreak}</body>"], ['', ''], $html);
         $html = preg_replace('/^[ ]{2}/m', '', $html);
 
