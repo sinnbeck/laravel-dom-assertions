@@ -103,10 +103,16 @@ final class DomParser
 
     public function queryAll(string $selector): DOMNodeList
     {
-        $converter = new CssSelectorConverter();
-        $parser = $this->cloneFromRoot();
+        return (new DOMXPath($this->cloneFromRoot()->getRoot()->ownerDocument))
+            ->query($this->cssSelectorToXpath($selector));
+    }
 
-        return (new DOMXPath($parser->getRoot()->ownerDocument))->query($converter->toXpath($selector));
+    protected function cssSelectorToXpath($selector)
+    {
+        $converter = new CssSelectorConverter();
+        $xpath = $converter->toXpath($selector);
+
+        return str_replace('\\', '', $xpath);
     }
 
     public function getText()

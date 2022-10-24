@@ -94,8 +94,6 @@ it('can match text content', function () {
         });
 });
 
-
-
 it('can match a class no matter the order', function () {
     $this->get('nesting')
         ->assertElement(function (ElementAssert $element) {
@@ -245,6 +243,40 @@ it('can fail finding an contained element with query', function () {
     AssertionFailedError::class,
     'Found a matching element of type "div'
 );
+
+it('can match on livewire attributes', function () {
+    $this->get('livewire')
+        ->assertOk()
+        ->assertElement('[wire\:model="foo"]', function (ElementAssert $element) {
+            $element->is('input');
+        });
+});
+
+it('can match has on livewire attributes', function () {
+    $this->get('livewire')
+        ->assertOk()
+        ->assertElement('input', function (ElementAssert $element) {
+            $element->has('wire:model', 'foo');
+        });
+});
+
+it('can match on livewire with contains', function () {
+    $this->get('livewire')
+        ->assertOk()
+        ->assertElement(function (ElementAssert $element) {
+            $element->contains('input[wire\:model="foo"]');
+        });
+});
+
+it('can match on livewire contains as attribute', function () {
+    $this->get('livewire')
+        ->assertOk()
+        ->assertElement(function (ElementAssert $element) {
+            $element->contains('input', [
+                'wire:model' => 'foo'
+            ]);
+        });
+});
 
 it('can run the example from the readme', function () {
     $this->get(route('about'))

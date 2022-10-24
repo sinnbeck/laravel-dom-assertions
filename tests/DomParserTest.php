@@ -76,3 +76,35 @@ HTML;
 
     $this->assertEquals($parser->query('.foo')->nodeName, 'li');
 });
+
+it('can query by nth of type', function () {
+    $html = <<<'HTML'
+<div>
+    <ul>
+        <li class="foo"></li>
+        <li class="foo"></li>
+        <li class="bar"></li>
+    </ul>
+</div>
+HTML;
+
+    $parser = DomParser::new($html);
+    $ul = $parser->getElementOfType('ul');
+    $parser->setRoot($ul);
+
+    $this->assertEquals($parser->query('li:nth-of-type(3)')->getAttribute('class'), 'bar');
+});
+
+it('can query an attribute with namespace', function () {
+    $html = <<<'HTML'
+<div>
+    <input foo:bar="foo">
+</div>
+HTML;
+
+    $parser = DomParser::new($html);
+    $div = $parser->getElementOfType('div');
+    $parser->setRoot($div);
+
+    $this->assertEquals($parser->query('input[foo\:bar]')->nodeName, 'input');
+});

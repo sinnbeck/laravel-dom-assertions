@@ -26,6 +26,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
         Route::view('empty', 'empty');
         Route::view('empty-body', 'empty-body');
         Route::view('broken', 'broken');
+        Route::view('livewire', 'livewire');
         Route::get('about', function () {
             $menuItems = [
                 [
