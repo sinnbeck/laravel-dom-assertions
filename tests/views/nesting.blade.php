@@ -10,7 +10,7 @@
     <body>
         <nav id="nav"></nav>
         <div>
-            <span class="bar foo"></span>
+            <span class="bar foo">Foo</span>
             <div class="foobar">
                 <div x-data="foobar">
                     <div class="deep">

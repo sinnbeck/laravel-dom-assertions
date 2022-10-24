@@ -23,7 +23,7 @@ trait InteractsWithParser
 
     protected function getAttribute(string $attribute): string
     {
-        if ($this->getParser()->getType() === 'option' && $attribute === 'text') {
+        if ($attribute === 'text') {
             return $this->getParser()->getText();
         }
 

@@ -24,9 +24,9 @@ trait UsesElementAsserts
             CompareAttributes::compare(
                 $attribute,
                 $value,
-                $this->getAttribute($attribute)
+                $found = $this->getAttribute($attribute)
             ),
-            sprintf('Could not find an attribute "%s" with value "%s"', $attribute, $value)
+            sprintf('Could not find an attribute "%s" with value "%s". "%s" found', $attribute, $value, trim($found))
         );
 
         return $this;

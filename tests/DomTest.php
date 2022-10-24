@@ -87,6 +87,15 @@ it('can find a nested element with content', function () {
         });
 });
 
+it('can match text content', function () {
+    $this->get('nesting')
+        ->assertElement('span.bar', function (ElementAssert $element) {
+            $element->has('text', 'Foo');
+        });
+});
+
+
+
 it('can match a class no matter the order', function () {
     $this->get('nesting')
         ->assertElement(function (ElementAssert $element) {
