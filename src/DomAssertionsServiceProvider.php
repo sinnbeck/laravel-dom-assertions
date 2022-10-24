@@ -7,6 +7,9 @@ use Illuminate\Testing\TestResponse;
 use Sinnbeck\DomAssertions\Macros\AssertElementMacro;
 use Sinnbeck\DomAssertions\Macros\AssertFormMacro;
 
+/**
+ * @internal
+ */
 class DomAssertionsServiceProvider extends ServiceProvider
 {
     public function register()

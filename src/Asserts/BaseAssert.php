@@ -11,6 +11,9 @@ use Sinnbeck\DomAssertions\Asserts\Traits\InteractsWithParser;
 use Sinnbeck\DomAssertions\Asserts\Traits\UsesElementAsserts;
 use Sinnbeck\DomAssertions\Support\DomParser;
 
+/**
+ * @internal
+ */
 abstract class BaseAssert
 {
     use UsesElementAsserts;

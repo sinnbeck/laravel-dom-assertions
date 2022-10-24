@@ -10,6 +10,9 @@ use PHPUnit\Framework\Assert;
 use Sinnbeck\DomAssertions\Asserts\ElementAssert;
 use Sinnbeck\DomAssertions\Support\DomParser;
 
+/**
+ * @internal
+ */
 class AssertElementMacro
 {
     public function __invoke(): \Closure
