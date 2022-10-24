@@ -35,6 +35,7 @@ class HtmlFormatter
 
         if (PHP_OS_FAMILY === 'Windows') {
             $html = $this->normalizeNewlines($html, "\r\n");
+            $html = str_replace('&#13;', '', $html);
         }
 
         $html = $this->closeElementWithoutClosingElement($html);
