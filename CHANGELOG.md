@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-dom-assertion` will be documented in this file.
 
+## v0.3.4 - 2022-10-24
+
+- Fix has() assertion bug
+- Add phpstan
+- Clean up folder structure
+
 ## v0.3.3 - 2022-10-23
 
 - Huge refactor to make it easier to work on
