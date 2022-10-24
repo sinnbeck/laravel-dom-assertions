@@ -1,8 +1,8 @@
 <?php
 
-namespace Sinnbeck\DomAssertions\Utilities\Matchers;
+namespace Sinnbeck\DomAssertions\Support\Matchers;
 
-use Sinnbeck\DomAssertions\Utilities\Normalize;
+use Sinnbeck\DomAssertions\Support\Normalize;
 
 class Classes implements Matcher
 {

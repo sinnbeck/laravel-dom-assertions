@@ -9,7 +9,7 @@ use Sinnbeck\DomAssertions\Asserts\Traits\CanGatherAttributes;
 use Sinnbeck\DomAssertions\Asserts\Traits\Debugging;
 use Sinnbeck\DomAssertions\Asserts\Traits\InteractsWithParser;
 use Sinnbeck\DomAssertions\Asserts\Traits\UsesElementAsserts;
-use Sinnbeck\DomAssertions\Utilities\DomParser;
+use Sinnbeck\DomAssertions\Support\DomParser;
 
 abstract class BaseAssert
 {

@@ -5,7 +5,7 @@ namespace Sinnbeck\DomAssertions\Asserts\Traits;
 use Illuminate\Testing\Assert as PHPUnit;
 use PHPUnit\Framework\Assert;
 use Sinnbeck\DomAssertions\Asserts\ElementAssert;
-use Sinnbeck\DomAssertions\Utilities\CompareAttributes;
+use Sinnbeck\DomAssertions\Support\CompareAttributes;
 
 trait UsesElementAsserts
 {

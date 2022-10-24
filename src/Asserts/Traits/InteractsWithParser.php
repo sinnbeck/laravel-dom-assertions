@@ -2,12 +2,12 @@
 
 namespace Sinnbeck\DomAssertions\Asserts\Traits;
 
-use Sinnbeck\DomAssertions\Utilities\DomParser;
+use Sinnbeck\DomAssertions\Support\DomParser;
 
 trait InteractsWithParser
 {
     /**
-     * @var \Sinnbeck\DomAssertions\Utilities\DomParser
+     * @var \Sinnbeck\DomAssertions\Support\DomParser
      */
     protected DomParser $parser;
 

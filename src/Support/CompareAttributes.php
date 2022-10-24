@@ -1,11 +1,11 @@
 <?php
 
-namespace Sinnbeck\DomAssertions\Utilities;
+namespace Sinnbeck\DomAssertions\Support;
 
-use Sinnbeck\DomAssertions\Utilities\Matchers\Classes;
-use Sinnbeck\DomAssertions\Utilities\Matchers\NoValues;
-use Sinnbeck\DomAssertions\Utilities\Matchers\Text;
-use Sinnbeck\DomAssertions\Utilities\Matchers\Values;
+use Sinnbeck\DomAssertions\Support\Matchers\Classes;
+use Sinnbeck\DomAssertions\Support\Matchers\NoValues;
+use Sinnbeck\DomAssertions\Support\Matchers\Text;
+use Sinnbeck\DomAssertions\Support\Matchers\Values;
 
 class CompareAttributes
 {

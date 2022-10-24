@@ -1,6 +1,6 @@
 <?php
 
-namespace Sinnbeck\DomAssertions\Utilities\Matchers;
+namespace Sinnbeck\DomAssertions\Support\Matchers;
 
 interface Matcher
 {

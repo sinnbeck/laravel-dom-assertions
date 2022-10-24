@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sinnbeck\DomAssertions\Utilities;
+namespace Sinnbeck\DomAssertions\Support;
 
 use DOMDocument;
 use DOMElement;

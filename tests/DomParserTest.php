@@ -1,6 +1,6 @@
 <?php
 
-use Sinnbeck\DomAssertions\Utilities\DomParser;
+use Sinnbeck\DomAssertions\Support\DomParser;
 
 it('can find a form', function () {
     $html = <<<'HTML'

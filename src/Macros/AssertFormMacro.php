@@ -8,7 +8,7 @@ use DOMException;
 use Illuminate\Testing\TestResponse;
 use PHPUnit\Framework\Assert;
 use Sinnbeck\DomAssertions\Asserts\FormAssert;
-use Sinnbeck\DomAssertions\Utilities\DomParser;
+use Sinnbeck\DomAssertions\Support\DomParser;
 
 class AssertFormMacro
 {

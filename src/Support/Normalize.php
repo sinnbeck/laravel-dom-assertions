@@ -1,6 +1,6 @@
 <?php
 
-namespace Sinnbeck\DomAssertions\Utilities;
+namespace Sinnbeck\DomAssertions\Support;
 
 use Illuminate\Support\Str;
 
