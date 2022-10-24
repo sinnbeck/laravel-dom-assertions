@@ -6,14 +6,14 @@ trait Debugging
 {
     public function dump(): self
     {
-        dump($this->getParser()->getContent());
+        dump($this->getParser()->getContentFormatted());
 
         return $this;
     }
 
     public function dd(): void
     {
-        dd($this->getParser()->getContent());
+        dd($this->getParser()->getContentFormatted());
     }
 
     abstract protected function getParser();

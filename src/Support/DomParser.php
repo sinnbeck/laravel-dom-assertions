@@ -80,6 +80,11 @@ final class DomParser
         return $this->getRoot()->C14N();
     }
 
+    public function getContentFormatted(): string
+    {
+        return (new HtmlFormatter())->format($this->getContent());
+    }
+
     public function getAttributeFor($for, string $attribute): string|bool
     {
         $for = is_string($for) ? $this->getElementOfType($for) : $for;

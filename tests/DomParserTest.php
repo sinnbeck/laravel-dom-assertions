@@ -12,7 +12,7 @@ HTML;
 
     $form = $parser->query('form:nth-child(2)');
     $this->assertNotNull($form);
-    $this->assertEquals($form->getAttribute('id'), 'form2');
+    $this->assertEquals('form2', $form->getAttribute('id'));
 });
 
 it('can find a select inside a form', function () {
@@ -55,7 +55,7 @@ HTML;
 
     $parser = DomParser::new($html);
 
-    $this->assertEquals($parser->getElementOfType('input')->nodeName, 'input');
+    $this->assertEquals('input', $parser->getElementOfType('input')->nodeName);
 });
 
 it('can query a scope', function () {
@@ -74,7 +74,7 @@ HTML;
     $ul = $parser->getElementOfType('ul');
     $parser->setRoot($ul);
 
-    $this->assertEquals($parser->query('.foo')->nodeName, 'li');
+    $this->assertEquals('li', $parser->query('.foo')->nodeName);
 });
 
 it('can query by nth of type', function () {
@@ -92,7 +92,7 @@ HTML;
     $ul = $parser->getElementOfType('ul');
     $parser->setRoot($ul);
 
-    $this->assertEquals($parser->query('li:nth-of-type(3)')->getAttribute('class'), 'bar');
+    $this->assertEquals('bar', $parser->query('li:nth-of-type(3)')->getAttribute('class'));
 });
 
 it('can query an attribute with namespace', function () {
@@ -106,5 +106,57 @@ HTML;
     $div = $parser->getElementOfType('div');
     $parser->setRoot($div);
 
-    $this->assertEquals($parser->query('input[foo\:bar]')->nodeName, 'input');
+    $this->assertEquals('input', $parser->query('input[foo\:bar]')->nodeName);
+});
+
+it('can get content', function () {
+    $html = <<<'HTML'
+<div>
+    <ul>
+        <li class="foo"></li>
+        <li class="foo"></li>
+        <li class="bar"></li>
+    </ul>
+</div>
+HTML;
+
+    $expected = <<<'HTML'
+<div>
+    <ul><li class="foo"></li>
+        <li class="foo"></li>
+        <li class="bar"></li>
+    </ul></div>
+HTML;
+
+    $parser = DomParser::new($html);
+    $div = $parser->getElementOfType('div');
+    $parser->setRoot($div);
+
+    $this->assertEquals($expected, $parser->getContent());
+});
+
+it('can get content formatted', function () {
+    $expected = <<<'HTML'
+<div>
+    <ul>
+        <li class="foo"></li>
+        <li class="foo"></li>
+        <li class="bar"></li>
+    </ul>
+</div>
+HTML;
+
+    $html = <<<'HTML'
+<div>
+    <ul><li class="foo"></li>
+        <li class="foo"></li>
+        <li class="bar"></li>
+    </ul></div>
+HTML;
+
+    $parser = DomParser::new($html);
+    $div = $parser->getElementOfType('div');
+    $parser->setRoot($div);
+
+    $this->assertEquals($expected, $parser->getContentFormatted());
 });
