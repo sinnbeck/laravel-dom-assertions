@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-dom-assertion` will be documented in this file.
 
+## v0.3.5 - 2022-10-24
+
+- Add support for : in attributes (eg. `wire:click="doStuff"`)
+
 ## v0.3.4 - 2022-10-24
 
 - Fix has() assertion bug
