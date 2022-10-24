@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sinnbeck\DomAssertions\Asserts;
 
 use PHPUnit\Framework\Assert;
@@ -8,7 +10,9 @@ class SelectAssert extends BaseAssert
 {
     public function containsOption(mixed $attributes): self
     {
-        return $this->contains('option', $attributes);
+        $this->contains('option', $attributes);
+
+        return $this;
     }
 
     public function containsOptions(...$attributes): self
@@ -29,7 +33,7 @@ class SelectAssert extends BaseAssert
 
         Assert::assertEquals(
             $value,
-            $option->getAttribute('value')
+            $this->getAttributeFor($option, 'value')
         );
 
         return $this;

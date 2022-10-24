@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sinnbeck\DomAssertions\Asserts;
 
 use Illuminate\Support\Str;

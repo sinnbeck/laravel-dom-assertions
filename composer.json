@@ -42,14 +42,19 @@
         "symfony/css-selector": "^6.0"
     },
     "require-dev": {
-        "pestphp/pest": "^1.0",
-        "orchestra/testbench": "^7.10",
         "laravel/pint": "^1.2",
+        "nunomaduro/larastan": "^2.2",
+        "orchestra/testbench": "^7.10",
+        "pestphp/pest": "^1.0",
+        "phpstan/extension-installer": "^1.2",
+        "phpstan/phpstan-deprecation-rules": "^1.0",
+        "phpstan/phpstan-phpunit": "^1.1",
         "vimeo/psalm": "^4.29"
     },
     "config": {
         "allow-plugins": {
-            "pestphp/pest-plugin": true
+            "pestphp/pest-plugin": true,
+            "phpstan/extension-installer": true
         },
         "sort-packages": true
     },

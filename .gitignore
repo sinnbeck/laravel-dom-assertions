@@ -4,3 +4,5 @@
 composer.lock
 psalm.xml
 vendor
+cache
+build

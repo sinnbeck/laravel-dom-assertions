@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sinnbeck\DomAssertions\Utilities;
 
 use DOMDocument;
@@ -10,9 +12,9 @@ use DOMNodeList;
 use DOMXPath;
 use Symfony\Component\CssSelector\CssSelectorConverter;
 
-class DomParser
+final class DomParser
 {
-    protected DOMNode|DOMElement $root;
+    protected DOMElement $root;
 
     public function __construct($html = '')
     {
@@ -21,9 +23,9 @@ class DomParser
         }
     }
 
-    public static function new($html = ''): static
+    public static function new($html = ''): self
     {
-        return new static($html);
+        return new DomParser($html);
     }
 
     public function setContent($html): void
@@ -33,9 +35,11 @@ class DomParser
         $html = '<?xml encoding="UTF-8">'.trim($html);
         $dom->loadHTML($html, LIBXML_NOERROR | LIBXML_COMPACT | LIBXML_HTML_NODEFDTD | LIBXML_NOBLANKS | LIBXML_NOXMLDECL);
         $root = $dom->getElementsByTagName('body')->item(0);
+
         if (is_null($root)) {
             throw new DOMException('No body element found!');
         }
+
         $this->setRoot($root);
     }
 
@@ -44,31 +48,31 @@ class DomParser
         return $this->getRoot()->getElementsByTagName($type)->item($index);
     }
 
-    public function getRoot(): DOMElement|DOMNode
+    public function getRoot(): DOMElement
     {
         return $this->root;
     }
 
-    public function setRoot(DOMNode|DOMElement $root): self
+    public function setRoot(DOMElement $root): self
     {
         $this->root = $root;
 
         return $this;
     }
 
-    public function cloneFromRoot()
+    public function cloneFromRoot(): self
     {
         return new self($this->getContent());
     }
 
-    public function getAttributeForRoot(string $attribute)
+    public function getAttributeForRoot(string $attribute): string|bool
     {
-        return $this->root->getAttribute($attribute);
+        return $this->getRoot()->getAttribute($attribute);
     }
 
-    public function hasAttributeForRoot(string $attribute)
+    public function hasAttributeForRoot(string $attribute): string|bool
     {
-        return $this->root->hasAttribute($attribute);
+        return $this->getRoot()->hasAttribute($attribute);
     }
 
     public function getContent(): string
@@ -76,10 +80,12 @@ class DomParser
         return $this->getRoot()->C14N();
     }
 
-    public function getAttributeFor($for, string $attribute)
+    public function getAttributeFor($for, string $attribute): string|bool
     {
-        if (is_string($for)) {
-            return $this->getElementOfType($for)->getAttribute($attribute);
+        $for = is_string($for) ? $this->getElementOfType($for) : $for;
+
+        if (! $for instanceof DOMElement) {
+            return false;
         }
 
         return $for->getAttribute($attribute);
@@ -87,7 +93,7 @@ class DomParser
 
     public function getType()
     {
-        return $this->root->nodeName;
+        return $this->getRoot()->nodeName;
     }
 
     public function query($selector): DOMNode|null

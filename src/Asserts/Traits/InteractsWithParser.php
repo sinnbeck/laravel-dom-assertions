@@ -6,6 +6,11 @@ use Sinnbeck\DomAssertions\Utilities\DomParser;
 
 trait InteractsWithParser
 {
+    /**
+     * @var \Sinnbeck\DomAssertions\Utilities\DomParser
+     */
+    protected DomParser $parser;
+
     protected function getParser(): DomParser
     {
         return $this->parser;

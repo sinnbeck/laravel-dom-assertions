@@ -21,9 +21,10 @@ abstract class BaseAssert
         __call as protected callMacro;
     }
 
+    protected array $attributes = [];
+
     public function __construct($html, $element = null)
     {
-        $this->html = $html;
         $this->parser = DomParser::new($html);
 
         if (! is_null($element)) {
@@ -34,7 +35,7 @@ abstract class BaseAssert
     public function __call($method, $arguments)
     {
         if (static::hasMacro($method)) {
-            return $this->macroCall($method, $arguments);
+            return $this->callMacro($method, $arguments);
         }
         if (Str::startsWith($method, 'has')) {
             $property = Str::of($method)->after('has')->snake()->slug();
