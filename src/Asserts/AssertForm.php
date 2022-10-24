@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 use Illuminate\Testing\Assert as PHPUnit;
 use PHPUnit\Framework\Assert;
 
-class FormAssert extends BaseAssert
+class AssertForm extends BaseAssert
 {
     public function hasAction(string $action): self
     {
@@ -81,7 +81,7 @@ class FormAssert extends BaseAssert
             Assert::fail(sprintf('No select found for selector: %s', $selector));
         }
 
-        $callback(new SelectAssert($this->getContent(), $select));
+        $callback(new AssertSelect($this->getContent(), $select));
 
         return $this;
     }

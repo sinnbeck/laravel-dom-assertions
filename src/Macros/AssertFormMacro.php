@@ -7,7 +7,7 @@ namespace Sinnbeck\DomAssertions\Macros;
 use DOMException;
 use Illuminate\Testing\TestResponse;
 use PHPUnit\Framework\Assert;
-use Sinnbeck\DomAssertions\Asserts\FormAssert;
+use Sinnbeck\DomAssertions\Asserts\AssertForm;
 use Sinnbeck\DomAssertions\Support\DomParser;
 
 class AssertFormMacro
@@ -48,7 +48,7 @@ class AssertFormMacro
                 'Element is not of type form!');
 
             if ($callback) {
-                $callback(new FormAssert($this->getContent(), $form));
+                $callback(new AssertForm($this->getContent(), $form));
             }
 
             return $this;

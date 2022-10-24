@@ -7,7 +7,7 @@ namespace Sinnbeck\DomAssertions\Macros;
 use DOMException;
 use Illuminate\Testing\TestResponse;
 use PHPUnit\Framework\Assert;
-use Sinnbeck\DomAssertions\Asserts\ElementAssert;
+use Sinnbeck\DomAssertions\Asserts\AssertElement;
 use Sinnbeck\DomAssertions\Support\DomParser;
 
 class AssertElementMacro
@@ -41,7 +41,7 @@ class AssertElementMacro
             Assert::assertNotNull($element, sprintf('No element found with selector: %s', $selector));
 
             if ($callback) {
-                $callback(new ElementAssert($this->getContent(), $element));
+                $callback(new AssertElement($this->getContent(), $element));
             }
 
             return $this;

@@ -6,7 +6,7 @@ namespace Sinnbeck\DomAssertions\Asserts;
 
 use PHPUnit\Framework\Assert;
 
-class SelectAssert extends BaseAssert
+class AssertSelect extends BaseAssert
 {
     public function containsOption(mixed $attributes): self
     {

@@ -4,7 +4,7 @@ namespace Sinnbeck\DomAssertions\Asserts\Traits;
 
 use Illuminate\Testing\Assert as PHPUnit;
 use PHPUnit\Framework\Assert;
-use Sinnbeck\DomAssertions\Asserts\ElementAssert;
+use Sinnbeck\DomAssertions\Asserts\AssertElement;
 use Sinnbeck\DomAssertions\Support\CompareAttributes;
 
 trait UsesElementAsserts
@@ -40,7 +40,7 @@ trait UsesElementAsserts
         );
 
         if (! is_null($callback)) {
-            $elementAssert = new ElementAssert($this->getContent(), $element);
+            $elementAssert = new AssertElement($this->getContent(), $element);
             $callback($elementAssert);
         }
 
