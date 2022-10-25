@@ -12,6 +12,9 @@ use DOMNodeList;
 use DOMXPath;
 use Symfony\Component\CssSelector\CssSelectorConverter;
 
+/**
+ * @internal
+ */
 final class DomParser
 {
     protected DOMElement $root;

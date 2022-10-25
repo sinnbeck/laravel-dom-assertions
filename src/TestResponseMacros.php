@@ -13,6 +13,7 @@ use Sinnbeck\DomAssertions\Asserts\FormAssert;
 use Sinnbeck\DomAssertions\Support\DomParser;
 
 /**
+ * @internal
  * @mixin TestResponse
  */
 class TestResponseMacros

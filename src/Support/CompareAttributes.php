@@ -7,6 +7,9 @@ use Sinnbeck\DomAssertions\Support\Matchers\NoValues;
 use Sinnbeck\DomAssertions\Support\Matchers\Text;
 use Sinnbeck\DomAssertions\Support\Matchers\Values;
 
+/**
+ * @internal
+ */
 class CompareAttributes
 {
     public static function compare($attribute, $value, $actual): bool

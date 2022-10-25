@@ -4,6 +4,9 @@ namespace Sinnbeck\DomAssertions\Support;
 
 use Illuminate\Support\Str;
 
+/**
+ * @internal
+ */
 class Normalize
 {
     public static function class(string $class): array

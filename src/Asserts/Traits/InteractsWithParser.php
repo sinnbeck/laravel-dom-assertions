@@ -4,6 +4,9 @@ namespace Sinnbeck\DomAssertions\Asserts\Traits;
 
 use Sinnbeck\DomAssertions\Support\DomParser;
 
+/**
+ * @internal
+ */
 trait InteractsWithParser
 {
     /**

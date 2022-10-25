@@ -2,7 +2,7 @@
 
 namespace Sinnbeck\DomAssertions\Asserts;
 
-use Carbon\Exceptions\UnknownMethodException;
+use BadMethodCallException;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
 use Sinnbeck\DomAssertions\Asserts\Traits\CanGatherAttributes;
@@ -11,6 +11,9 @@ use Sinnbeck\DomAssertions\Asserts\Traits\InteractsWithParser;
 use Sinnbeck\DomAssertions\Asserts\Traits\UsesElementAsserts;
 use Sinnbeck\DomAssertions\Support\DomParser;
 
+/**
+ * @internal
+ */
 abstract class BaseAssert
 {
     use UsesElementAsserts;
@@ -67,6 +70,6 @@ abstract class BaseAssert
             return $this->doesntContain($elementName, ...$arguments);
         }
 
-        throw new UnknownMethodException($method);
+        throw new BadMethodCallException(sprintf('Call to undefined method %s::%s()', static::class, $method));
     }
 }

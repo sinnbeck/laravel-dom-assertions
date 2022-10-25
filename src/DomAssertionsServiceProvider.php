@@ -5,6 +5,9 @@ namespace Sinnbeck\DomAssertions;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Testing\TestResponse;
 
+/**
+ * @internal
+ */
 class DomAssertionsServiceProvider extends ServiceProvider
 {
     public function boot()

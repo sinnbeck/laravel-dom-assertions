@@ -2,6 +2,9 @@
 
 namespace Sinnbeck\DomAssertions\Asserts\Traits;
 
+/**
+ * @internal
+ */
 trait CanGatherAttributes
 {
     public function gatherAttributes($type): void
