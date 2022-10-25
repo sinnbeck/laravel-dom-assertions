@@ -10,6 +10,9 @@ use PHPUnit\Framework\Assert;
 use Sinnbeck\DomAssertions\Asserts\FormAssert;
 use Sinnbeck\DomAssertions\Support\DomParser;
 
+/**
+ * @internal
+ */
 class AssertFormMacro
 {
     public function __invoke(): \Closure

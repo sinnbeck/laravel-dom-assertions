@@ -8,6 +8,9 @@ use Illuminate\Support\Str;
 use Illuminate\Testing\Assert as PHPUnit;
 use PHPUnit\Framework\Assert;
 
+/**
+ * @internal
+ */
 class FormAssert extends BaseAssert
 {
     public function hasAction(string $action): self

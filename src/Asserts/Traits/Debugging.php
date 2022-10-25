@@ -2,6 +2,9 @@
 
 namespace Sinnbeck\DomAssertions\Asserts\Traits;
 
+/**
+ * @internal
+ */
 trait Debugging
 {
     public function dump(): self
