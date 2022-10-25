@@ -2,6 +2,9 @@
 
 namespace Sinnbeck\DomAssertions\Support;
 
+/**
+ * @internal
+ */
 class HtmlFormatter
 {
     public function format($html)

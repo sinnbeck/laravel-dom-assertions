@@ -7,6 +7,9 @@ use PHPUnit\Framework\Assert;
 use Sinnbeck\DomAssertions\Asserts\AssertElement;
 use Sinnbeck\DomAssertions\Support\CompareAttributes;
 
+/**
+ * @internal
+ */
 trait UsesElementAsserts
 {
     public function has(string $attribute, mixed $value = null): self
