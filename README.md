@@ -48,7 +48,7 @@ With this package you can now use an expressive syntax like this.
 ```php
 $this->get(route('about'))
     ->assertOk()
-    ->assertElement('nav > ul', function(\Sinnbeck\DomAssertions\Asserts\ElementAssert $ul) {
+    ->assertElement('nav > ul', function(\Sinnbeck\DomAssertions\Asserts\AssertElement $ul) {
         $ul->contains('li', [
             'class' => 'active',
             'text' => 'About'
@@ -73,39 +73,39 @@ In case you want to get a specific element on the page, you can supply a css sel
 $this->get('/some-route')
     ->assertElement('#nav');
 ```
-The second argument of `->assertElement()` is a closure that receives an instance of `\Sinnbeck\DomAssertions\Asserts\ElementAssert`. This allows you to assert things about the element itself. Here we are asserting that the element is a `div`.
+The second argument of `->assertElement()` is a closure that receives an instance of `\Sinnbeck\DomAssertions\Asserts\AssertElement`. This allows you to assert things about the element itself. Here we are asserting that the element is a `div`.
 
 ```php
 $this->get('/some-route')
-    ->assertElement('#overview', function (ElementAssert $assert) {
+    ->assertElement('#overview', function (AssertElement $assert) {
         $assert->is('div');
     });
 ```
 Just like with forms you can assert that certain attributes are present
 ```php
 $this->get('/some-route')
-    ->assertElement('#overview', function (ElementAssert $assert) {
+    ->assertElement('#overview', function (AssertElement $assert) {
         $assert->has('x-data', '{foo: 1}');
     });
 ```
 You can also ensure that certain children exist.
 ```php
 $this->get('/some-route')
-    ->assertElement('#overview', function (ElementAssert $assert) {
+    ->assertElement('#overview', function (AssertElement $assert) {
         $assert->contains('div');
     });
 ```
 If you need to be more specific you can use a css selector.
 ```php
 $this->get('/some-route')
-    ->assertElement('#overview', function (ElementAssert $assert) {
+    ->assertElement('#overview', function (AssertElement $assert) {
         $assert->contains('div:nth-of-type(3)');
     });
 ```
 You can also check that the child element has certain attributes.
 ```php
 $this->get('/some-route')
-    ->assertElement('#overview', function (ElementAssert $assert) {
+    ->assertElement('#overview', function (AssertElement $assert) {
         $assert->contains('li.list-item', [
             'x-data' => 'foobar'
         ]);
@@ -114,7 +114,7 @@ $this->get('/some-route')
 or ensure that certain children does not exist
 ```php
 $this->get('/some-route')
-    ->assertElement('#overview', function (ElementAssert $assert) {
+    ->assertElement('#overview', function (AssertElement $assert) {
         $assert->doesntContain('li.list-item', [
             'x-data' => 'foobar'
         ]);
@@ -123,7 +123,7 @@ $this->get('/some-route')
 Contains also allow a third argument to specify how many times the element should be matched.
 ```php
 $this->get('/some-route')
-    ->assertElement('#overview', function (ElementAssert $assert) {
+    ->assertElement('#overview', function (AssertElement $assert) {
         $assert->contains('li.list-item', [
             'x-data' => 'foobar'
         ], 3);
@@ -132,22 +132,22 @@ $this->get('/some-route')
 If you just want to check for the element type you can leave out the second argument.
 ```php
 $this->get('/some-route')
-    ->assertElement('#overview', function (ElementAssert $assert) {
+    ->assertElement('#overview', function (AssertElement $assert) {
         $assert->contains('li.list-item', 3);
     });
 ```
 You can also find a certain element and do assertions on it. Be aware that it will only check the first matching element.
 ```php
 $this->get('/some-route')
-    ->assertElement('#overview', function (ElementAssert $assert) {
+    ->assertElement('#overview', function (AssertElement $assert) {
         $assert->find('li.list-item');
     });
 ```
-You can add a closure as the second argument which receives an instance of `\Sinnbeck\DomAssertions\Asserts\ElementAssert`.
+You can add a closure as the second argument which receives an instance of `\Sinnbeck\DomAssertions\Asserts\AssertElement`.
 ```php
 $this->get('/some-route')
-    ->assertElement('#overview', function (ElementAssert $assert) {
-        $assert->find('li.nth-of-type(3)', function (ElementAssert $element) {
+    ->assertElement('#overview', function (AssertElement $assert) {
+        $assert->find('li.nth-of-type(3)', function (AssertElement $element) {
             $this->is('li');
         })
     });
@@ -156,18 +156,18 @@ $this->get('/some-route')
 This means that you can infinitely assert down the dom structure.
 ```php
 $this->get('/some-route')
-    ->assertElement(function (ElementAssert $element) {
-        $element->find('div', function (ElementAssert $element) {
+    ->assertElement(function (AssertElement $element) {
+        $element->find('div', function (AssertElement $element) {
             $element->is('div');
-            $element->contains('p', function (ElementAssert $element) {
+            $element->contains('p', function (AssertElement $element) {
                 $element->is('p');
-                $element->contains('#label', function (ElementAssert $element) {
+                $element->contains('#label', function (AssertElement $element) {
                     $element->is('span');
                 });
             });
-            $element->contains('p:nth-of-type(2)', function (ElementAssert $element) {
+            $element->contains('p:nth-of-type(2)', function (AssertElement $element) {
                 $element->is('p');
-                $element->contains('.sub-header', function (ElementAssert $element) {
+                $element->contains('.sub-header', function (AssertElement $element) {
                     $element->is('h4');
                 });
             });
@@ -192,10 +192,10 @@ If there is more than one hit, it will return the first matching form.
 $this->get('/some-route')
     ->assertForm(null, 'nav .logout-form');
 ```
-The second argument of `->assertForm()` is a closure that receives an instance of `\Sinnbeck\DomAssertions\Asserts\FormAssert`. This allows you to assert things about the form itself. Here we are asserting that it has a certain action and method
+The second argument of `->assertForm()` is a closure that receives an instance of `\Sinnbeck\DomAssertions\Asserts\AssertForm`. This allows you to assert things about the form itself. Here we are asserting that it has a certain action and method
 ```php
 $this->get('/some-route')
-    ->assertForm('#form1', function (FormAssert $form) {
+    ->assertForm('#form1', function (AssertForm $form) {
         $form->hasAction('/logout')
             ->hasMethod('post');
     });
@@ -203,7 +203,7 @@ $this->get('/some-route')
 If you leave out the css selector, it will automatically default to finding the first form on the page
 ```php
 $this->get('/some-route')
-    ->assertForm(function (FormAssert $form) {
+    ->assertForm(function (AssertForm $form) {
         $form->hasAction('/logout')
             ->hasMethod('post');
     });
@@ -212,7 +212,7 @@ $this->get('/some-route')
 You can also check for csrf and method spoofing
 ```php
 $this->get('/some-route')
-    ->assertForm(function (FormAssert $form) {
+    ->assertForm(function (AssertForm $form) {
         $form->hasAction('/update-user')
             ->hasMethod('post')
             ->hasCSRF()
@@ -222,14 +222,14 @@ $this->get('/some-route')
 Checking for methods other than GET and POST will automatically forward the call to `->hasSpoofMethod()`
 ```php
 $this->get('/some-route')
-    ->assertForm(function (FormAssert $form) {
+    ->assertForm(function (AssertForm $form) {
         $form->hasMethod('PUT');
     });
 ```
 Or even arbitrary attributes
 ```php
 $this->get('/some-route')
-    ->assertForm(function (FormAssert $form) {
+    ->assertForm(function (AssertForm $form) {
         $form->has('x-data', 'foo')
         $form->hasEnctype('multipart/form-data'); //it also works with magic methods
     });
@@ -238,7 +238,7 @@ $this->get('/some-route')
 You can also easily test for inputs or text areas 
 ```php
 $this->get('/some-route')
-    ->assertForm(function (FormAssert $form) {
+    ->assertForm(function (AssertForm $form) {
         $form->containsInput([
             'name' => 'first_name',
             'value' => 'Gunnar',
@@ -252,7 +252,7 @@ $this->get('/some-route')
 Or arbitrary children
 ```php
 $this->get('/some-route')
-    ->assertForm(function (FormAssert $form) {
+    ->assertForm(function (AssertForm $form) {
         $form->contains('label', [
             'for' => 'username',
         ])
@@ -264,7 +264,7 @@ $this->get('/some-route')
 You can also ensure that certain children does not exist.
 ```php
 $this->get('/some-route')
-    ->assertForm(function (FormAssert $form) {
+    ->assertForm(function (AssertForm $form) {
         $form->doesntContain('label', [
             'for' => 'username',
         ]);
@@ -273,7 +273,7 @@ $this->get('/some-route')
 Testing for selects is also easy and works a bit like the `assertForm()`. It takes a selector as the first argument, and closure as the second argument. The second argument returns an instance of `\Sinnbeck\DomAssertions\Asserts\SelectAssert`. This can be used to assert that the select has certain attributes.
 ```php
 $this->get('/some-route')
-    ->assertForm(function (FormAssert $form) {
+    ->assertForm(function (AssertForm $form) {
         $form->findSelect('select:nth-of-type(2)', function (SelectAssert $selectAssert) {
             $selectAssert->has('name', 'country')
         });
@@ -282,7 +282,7 @@ $this->get('/some-route')
 You can also assert that it has certain options. You can either check for one specific or an array of options
 ```php
 $this->get('/some-route')
-    ->assertForm(function (FormAssert $form) {
+    ->assertForm(function (AssertForm $form) {
         $form->findSelect(function (SelectAssert $selectAssert) {
             $selectAssert->containsOption([
                 [
@@ -307,7 +307,7 @@ $this->get('/some-route')
 You can check if a select has a value.
 ```php
 $this->get('/some-route')
-        ->assertForm('#form1', function (FormAssert $form) {
+        ->assertForm('#form1', function (AssertForm $form) {
             $form->findSelect('select', function (SelectAssert $selectAssert) {
                 $selectAssert->hasValue('da');
             });
@@ -318,7 +318,7 @@ $this->get('/some-route')
 You can also check selects with multiple values
 ```php
 $this->get('/some-route')
-        ->assertForm('#form1', function (FormAssert $form) {
+        ->assertForm('#form1', function (AssertForm $form) {
             $form->findSelect('select', function (SelectAssert $selectAssert) {
                 $selectAssert->hasValues(['da', 'en']);
             });
@@ -335,7 +335,7 @@ $this->get('/some-route')
 | `->containsDiv, ['class' => 'foo'], 3)`        | Magic method. Same as `->contains('div', ['class' => 'foo'], 3)`                    |
 | `->doesntContain($selector, $attributes)`      | Ensures that there are no matching children                                         |
 | `->doesntContainDiv, ['class' => 'foo'])`      | Magic method. Same as `->doesntContain('div', ['class' => 'foo'])`                  |
-| `->find($selector, $callback)`                 | Find a specific child element and get a new ElementAssert. Returns the first match. |
+| `->find($selector, $callback)`                 | Find a specific child element and get a new AssertElement. Returns the first match. |
 | `->findDiv(fn (AssertElement $element) => {})` | Magic method. Same as `->find('div', fn (AssertElement $element) => {})`            |
 
 | Form specific methods                   | Description                            |
