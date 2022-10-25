@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-dom-assertion` will be documented in this file.
 
+## v1.0.2 - 2022-10-25
+
+- Remove `@internal` from externally accessible classes
+
 ## v1.0.0 - 2022-10-25
 
 First stable release
