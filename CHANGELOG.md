@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-dom-assertion` will be documented in this file.
 
+## v1.0.0 - 2022-10-25
+
+First stable release
+
 ## v0.3.5 - 2022-10-24
 
 - Add support for : in attributes (eg. `wire:click="doStuff"`)
