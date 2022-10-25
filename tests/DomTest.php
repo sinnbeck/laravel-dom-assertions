@@ -5,7 +5,7 @@ use Sinnbeck\DomAssertions\Asserts\AssertElement;
 
 it('can handle an empty view', function () {
     $this->get('empty')
-        ->assertElement();
+        ->assertElementExists();
 })->throws(
     AssertionFailedError::class,
     'The view is empty!'
@@ -13,7 +13,7 @@ it('can handle an empty view', function () {
 
 it('can handle an empty body', function () {
     $this->get('empty-body')
-        ->assertElement();
+        ->assertElementExists();
 })->throws(
     AssertionFailedError::class,
     'No body element found!'
@@ -21,29 +21,29 @@ it('can handle an empty body', function () {
 
 it('can parse broken html', function () {
     $this->get('broken')
-        ->assertElement();
+        ->assertElementExists();
 });
 
 it('can find the an element', function () {
     $this->get('nesting')
-        ->assertElement();
+        ->assertElementExists();
 });
 
 it('can find the body', function () {
     $this->get('nesting')
-        ->assertElement(function (AssertElement $assert) {
+        ->assertElementExists(function (AssertElement $assert) {
             $assert->is('body');
         });
 });
 
 it('can find an element by selector', function () {
     $this->get('nesting')
-        ->assertElement('#nav');
+        ->assertElementExists('#nav');
 });
 
 it('can fail finding anything', function () {
     $this->get('nesting')
-        ->assertElement('div > nav');
+        ->assertElementExists('div > nav');
 })->throws(
     AssertionFailedError::class,
     'No element found with selector: div > nav'
@@ -51,14 +51,14 @@ it('can fail finding anything', function () {
 
 it('can check the element has the correct type', function () {
     $this->get('nesting')
-        ->assertElement('#nav', function (AssertElement $element) {
+        ->assertElementExists('#nav', function (AssertElement $element) {
             $element->is('nav');
         });
 });
 
 it('can fail matching element type', function () {
     $this->get('nesting')
-        ->assertElement('#nav', function (AssertElement $element) {
+        ->assertElementExists('#nav', function (AssertElement $element) {
             $element->is('div');
         });
 })->throws(
@@ -68,19 +68,19 @@ it('can fail matching element type', function () {
 
 it('can fail with wrong type of selector', function () {
     $this->get('form')
-        ->assertElement(['div']);
+        ->assertElementExists(['div']);
 })->throws(AssertionFailedError::class, 'Invalid selector!');
 
 it('can find a nested element', function () {
     $this->get('nesting')
-        ->assertElement(function (AssertElement $element) {
+        ->assertElementExists(function (AssertElement $element) {
             $element->containsDiv();
         });
 });
 
 it('can find a nested element with content', function () {
     $this->get('nesting')
-        ->assertElement(function (AssertElement $element) {
+        ->assertElementExists(function (AssertElement $element) {
             $element->contains('div', [
                 'class' => 'foobar',
             ]);
@@ -89,14 +89,14 @@ it('can find a nested element with content', function () {
 
 it('can match text content', function () {
     $this->get('nesting')
-        ->assertElement('span.bar', function (AssertElement $element) {
+        ->assertElementExists('span.bar', function (AssertElement $element) {
             $element->has('text', 'Foo');
         });
 });
 
 it('can match a class no matter the order', function () {
     $this->get('nesting')
-        ->assertElement(function (AssertElement $element) {
+        ->assertElementExists(function (AssertElement $element) {
             $element->contains('span', [
                 'class' => 'foo bar',
             ]);
@@ -108,7 +108,7 @@ it('can match a class no matter the order', function () {
 
 it('can match a partial class', function () {
     $this->get('nesting')
-        ->assertElement(function (AssertElement $element) {
+        ->assertElementExists(function (AssertElement $element) {
             $element->contains('span', [
                 'class' => 'foo bar',
             ]);
@@ -120,21 +120,21 @@ it('can match a partial class', function () {
 
 it('can find multiple identical items', function () {
     $this->get('nesting')
-        ->assertElement(function (AssertElement $element) {
+        ->assertElementExists(function (AssertElement $element) {
             $element->contains('div', [], 4);
         });
 });
 
 it('can find multiple identical items simplified', function () {
     $this->get('nesting')
-        ->assertElement(function (AssertElement $element) {
+        ->assertElementExists(function (AssertElement $element) {
             $element->contains('div', 4);
         });
 });
 
 it('can find multiple identical items with content', function () {
     $this->get('nesting')
-        ->assertElement(function (AssertElement $element) {
+        ->assertElementExists(function (AssertElement $element) {
             $element->contains('ul > li', [
                 'x-data' => 'foobar',
             ], 2);
@@ -143,7 +143,7 @@ it('can find multiple identical items with content', function () {
 
 it('can find multiple identical items with content ensuring no wrong matches', function () {
     $this->get('nesting')
-        ->assertElement(function (AssertElement $element) {
+        ->assertElementExists(function (AssertElement $element) {
             $element->contains('div', [
                 'x-data' => 'foobar',
             ], 1);
@@ -152,7 +152,7 @@ it('can find multiple identical items with content ensuring no wrong matches', f
 
 it('can fail finding a nested element with content', function () {
     $this->get('nesting')
-        ->assertElement(function (AssertElement $element) {
+        ->assertElementExists(function (AssertElement $element) {
             $element->contains('div', [
                 'class' => 'foo',
             ]);
@@ -161,7 +161,7 @@ it('can fail finding a nested element with content', function () {
 
 it('can find a nested element with content functional', function () {
     $this->get('nesting')
-        ->assertElement(function (AssertElement $element) {
+        ->assertElementExists(function (AssertElement $element) {
             $element->findDiv(function (AssertElement $element) {
                 $element->is('div');
             });
@@ -170,7 +170,7 @@ it('can find a nested element with content functional', function () {
 
 it('can find a nested element multiple levels', function () {
     $this->get('nesting')
-        ->assertElement(function (AssertElement $element) {
+        ->assertElementExists(function (AssertElement $element) {
             $element->findDiv(function (AssertElement $element) {
                 $element->is('div');
                 $element->find('div', function (AssertElement $element) {
@@ -185,7 +185,7 @@ it('can find a nested element multiple levels', function () {
 
 it('can find a nested element multiple levels by query', function () {
     $this->get('nesting')
-        ->assertElement(function (AssertElement $element) {
+        ->assertElementExists(function (AssertElement $element) {
             $element->findDiv(function (AssertElement $element) {
                 $element->is('div');
                 $element->find('.deep', function (AssertElement $element) {
@@ -200,7 +200,7 @@ it('can find a nested element multiple levels by query', function () {
 
 it('can find a nested element multiple levels by query and attributes', function () {
     $this->get('nesting')
-        ->assertElement(function (AssertElement $element) {
+        ->assertElementExists(function (AssertElement $element) {
             $element->findDiv(function (AssertElement $element) {
                 $element->is('div');
                 $element->contains('.deep', [
@@ -212,7 +212,7 @@ it('can find a nested element multiple levels by query and attributes', function
 
 it('can find a nested element and ensure doesnt contain', function () {
     $this->get('nesting')
-        ->assertElement(function (AssertElement $element) {
+        ->assertElementExists(function (AssertElement $element) {
             $element->findDiv(function (AssertElement $element) {
                 $element->is('div');
                 $element->doesntContain('nav');
@@ -222,7 +222,7 @@ it('can find a nested element and ensure doesnt contain', function () {
 
 it('can fail finding an contained element', function () {
     $this->get('nesting')
-        ->assertElement(function (AssertElement $element) {
+        ->assertElementExists(function (AssertElement $element) {
             $element->findDiv(function (AssertElement $element) {
                 $element->doesntContain('div');
             });
@@ -234,7 +234,7 @@ it('can fail finding an contained element', function () {
 
 it('can fail finding an contained element with query', function () {
     $this->get('nesting')
-        ->assertElement(function (AssertElement $element) {
+        ->assertElementExists(function (AssertElement $element) {
             $element->findDiv(function (AssertElement $element) {
                 $element->doesntContain('div.foobar');
             });
@@ -247,7 +247,7 @@ it('can fail finding an contained element with query', function () {
 it('can match on livewire attributes', function () {
     $this->get('livewire')
         ->assertOk()
-        ->assertElement('[wire\:model="foo"]', function (AssertElement $element) {
+        ->assertElementExists('[wire\:model="foo"]', function (AssertElement $element) {
             $element->is('input');
         });
 });
@@ -255,7 +255,7 @@ it('can match on livewire attributes', function () {
 it('can match has on livewire attributes', function () {
     $this->get('livewire')
         ->assertOk()
-        ->assertElement('input', function (AssertElement $element) {
+        ->assertElementExists('input', function (AssertElement $element) {
             $element->has('wire:model', 'foo');
         });
 });
@@ -263,7 +263,7 @@ it('can match has on livewire attributes', function () {
 it('can match on livewire with contains', function () {
     $this->get('livewire')
         ->assertOk()
-        ->assertElement(function (AssertElement $element) {
+        ->assertElementExists(function (AssertElement $element) {
             $element->contains('input[wire\:model="foo"]');
         });
 });
@@ -271,7 +271,7 @@ it('can match on livewire with contains', function () {
 it('can match on livewire contains as attribute', function () {
     $this->get('livewire')
         ->assertOk()
-        ->assertElement(function (AssertElement $element) {
+        ->assertElementExists(function (AssertElement $element) {
             $element->contains('input', [
                 'wire:model' => 'foo',
             ]);
@@ -281,7 +281,7 @@ it('can match on livewire contains as attribute', function () {
 it('can run the example from the readme', function () {
     $this->get(route('about'))
         ->assertOk()
-        ->assertElement('nav > ul', function (AssertElement $ul) {
+        ->assertElementExists('nav > ul', function (AssertElement $ul) {
             $ul->contains('li', [
                 'class' => 'active',
                 'text' => 'About',

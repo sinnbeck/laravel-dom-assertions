@@ -18,7 +18,7 @@ use Sinnbeck\DomAssertions\Support\DomParser;
  */
 class TestResponseMacros
 {
-    public function assertElement(): Closure
+    public function assertElementExists(): Closure
     {
         return function ($selector = 'body', $callback = null): TestResponse {
             /** @var TestResponse $this */
@@ -54,7 +54,7 @@ class TestResponseMacros
         };
     }
 
-    public function assertForm(): Closure
+    public function assertFormExists(): Closure
     {
         return function ($selector = 'form', $callback = null): TestResponse {
             /** @var TestResponse $this */
