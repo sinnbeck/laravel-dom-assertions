@@ -8,8 +8,8 @@ use Closure;
 use DOMException;
 use Illuminate\Testing\TestResponse;
 use PHPUnit\Framework\Assert;
-use Sinnbeck\DomAssertions\Asserts\ElementAssert;
-use Sinnbeck\DomAssertions\Asserts\FormAssert;
+use Sinnbeck\DomAssertions\Asserts\AssertElement;
+use Sinnbeck\DomAssertions\Asserts\AssertForm;
 use Sinnbeck\DomAssertions\Support\DomParser;
 
 /**
@@ -47,7 +47,7 @@ class TestResponseMacros
             Assert::assertNotNull($element, sprintf('No element found with selector: %s', $selector));
 
             if ($callback) {
-                $callback(new ElementAssert($this->getContent(), $element));
+                $callback(new AssertElement($this->getContent(), $element));
             }
 
             return $this;
@@ -90,7 +90,7 @@ class TestResponseMacros
                 'Element is not of type form!');
 
             if ($callback) {
-                $callback(new FormAssert($this->getContent(), $form));
+                $callback(new AssertForm($this->getContent(), $form));
             }
 
             return $this;

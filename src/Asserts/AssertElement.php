@@ -5,6 +5,6 @@ namespace Sinnbeck\DomAssertions\Asserts;
 /**
  * @internal
  */
-class ElementAssert extends BaseAssert
+class AssertElement extends BaseAssert
 {
 }
