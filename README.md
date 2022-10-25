@@ -325,7 +325,7 @@ $this->get('/some-route')
         });
 ```
 
-## Usage with Livewire
+### Usage with Livewire
 As livewire uses the `TestResponse` class from laravel, you can easily use this package with Livewire without any changes
 ```php
 Livewire::test(UserForm::class)
