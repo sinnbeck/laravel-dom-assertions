@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-dom-assertion` will be documented in this file.
 
+## 1.0.3 - 2022-10-26
+
+- Fixes bug where `$selector` is called as closure
+
 ## v1.0.2 - 2022-10-25
 
 - Remove `@internal` from externally accessible classes
