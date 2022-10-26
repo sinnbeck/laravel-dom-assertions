@@ -148,8 +148,8 @@ You can add a closure as the second argument which receives an instance of `\Sin
 $this->get('/some-route')
     ->assertElementExists('#overview', function (AssertElement $assert) {
         $assert->find('li.nth-of-type(3)', function (AssertElement $element) {
-            $this->is('li');
-        })
+            $element->is('li');
+        });
     });
 ```
 
@@ -329,9 +329,11 @@ $this->get('/some-route')
 As livewire uses the `TestResponse` class from laravel, you can easily use this package with Livewire without any changes
 ```php
 Livewire::test(UserForm::class)
-    ->assertElementExists('#submit', function (AssertElement $assert) {
-        $assert->is('button');
-        $assert->has('text', 'Submit');
+    ->assertElementExists('form', function (AssertElement $form) {
+        $form->find('#submit', function (AssertElement $assert) {
+            $assert->is('button');
+            $assert->has('text', 'Submit');
+        })->contains('[wire\:model="name"]', 1);
     });
 ```
 
