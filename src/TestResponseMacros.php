@@ -33,7 +33,7 @@ class TestResponseMacros
                 Assert::fail($exception->getMessage());
             }
 
-            if (is_callable($selector)) {
+            if ($selector instanceof Closure) {
                 $callback = $selector;
                 $selector = 'body';
             }
@@ -69,7 +69,7 @@ class TestResponseMacros
                 Assert::fail($exception->getMessage());
             }
 
-            if (is_callable($selector)) {
+            if ($selector instanceof Closure) {
                 $callback = $selector;
                 $selector = 'form';
             }

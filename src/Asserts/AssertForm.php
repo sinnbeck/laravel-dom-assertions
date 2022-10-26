@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sinnbeck\DomAssertions\Asserts;
 
+use Closure;
 use Illuminate\Support\Str;
 use Illuminate\Testing\Assert as PHPUnit;
 use PHPUnit\Framework\Assert;
@@ -72,7 +73,7 @@ class AssertForm extends BaseAssert
 
     public function findSelect($selector = 'select', $callback = null): static
     {
-        if (is_callable($selector)) {
+        if ($selector instanceof Closure) {
             $callback = $selector;
             $selector = 'select';
         }
