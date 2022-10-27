@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-dom-assertion` will be documented in this file.
 
+## v1.0.4 - 2022-10-27
+
+- remove internal tag from service provider as it caused issues in other packages
+
 ## 1.0.3 - 2022-10-26
 
 - Fixes bug where `$selector` is called as closure
