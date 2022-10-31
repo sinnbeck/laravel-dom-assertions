@@ -270,12 +270,12 @@ $this->get('/some-route')
         ]);
     });
 ```
-Testing for selects is also easy and works a bit like the `assertFormExists()`. It takes a selector as the first argument, and closure as the second argument. The second argument returns an instance of `\Sinnbeck\DomAssertions\Asserts\SelectAssert`. This can be used to assert that the select has certain attributes.
+Testing for selects is also easy and works a bit like the `assertFormExists()`. It takes a selector as the first argument, and closure as the second argument. The second argument returns an instance of `\Sinnbeck\DomAssertions\Asserts\AssertSelect`. This can be used to assert that the select has certain attributes.
 ```php
 $this->get('/some-route')
     ->assertFormExists(function (AssertForm $form) {
-        $form->findSelect('select:nth-of-type(2)', function (SelectAssert $selectAssert) {
-            $selectAssert->has('name', 'country')
+        $form->findSelect('select:nth-of-type(2)', function (AssertSelect $select) {
+            $select->has('name', 'country')
         });
     });
 ```
@@ -283,8 +283,8 @@ You can also assert that it has certain options. You can either check for one sp
 ```php
 $this->get('/some-route')
     ->assertFormExists(function (AssertForm $form) {
-        $form->findSelect(function (SelectAssert $selectAssert) {
-            $selectAssert->containsOption([
+        $form->findSelect(function (AssertSelect $select) {
+            $select->containsOption([
                 [
                     'x-data' => 'none',
                     'value'  => 'none',
@@ -308,8 +308,8 @@ You can check if a select has a value.
 ```php
 $this->get('/some-route')
         ->assertFormExists('#form1', function (AssertForm $form) {
-            $form->findSelect('select', function (SelectAssert $selectAssert) {
-                $selectAssert->hasValue('da');
+            $form->findSelect('select', function (AssertSelect $select) {
+                $select->hasValue('da');
             });
         });
 ```
@@ -319,8 +319,8 @@ You can also check selects with multiple values
 ```php
 $this->get('/some-route')
         ->assertFormExists('#form1', function (AssertForm $form) {
-            $form->findSelect('select', function (SelectAssert $selectAssert) {
-                $selectAssert->hasValues(['da', 'en']);
+            $form->findSelect('select', function (AssertSelect $select) {
+                $select->hasValues(['da', 'en']);
             });
         });
 ```
