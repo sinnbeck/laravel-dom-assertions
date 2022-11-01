@@ -275,7 +275,7 @@ Testing for selects is also easy and works a bit like the `assertFormExists()`. 
 $this->get('/some-route')
     ->assertFormExists(function (AssertForm $form) {
         $form->findSelect('select:nth-of-type(2)', function (AssertSelect $select) {
-            $select->has('name', 'country')
+            $select->has('name', 'country');
         });
     });
 ```
@@ -283,7 +283,7 @@ You can also assert that it has certain options. You can either check for one sp
 ```php
 $this->get('/some-route')
     ->assertFormExists(function (AssertForm $form) {
-        $form->findSelect(function (AssertSelect $select) {
+        $form->findSelect('select:nth-of-type(2)', function (AssertSelect $select) {
             $select->containsOption([
                 [
                     'x-data' => 'none',
@@ -301,7 +301,7 @@ $this->get('/some-route')
                     'text'  => 'USA',
                 ],
             );
-        }, 'select:nth-of-type(2)');
+        });
     });
 ```
 You can check if a select has a value.
