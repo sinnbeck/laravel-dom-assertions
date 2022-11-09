@@ -94,7 +94,7 @@ it('can match text content', function () {
         });
 });
 
-it('can match text content with vertical whitespace', function () {
+it('can match text content with duplicate spaces and vertical whitespace', function () {
     $this->get('nesting')
         ->assertElementExists('p.foo.bar', function (AssertElement $element) {
             $element->has('text', 'Foo Bar');
