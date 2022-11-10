@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-dom-assertion` will be documented in this file.
 
+## v1.1.1 - 2022-11-10
+
+- Add datalist assertions
+- Add html5 assertion
+
 ## v1.0.4 - 2022-10-27
 
 - remove internal tag from service provider as it caused issues in other packages
