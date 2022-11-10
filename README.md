@@ -324,6 +324,23 @@ $this->get('/some-route')
             });
         });
 ```
+Testing for datalists works mostly the same as selects. Only difference is that the selector needs to be either `datalist` or an id (eg. `#my-list`).
+The assertion uses the `\Sinnbeck\DomAssertions\Asserts\AssertDatalist` class.
+```php
+$this->get('/some-route')
+        ->assertFormExists('#form1', function (AssertForm $form) {
+            $form->findDatalist('#skills', function (AssertDatalist $list) {
+                $list ->containsOptions(
+                    [
+                        'value' => 'PHP',
+                    ],
+                    [
+                        'value' => 'Javascript',
+                    ],
+                );
+            });
+        });
+```
 
 ### Usage with Livewire
 As livewire uses the `TestResponse` class from laravel, you can easily use this package with Livewire without any changes
