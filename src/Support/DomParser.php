@@ -18,6 +18,7 @@ use Symfony\Component\CssSelector\CssSelectorConverter;
 final class DomParser
 {
     protected DOMElement $root;
+    protected DOMDocument $document;
 
     public function __construct($html = '')
     {
@@ -37,10 +38,11 @@ final class DomParser
 
         $html = '<?xml encoding="UTF-8">'.trim($html);
         $dom->loadHTML($html, LIBXML_NOERROR | LIBXML_COMPACT | LIBXML_HTML_NODEFDTD | LIBXML_NOBLANKS | LIBXML_NOXMLDECL);
-        $root = $dom->getElementsByTagName('body')->item(0);
+        $this->document = $dom;
+        $root = $dom->getElementsByTagName('html')->item(0);
 
         if (is_null($root)) {
-            throw new DOMException('No body element found!');
+            throw new DOMException('No DOM found!');
         }
 
         $this->setRoot($root);
@@ -49,6 +51,11 @@ final class DomParser
     public function getElementOfType(string $type, $index = 0): ?DOMNode
     {
         return $this->getRoot()->getElementsByTagName($type)->item($index);
+    }
+
+    public function getDocument()
+    {
+        return $this->document;
     }
 
     public function getRoot(): DOMElement
@@ -76,6 +83,20 @@ final class DomParser
     public function hasAttributeForRoot(string $attribute): string|bool
     {
         return $this->getRoot()->hasAttribute($attribute);
+    }
+
+    public function getDocType()
+    {
+        $documentType = $this->getDocument()->doctype;
+        if (! $documentType) {
+            return null;
+        }
+
+        return $documentType->publicId ? implode(' ',
+            [
+                $documentType->name,
+                $documentType->publicId,
+            ]) : $documentType->name;
     }
 
     public function getContent(): string

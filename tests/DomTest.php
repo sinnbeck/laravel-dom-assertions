@@ -16,7 +16,7 @@ it('can handle an empty body', function () {
         ->assertElementExists();
 })->throws(
     AssertionFailedError::class,
-    'No body element found!'
+    'No element found with selector: body'
 );
 
 it('can parse broken html', function () {
@@ -31,8 +31,46 @@ it('can find the an element', function () {
 
 it('can find the body', function () {
     $this->get('nesting')
-        ->assertElementExists(function (AssertElement $assert) {
+        ->assertElementExists('body', function (AssertElement $assert) {
             $assert->is('body');
+        });
+});
+
+it('can check for html5', function () {
+    $this->get('nesting')
+        ->assertHtml5();
+});
+
+it('can fail checking for html5', function () {
+    $this->get('livewire')
+        ->assertHtml5();
+})->throws(
+    AssertionFailedError::class,
+    'Not a html5 doctype!'
+);
+
+it('can find the head', function () {
+    $this->get('nesting')
+        ->assertElementExists('head', function (AssertElement $assert) {
+            $assert->is('head');
+        });
+});
+
+it('can find a meta tag', function () {
+    $this->get('nesting')
+        ->assertElementExists('head', function (AssertElement $assert) {
+            $assert->contains('meta',[
+                "charset" => "UTF-8",
+            ]);
+        });
+});
+
+it('can find a title', function () {
+    $this->get('nesting')
+        ->assertElementExists('head', function (AssertElement $assert) {
+            $assert->find('title', function (AssertElement $element) {
+                $element->has('text', 'Nesting');
+            });
         });
 });
 
