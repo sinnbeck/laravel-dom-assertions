@@ -63,7 +63,7 @@ $this->get(route('about'))
 
 ### Testing the DOM
 When calling a route in a test you might want to make sure that the view contains certain elements. To test this you can use the `->assertElementExists()` method on the test response.
-The following will ensure that there is a html tag in the parsed response. Be aware that this package assumes a proper html structure and will wrap your html in a html, head and body tag if they are missing!
+The following will ensure that there is a body tag in the parsed response. Be aware that this package assumes a proper html structure and will wrap your html in a html, head and body tag if they are missing!
 ```php
 $this->get('/some-route')
     ->assertElementExists();
