@@ -59,8 +59,8 @@ it('can find the head', function () {
 it('can find a meta tag', function () {
     $this->get('nesting')
         ->assertElementExists('head', function (AssertElement $assert) {
-            $assert->contains('meta',[
-                "charset" => "UTF-8",
+            $assert->contains('meta', [
+                'charset' => 'UTF-8',
             ]);
         });
 });

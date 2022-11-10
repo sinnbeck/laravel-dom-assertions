@@ -18,6 +18,7 @@ use Symfony\Component\CssSelector\CssSelectorConverter;
 final class DomParser
 {
     protected DOMElement $root;
+
     protected DOMDocument $document;
 
     public function __construct($html = '')
