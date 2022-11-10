@@ -1,6 +1,7 @@
 <?php
 
 use PHPUnit\Framework\AssertionFailedError;
+use Sinnbeck\DomAssertions\Asserts\AssertDatalist;
 use Sinnbeck\DomAssertions\Asserts\AssertElement;
 use Sinnbeck\DomAssertions\Asserts\AssertForm;
 use Sinnbeck\DomAssertions\Asserts\AssertSelect;
@@ -182,12 +183,6 @@ it('can parse a select with options', function () {
                     ])
                     ->containsOptions(
                         [
-                            'x-data' => 'none',
-                            'value' => 'none',
-                            'text' => 'None',
-                            'selected' => null,
-                        ],
-                        [
                             'value' => 'dk',
                             'text' => 'Denmark',
                         ],
@@ -269,3 +264,34 @@ it('can check arbitrary children', function () {
             ]);
         })->assertOk();
 });
+
+it('can parse a datalist with options', function () {
+    $this->get('form')
+        ->assertFormExists('#form2', function (AssertForm $form) {
+            $form->findDatalist('#skills', function (AssertDataList $datalist) {
+                $datalist->containsOption([
+                    'value' => 'PHP',
+                ])
+                    ->containsOptions(
+                        [
+                            'value' => 'PHP',
+                        ],
+                        [
+                            'value' => 'JavaScript',
+                        ],
+                    );
+            });
+        })->assertOk();
+});
+
+it('requires that the selector for datalist is an id', function () {
+    $this->get('form')
+        ->assertFormExists('#form2', function (AssertForm $form) {
+            $form->findDatalist('.my-datalist', function (AssertDataList $datalist) {
+                $datalist->containsOption([
+                    'value' => 'My first value',
+                ]);
+            });
+        });
+})->throws(AssertionFailedError::class,
+    'Selectors for datalists must be an id, given: .my-datalist');

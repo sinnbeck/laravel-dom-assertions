@@ -86,4 +86,24 @@ class AssertForm extends BaseAssert
 
         return $this;
     }
+
+    public function findDatalist($selector = 'datalist', $callback = null): static
+    {
+        if ($selector instanceof Closure) {
+            $callback = $selector;
+            $selector = 'datalist';
+        }
+
+        if ($selector !== 'datalist' && $selector[0] !== '#') {
+            Assert::fail(sprintf('Selectors for datalists must be an id, given: %s', $selector));
+        }
+
+        if (! $select = $this->getParser()->query($selector)) {
+            Assert::fail(sprintf('No datalist found for datalist: %s', $selector));
+        }
+
+        $callback(new AssertDatalist($this->getContent(), $select));
+
+        return $this;
+    }
 }

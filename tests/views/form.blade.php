@@ -32,6 +32,13 @@
             @endforeach
         </select>
 
+        <input list="skills" name="skill" value="PHP">
+        <datalist id="skills">
+            <option value="PHP"></option>
+            <option value="JavaScript"></option>
+            <option value="C++"></option>
+        </datalist>
+
         <button type="submit"></button>
     </form>
     <input type="text" name="outside">
