@@ -18,6 +18,31 @@ use Sinnbeck\DomAssertions\Support\DomParser;
  */
 class TestResponseMacros
 {
+    public function assertHtml5()
+    {
+        return function () {
+            /** @var TestResponse $this */
+            Assert::assertNotEmpty(
+                $this->getContent(),
+                'The view is empty!'
+            );
+
+            try {
+                $parser = DomParser::new($this->getContent());
+            } catch (DOMException $exception) {
+                Assert::fail($exception->getMessage());
+            }
+
+            Assert::assertEquals(
+                'html',
+                $parser->getDocType(),
+                'Not a html5 doctype!'
+            );
+
+            return $this;
+        };
+    }
+
     public function assertElementExists(): Closure
     {
         return function ($selector = 'body', $callback = null): TestResponse {
