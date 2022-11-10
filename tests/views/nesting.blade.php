@@ -22,6 +22,10 @@
                     <li x-data="foobar"></li>
                 </ul>
             </div>
+            <p class="foo bar">
+                Foo
+                <span>Bar</span>
+            </p>
         </div>
     </body>
 </html>

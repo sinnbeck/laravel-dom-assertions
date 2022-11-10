@@ -20,6 +20,6 @@ class Normalize
 
     public static function text(string $text)
     {
-        return trim($text);
+        return preg_replace(['/\v+/', '/\s+/'], ['', ' '], trim($text));
     }
 }
