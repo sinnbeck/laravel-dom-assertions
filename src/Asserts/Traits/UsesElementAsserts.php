@@ -50,11 +50,11 @@ trait UsesElementAsserts
         return $this;
     }
 
-    public function contains(string $elementName, $attributes = null, $count = 0): self
+    public function contains(string $selector, $attributes = null, $count = 0): self
     {
         Assert::assertNotNull(
-            $this->getParser()->query($elementName),
-            sprintf('Could not find any matching element of type "%s"', $elementName)
+            $this->getParser()->query($selector),
+            sprintf('Could not find any matching element of type "%s"', $selector)
         );
 
         if (is_numeric($attributes)) {
@@ -69,31 +69,31 @@ trait UsesElementAsserts
         if (! $attributes) {
             Assert::assertEquals(
                 $count,
-                $found = $this->getParser()->queryAll($elementName)->count(),
-                sprintf('Expected to find %s elements but found %s for %s', $count, $found, $elementName)
+                $found = $this->getParser()->queryAll($selector)->count(),
+                sprintf('Expected to find %s elements but found %s for %s', $count, $found, $selector)
             );
 
             return $this;
         }
 
-        $this->gatherAttributes($elementName);
+        $this->gatherAttributes($selector);
 
         if ($count) {
             Assert::assertEquals(
                 $count,
-                $found = collect($this->attributes[$elementName])
+                $found = collect($this->attributes[$selector])
                     ->filter(fn ($foundAttributes) => $this->compareAttributesArrays($attributes, $foundAttributes))
                     ->count(),
-                sprintf('Expected to find %s elements but found %s for %s', $count, $found, $elementName)
+                sprintf('Expected to find %s elements but found %s for %s', $count, $found, $selector)
             );
         }
 
-        $first = collect($this->attributes[$elementName])
+        $first = collect($this->attributes[$selector])
             ->search(fn ($attribute) => $this->compareAttributesArrays($attributes, $attribute));
 
         Assert::assertNotFalse(
             $first,
-            sprintf('Could not find a matching "%s" with data: %s', $elementName, json_encode($attributes, JSON_PRETTY_PRINT))
+            sprintf('Could not find a matching "%s" with data: %s', $selector, json_encode($attributes, JSON_PRETTY_PRINT))
         );
 
         return $this;
