@@ -74,6 +74,50 @@ it('can find a title', function () {
         });
 });
 
+it('can fail finding a class', function () {
+    $this->get('nesting')
+        ->assertElementExists('body', function (AssertElement $assert) {
+            $assert->find('#nav', function (AssertElement $element) {
+                $element->doesntHave('class');
+            });
+        });
+});
+
+
+it('can fail finding a href with exact match', function () {
+    $this->get('nesting')
+        ->assertElementExists('body', function (AssertElement $assert) {
+            $assert->find('#nav a', function (AssertElement $element) {
+                $element->has('href')
+                ->doesntHave('href', '/bar');
+            });
+        });
+});
+
+it('can fail when finding a id that isnt expected', function () {
+    $this->get('nesting')
+        ->assertElementExists('body', function (AssertElement $assert) {
+            $assert->find('#nav', function (AssertElement $element) {
+                $element->doesntHave('id');
+            });
+        });
+})->throws(
+    AssertionFailedError::class,
+    'Found an attribute "id"'
+);
+
+it('can fail when finding a href with matching value that isnt expected', function () {
+    $this->get('nesting')
+        ->assertElementExists('body', function (AssertElement $assert) {
+            $assert->find('#nav a', function (AssertElement $element) {
+                $element->doesntHave('href', '/foo');
+            });
+        });
+})->throws(
+    AssertionFailedError::class,
+    'Found an attribute "href" with value "/foo"'
+);
+
 it('can find an element by selector', function () {
     $this->get('nesting')
         ->assertElementExists('#nav');

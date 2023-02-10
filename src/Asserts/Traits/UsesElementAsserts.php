@@ -35,6 +35,30 @@ trait UsesElementAsserts
         return $this;
     }
 
+    public function doesntHave(string $attribute, mixed $value = null): self
+    {
+
+        if (! $value) {
+            PHPUnit::assertFalse(
+                $this->hasAttribute($attribute),
+                sprintf('Found an attribute "%s"', $attribute)
+            );
+
+            return $this;
+        }
+
+        PHPUnit::assertFalse(
+            CompareAttributes::compare(
+                $attribute,
+                $value,
+                $this->getAttribute($attribute)
+            ),
+            sprintf('Found an attribute "%s" with value "%s"', $attribute, $value)
+        );
+
+        return $this;
+    }
+
     public function find(string $selector, $callback = null): self
     {
         Assert::assertNotNull(

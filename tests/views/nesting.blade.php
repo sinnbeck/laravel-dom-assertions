@@ -8,7 +8,7 @@
         <title>Nesting</title>
     </head>
     <body>
-        <nav id="nav"></nav>
+        <nav id="nav"><a href="/foo">Foo</a></nav>
         <div>
             <span class="bar foo">Foo</span>
             <div class="foobar">
