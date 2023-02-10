@@ -371,8 +371,10 @@ Livewire::test(UserForm::class)
 | `->isDiv()`                                    | Magic method. Same as `->is('div')`                                                  |
 | `->contains($selector, $attributes, $count)`   | Checks for any children of the current element                                       |
 | `->containsDiv, ['class' => 'foo'], 3)`        | Magic method. Same as `->contains('div', ['class' => 'foo'], 3)`                     |
+| `->containsText($needle, $ignoreCase)`         | Checks if the element's text content contains a specified string                     |
 | `->doesntContain($selector, $attributes)`      | Ensures that there are no matching children                                          |
 | `->doesntContainDiv, ['class' => 'foo'])`      | Magic method. Same as `->doesntContain('div', ['class' => 'foo'])`                   |
+| `->doesntContainText($needle, $ignoreCase)`    | Checks if the element's text content doesn't contain a specified string              |
 | `->find($selector, $callback)`                 | Find a specific child element and get a new AssertElement. Returns the first match.  |
 | `->findDiv(fn (AssertElement $element) => {})` | Magic method. Same as `->find('div', fn (AssertElement $element) => {})`             |
 
