@@ -147,6 +147,42 @@ trait UsesElementAsserts
         return $this;
     }
 
+    public function containsText(string $needle, bool $ignoreCase = false): self
+    {
+        $text = $this->getAttribute('text');
+
+        $assertFunction = $ignoreCase ?
+            'assertStringContainsStringIgnoringCase' :
+            'assertStringContainsString';
+
+        call_user_func(
+            [PHPUnit::class, $assertFunction],
+            $needle,
+            $text,
+            sprintf('Could not find text content "%s" containing %s', $text, $needle)
+        );
+
+        return $this;
+    }
+
+    public function doesntContainText(string $needle, bool $ignoreCase = false): self
+    {
+        $text = $this->getAttribute('text');
+
+        $assertFunction = $ignoreCase ?
+            'assertStringNotContainsStringIgnoringCase' :
+            'assertStringNotContainsString';
+
+        call_user_func(
+            [PHPUnit::class, $assertFunction],
+            $needle,
+            $text,
+            sprintf('Found text content "%s" containing %s', $text, $needle)
+        );
+
+        return $this;
+    }
+
     public function is(string $type): self
     {
         PHPUnit::assertEquals(
