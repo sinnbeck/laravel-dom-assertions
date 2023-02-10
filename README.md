@@ -88,6 +88,13 @@ $this->get('/some-route')
         $assert->has('x-data', '{foo: 1}');
     });
 ```
+or doesnt exist
+```php
+$this->get('/some-route')
+    ->assertElementExists('#overview', function (AssertElement $assert) {
+        $assert->doesntHave('x-data', '{foo: 2}');
+    });
+```
 You can also ensure that certain children exist.
 ```php
 $this->get('/some-route')
@@ -355,18 +362,19 @@ Livewire::test(UserForm::class)
 ```
 
 ## Overview of methods
-| Base methods                                   | Description                                                                         |
-|------------------------------------------------|-------------------------------------------------------------------------------------|
-| `->has($attribute, $value)`                    | Checks if element has a certain attribute with a certain value                      |
-| `->hasXdata('foo')`                            | Magic method. Same as `->has('x-data', 'foo')`                                      |
-| `->is($type)`                                  | Checks if the element is of a specific type (div, span etc)                         |
-| `->isDiv()`                                    | Magic method. Same as `->is('div')`                                                 |
-| `->contains($selector, $attributes, $count)`   | Checks for any children of the current element                                      |
-| `->containsDiv, ['class' => 'foo'], 3)`        | Magic method. Same as `->contains('div', ['class' => 'foo'], 3)`                    |
-| `->doesntContain($selector, $attributes)`      | Ensures that there are no matching children                                         |
-| `->doesntContainDiv, ['class' => 'foo'])`      | Magic method. Same as `->doesntContain('div', ['class' => 'foo'])`                  |
-| `->find($selector, $callback)`                 | Find a specific child element and get a new AssertElement. Returns the first match. |
-| `->findDiv(fn (AssertElement $element) => {})` | Magic method. Same as `->find('div', fn (AssertElement $element) => {})`            |
+| Base methods                                   | Description                                                                          |
+|------------------------------------------------|--------------------------------------------------------------------------------------|
+| `->has($attribute, $value)`                    | Checks if element has a certain attribute with a certain value. Value is optional    |
+| `->hasXdata('foo')`                            | Magic method. Same as `->has('x-data', 'foo')`                                       |
+| `->doesntHave($attribute, $value)`             | Checks if element doesnt a certain attribute with a certain value. Value is optional |
+| `->is($type)`                                  | Checks if the element is of a specific type (div, span etc)                          |
+| `->isDiv()`                                    | Magic method. Same as `->is('div')`                                                  |
+| `->contains($selector, $attributes, $count)`   | Checks for any children of the current element                                       |
+| `->containsDiv, ['class' => 'foo'], 3)`        | Magic method. Same as `->contains('div', ['class' => 'foo'], 3)`                     |
+| `->doesntContain($selector, $attributes)`      | Ensures that there are no matching children                                          |
+| `->doesntContainDiv, ['class' => 'foo'])`      | Magic method. Same as `->doesntContain('div', ['class' => 'foo'])`                   |
+| `->find($selector, $callback)`                 | Find a specific child element and get a new AssertElement. Returns the first match.  |
+| `->findDiv(fn (AssertElement $element) => {})` | Magic method. Same as `->find('div', fn (AssertElement $element) => {})`             |
 
 | Form specific methods                   | Description                            |
 |-----------------------------------------|----------------------------------------|
