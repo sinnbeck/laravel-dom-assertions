@@ -14,6 +14,7 @@ use Sinnbeck\DomAssertions\Support\DomParser;
 
 /**
  * @internal
+ *
  * @mixin TestResponse
  */
 class TestResponseMacros

@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-dom-assertion` will be documented in this file.
 
+## v1.1.2 - 2023-02-10
+
+- Add `->doesntHave()` assertion
+
 ## v1.1.0 - 2022-11-10
 
 - Normalize multi-line text https://github.com/sinnbeck/laravel-dom-assertions/pull/9
