@@ -37,7 +37,6 @@ trait UsesElementAsserts
 
     public function doesntHave(string $attribute, mixed $value = null): self
     {
-
         if (! $value) {
             PHPUnit::assertFalse(
                 $this->hasAttribute($attribute),

@@ -83,7 +83,6 @@ it('can fail finding a class', function () {
         });
 });
 
-
 it('can fail finding a href with exact match', function () {
     $this->get('nesting')
         ->assertElementExists('body', function (AssertElement $assert) {
