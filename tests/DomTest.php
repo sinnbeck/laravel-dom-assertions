@@ -182,6 +182,27 @@ it('can match text content with duplicate spaces and vertical whitespace', funct
         });
 });
 
+it('can match text content containing a string', function () {
+    $this->get('nesting')
+        ->assertElementExists('p.foo.bar', function (AssertElement $element) {
+            $element->containsText('Bar');
+        });
+});
+
+it('can match text content containing a string ignoring case', function () {
+    $this->get('nesting')
+        ->assertElementExists('p.foo.bar', function (AssertElement $element) {
+            $element->containsText('bar', true);
+        });
+});
+
+it('can match text content not containing a string', function () {
+    $this->get('nesting')
+        ->assertElementExists('p.foo.bar', function (AssertElement $element) {
+            $element->doesntContainText('bar');
+        });
+});
+
 it('can match a class no matter the order', function () {
     $this->get('nesting')
         ->assertElementExists(function (AssertElement $element) {
