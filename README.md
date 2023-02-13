@@ -1,7 +1,7 @@
 # DOM Assertions for Laravel
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/sinnbeck/laravel-dom-assertions.svg?style=flat-square)](https://packagist.org/packages/sinnbeck/laravel-dom-assertions)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/sinnbeck/laravel-dom-assertions/run-tests.yml?branch=main&label=tests&style=flat-square)
+[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/sinnbeck/laravel-dom-assertions/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/sinnbeck/laravel-dom-assertions/actions?query=workflow%3Arun-tests+branch%3Amain)
 [![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/sinnbeck/laravel-dom-assertions/fix-php-cs.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/sinnbeck/laravel-dom-assertions/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/sinnbeck/laravel-dom-assertions.svg?style=flat-square)](https://packagist.org/packages/sinnbeck/laravel-dom-assertions)
 
