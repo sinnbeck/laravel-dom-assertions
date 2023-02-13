@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-dom-assertion` will be documented in this file.
 
+## v1.2.0 - 2023-02-13
+
+- Add `containsText()` assertion. (thanks to @balping )
+
 ## v1.1.2 - 2023-02-10
 
 - Add `->doesntHave()` assertion
