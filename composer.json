@@ -38,7 +38,7 @@
         "php": "^8.0",
         "ext-dom": "*",
         "ext-libxml": "*",
-        "illuminate/testing": "^9.0",
+        "illuminate/testing": "^9.0|^10.0",
         "symfony/css-selector": "^6.0"
     },
     "require-dev": {
