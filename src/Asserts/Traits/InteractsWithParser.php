@@ -9,9 +9,6 @@ use Sinnbeck\DomAssertions\Support\DomParser;
  */
 trait InteractsWithParser
 {
-    /**
-     * @var \Sinnbeck\DomAssertions\Support\DomParser
-     */
     protected DomParser $parser;
 
     protected function getParser(): DomParser

@@ -38,13 +38,13 @@
         "php": "^8.0",
         "ext-dom": "*",
         "ext-libxml": "*",
-        "illuminate/testing": "^9.0",
+        "illuminate/testing": "^9.0|^10.0",
         "symfony/css-selector": "^6.0"
     },
     "require-dev": {
         "laravel/pint": "^1.2",
         "nunomaduro/larastan": "^2.2",
-        "orchestra/testbench": "^7.10",
+        "orchestra/testbench": "^7.0|^8.0",
         "pestphp/pest": "^1.0",
         "phpstan/extension-installer": "^1.2",
         "phpstan/phpstan-deprecation-rules": "^1.0",
