@@ -44,7 +44,7 @@
     "require-dev": {
         "laravel/pint": "^1.2",
         "nunomaduro/larastan": "^2.2",
-        "orchestra/testbench": "^7.10",
+        "orchestra/testbench": "^7.0|^8.0",
         "pestphp/pest": "^1.0",
         "phpstan/extension-installer": "^1.2",
         "phpstan/phpstan-deprecation-rules": "^1.0",
