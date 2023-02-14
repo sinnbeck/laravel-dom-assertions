@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-dom-assertion` will be documented in this file.
 
+## v1.3.0 - 2023-02-14
+
+- Add laravel 10 support
+
 ## v1.2.0 - 2023-02-13
 
 - Add `containsText()` assertion. (thanks to @balping )
