@@ -207,6 +207,7 @@ it('can parse a select with optgroups', function () {
                     ->containsOptgroups(
                         [
                             'label' => 'Vegetables',
+                            'x-data' => 'none',
                         ],
                         [
                             'label' => 'Minerals',

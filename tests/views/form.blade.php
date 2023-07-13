@@ -37,7 +37,7 @@
                 <option value="dog">Dog</option>
                 <option value="cat">Cat</option>
             </optgroup>
-            <optgroup label="Vegetables">
+            <optgroup label="Vegetables" x-data="none">
                 <option value="carrot">Carrot</option>
                 <option value="onion">Onion</option>
             </optgroup>
