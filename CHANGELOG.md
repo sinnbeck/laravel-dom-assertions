@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-dom-assertion` will be documented in this file.
 
+## v1.3.1 - 2023-08-02
+
+- Add optgroup support (by @ziadoz)
+
 ## v1.3.0 - 2023-02-14
 
 - Add laravel 10 support
