@@ -126,7 +126,7 @@ final class DomParser
         return $this->getRoot()->nodeName;
     }
 
-    public function query($selector): DOMNode|null
+    public function query($selector): ?DOMNode
     {
         return $this->queryAll($selector)->item(0);
     }

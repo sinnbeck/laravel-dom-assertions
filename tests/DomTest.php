@@ -88,7 +88,7 @@ it('can fail finding a href with exact match', function () {
         ->assertElementExists('body', function (AssertElement $assert) {
             $assert->find('#nav a', function (AssertElement $element) {
                 $element->has('href')
-                ->doesntHave('href', '/bar');
+                    ->doesntHave('href', '/bar');
             });
         });
 });
