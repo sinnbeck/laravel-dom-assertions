@@ -32,6 +32,21 @@
             @endforeach
         </select>
 
+        <select name="things">
+            <optgroup label="Animals">
+                <option value="dog">Dog</option>
+                <option value="cat">Cat</option>
+            </optgroup>
+            <optgroup label="Vegetables" x-data="none">
+                <option value="carrot">Carrot</option>
+                <option value="onion">Onion</option>
+            </optgroup>
+            <optgroup label="Minerals">
+                <option value="calcium">Calcium</option>
+                <option value="zinc">Zinc</option>
+            </optgroup>
+        </select>
+
         <input list="skills" name="skill" value="PHP">
         <datalist id="skills">
             <option value="PHP"></option>

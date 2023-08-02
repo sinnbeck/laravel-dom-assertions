@@ -196,6 +196,53 @@ it('can parse a select with options', function () {
         })->assertOk();
 });
 
+it('can parse a select with optgroups', function () {
+    $this->get('form')
+        ->assertFormExists('#form2', function (AssertForm $form) {
+            $form->findSelect('select:nth-of-type(3)', function (AssertSelect $selectAssert) {
+                $selectAssert->has('name', 'things')
+                    ->containsOptgroup([
+                        'label' => 'Animals',
+                    ])
+                    ->containsOptgroups(
+                        [
+                            'label' => 'Vegetables',
+                            'x-data' => 'none',
+                        ],
+                        [
+                            'label' => 'Minerals',
+                        ]
+                    )
+                    ->containsOptions(
+                        [
+                            'value' => 'dog',
+                            'text' => 'Dog',
+                        ],
+                        [
+                            'value' => 'cat',
+                            'text' => 'Cat',
+                        ],
+                        [
+                            'value' => 'carrot',
+                            'text' => 'Carrot',
+                        ],
+                        [
+                            'value' => 'onion',
+                            'text' => 'Onion',
+                        ],
+                        [
+                            'value' => 'calcium',
+                            'text' => 'Calcium',
+                        ],
+                        [
+                            'value' => 'zinc',
+                            'text' => 'Zinc',
+                        ],
+                    );
+            });
+        })->assertOk();
+});
+
 it('can parse a select with options functional', function () {
     $this->get('form')
         ->assertFormExists('#form2', function (AssertForm $form) {

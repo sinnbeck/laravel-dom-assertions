@@ -24,6 +24,22 @@ class AssertSelect extends BaseAssert
         return $this;
     }
 
+    public function containsOptgroup(mixed $attributes): self
+    {
+        $this->contains('optgroup', $attributes);
+
+        return $this;
+    }
+
+    public function containsOptgroups(...$attributes): self
+    {
+        foreach ($attributes as $attribute) {
+            $this->containsOptgroup($attribute);
+        }
+
+        return $this;
+    }
+
     public function hasValue($value): self
     {
         Assert::assertNotNull(
