@@ -4,6 +4,7 @@ namespace Sinnbeck\DomAssertions;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Testing\TestResponse;
+use Illuminate\Testing\TestView;
 
 class DomAssertionsServiceProvider extends ServiceProvider
 {
@@ -11,6 +12,7 @@ class DomAssertionsServiceProvider extends ServiceProvider
     {
         if ($this->app->runningUnitTests()) {
             TestResponse::mixin(new TestResponseMacros());
+            TestView::mixin(new TestViewMacros());
         }
     }
 }
