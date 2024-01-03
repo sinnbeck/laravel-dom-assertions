@@ -337,7 +337,7 @@ The assertion uses the `\Sinnbeck\DomAssertions\Asserts\AssertDatalist` class.
 $this->get('/some-route')
         ->assertFormExists('#form1', function (AssertForm $form) {
             $form->findDatalist('#skills', function (AssertDatalist $list) {
-                $list ->containsOptions(
+                $list->containsOptions(
                     [
                         'value' => 'PHP',
                     ],
@@ -358,6 +358,17 @@ Livewire::test(UserForm::class)
             $assert->is('button');
             $assert->has('text', 'Submit');
         })->contains('[wire\:model="name"]', 1);
+    });
+```
+
+### Usage with Blade views
+You can also use this package to test blade views. 
+```php
+$this->view('navigation')
+    ->assertElementExists('nav > ul', function(AssertElement $ul) {
+        $ul->contains('li', [
+            'class' => 'active',
+        ]);
     });
 ```
 

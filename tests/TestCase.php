@@ -2,10 +2,13 @@
 
 namespace Tests;
 
+use Illuminate\Foundation\Testing\Concerns\InteractsWithViews;
 use Illuminate\Support\Facades\Route;
 
 class TestCase extends \Orchestra\Testbench\TestCase
 {
+    use InteractsWithViews;
+
     protected function getPackageProviders($app)
     {
         return [
