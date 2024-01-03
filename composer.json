@@ -39,7 +39,7 @@
         "ext-dom": "*",
         "ext-libxml": "*",
         "illuminate/testing": "^9.0|^10.0",
-        "symfony/css-selector": "^6.0"
+        "symfony/css-selector": "^6.0|^7.0"
     },
     "require-dev": {
         "laravel/pint": "^1.2",
