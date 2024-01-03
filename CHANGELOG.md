@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-dom-assertion` will be documented in this file.
 
+## v1.4.1 - 2024-01-03
+
+* Allow using symfony css selector v.7.0. Fixes https://github.com/sinnbeck/laravel-dom-assertions/issues/15
+
 ## v1.4.0 - 2024-01-03
 
 * Add possibility to test blade views by @helloiamlukas https://github.com/sinnbeck/laravel-dom-assertions/pull/14
