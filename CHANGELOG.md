@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-dom-assertion` will be documented in this file.
 
+## v1.4.0 - 2024-01-03
+
+* Add possibility to test blade views by @helloiamlukas https://github.com/sinnbeck/laravel-dom-assertions/pull/14
+
 ## v1.3.1 - 2023-08-02
 
 - Add optgroup support (by @ziadoz)
