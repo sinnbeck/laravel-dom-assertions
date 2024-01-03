@@ -16,13 +16,13 @@ use Sinnbeck\DomAssertions\Support\DomParser;
  */
 abstract class BaseAssert
 {
-    use UsesElementAsserts;
     use CanGatherAttributes;
-    use InteractsWithParser;
     use Debugging;
+    use InteractsWithParser;
     use Macroable {
         __call as protected callMacro;
     }
+    use UsesElementAsserts;
 
     protected array $attributes = [];
 
