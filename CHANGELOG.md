@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-dom-assertion` will be documented in this file.
 
+## v1.5.1 - 2024-06-07
+
+* Workaround for bug in php8.3.8 https://github.com/sinnbeck/laravel-dom-assertions/issues/19
+
 ## v1.5.0 - 2024-03-13
 
 * Bump dependencies for Laravel 11 by @laravel-shift
