@@ -11,7 +11,7 @@ trait InteractsWithParser
 {
     protected DomParser $parser;
 
-    protected function getParser(): DomParser
+    public function getParser(): DomParser
     {
         return $this->parser;
     }
