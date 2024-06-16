@@ -407,3 +407,29 @@ it('can assert an element does not exist', function () {
         ->assertElementDoesNotExist('p', ['class' => 'buzz'])
         ->assertSuccessful();
 });
+
+it('can assert a form element does not exist', function () {
+    $this->get('nesting')
+        ->assertFormDoesNotExist();
+});
+
+it('can assert a form element with a specific spoof method does not exist', function () {
+    $this->get('form')
+        ->assertFormDoesNotExist(method: 'DELETE');
+});
+
+it('accounts for spoof methods when asserting that there is no form with a true POST method', function () {
+    $this->get('form') // This view has a spoof PUT form
+    ->assertFormDoesNotExist(method: 'POST');
+});
+
+it('can assert a form with a given action does not exist', function () {
+    $this->get('form')
+        ->assertFormDoesNotExist(action: '/non-existing-action');
+});
+
+it('can assert a form with a given action and method does not exist', function () {
+    $this->get('form')
+        ->assertFormDoesNotExist(method: 'PUT', action: '/non-existing-action')
+        ->assertFormDoesNotExist(method: 'DELETE', action: '/form');
+});

@@ -26,5 +26,11 @@ namespace Illuminate\Testing {
             /** @var \Illuminate\Testing\TestResponse $instance */
             return $instance;
         }
+
+        public function assertFormDoesNotExist($selector = 'form', $method = null, $action = null)
+        {
+            /** @var \Illuminate\Testing\TestResponse $instance */
+            return $instance;
+        }
     }
 }
