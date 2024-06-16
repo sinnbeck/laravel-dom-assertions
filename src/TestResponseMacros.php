@@ -168,13 +168,13 @@ class TestResponseMacros
                 Assert::fail($exception->getMessage());
             }
 
-            if (!is_string($selector)) {
+            if (! is_string($selector)) {
                 Assert::fail('Invalid selector!');
             }
 
             $allForms = $parser->queryAll($selector);
 
-            if (!$method && !$action && $allForms->length > 0) {
+            if (! $method && ! $action && $allForms->length > 0) {
                 $failMessage = $selector === 'form'
                     ? 'A form exists in the response'
                     : sprintf('Found a matching form for the selector "%s"', $selector);
@@ -191,11 +191,11 @@ class TestResponseMacros
 
                     if ($sanitizedMethodExpected === 'POST') {
                         $isMatchForMethod = CompareAttributes::compare('method', $sanitizedMethodExpected, $sanitizedMethodActual);
-                        $hasHiddenInput = (bool)$parser->query('input[type=hidden][name=_method]');
-                        $isMatchForMethod = $isMatchForMethod && !$hasHiddenInput;
+                        $hasHiddenInput = (bool) $parser->query('input[type=hidden][name=_method]');
+                        $isMatchForMethod = $isMatchForMethod && ! $hasHiddenInput;
                     } else {
                         $isMatchForSpoofMethod = CompareAttributes::compare('method', 'POST', $sanitizedMethodActual);
-                        $isMatchForHiddenInput = (bool)$parser->query("input[type=hidden][name=_method][value={$sanitizedMethodExpected}]");
+                        $isMatchForHiddenInput = (bool) $parser->query("input[type=hidden][name=_method][value={$sanitizedMethodExpected}]");
                         $isMatchForMethod = $isMatchForSpoofMethod && $isMatchForHiddenInput;
                     }
                 }

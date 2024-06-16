@@ -87,12 +87,12 @@ class TestViewMacros
         return function ($selector, $attributes = []): TestView {
             /** @var TestView $this */
             Assert::assertNotEmpty(
-                (string)$this,
+                (string) $this,
                 'The view is empty!'
             );
 
             try {
-                $parser = DomParser::new((string)$this);
+                $parser = DomParser::new((string) $this);
             } catch (DOMException $exception) {
                 Assert::fail($exception->getMessage());
             }
@@ -103,7 +103,7 @@ class TestViewMacros
                 Assert::fail('Invalid selector!');
             }
 
-            (new AssertElement((string)$this, $element))
+            (new AssertElement((string) $this, $element))
                 ->doesntContain($selector, $attributes);
 
             return $this;
@@ -158,23 +158,23 @@ class TestViewMacros
         return function ($selector = 'form', $method = null, $action = null): TestView {
             /** @var TestView $this */
             Assert::assertNotEmpty(
-                (string)$this,
+                (string) $this,
                 'The view is empty!'
             );
 
             try {
-                $parser = DomParser::new((string)$this);
+                $parser = DomParser::new((string) $this);
             } catch (DOMException $exception) {
                 Assert::fail($exception->getMessage());
             }
 
-            if (!is_string($selector)) {
+            if (! is_string($selector)) {
                 Assert::fail('Invalid selector!');
             }
 
             $allForms = $parser->queryAll($selector);
 
-            if (!$method && !$action && $allForms->length > 0) {
+            if (! $method && ! $action && $allForms->length > 0) {
                 $failMessage = $selector === 'form'
                     ? 'A form exists in the response'
                     : sprintf('Found a matching form for the selector "%s"', $selector);
@@ -191,11 +191,11 @@ class TestViewMacros
 
                     if ($sanitizedMethodExpected === 'POST') {
                         $isMatchForMethod = CompareAttributes::compare('method', $sanitizedMethodExpected, $sanitizedMethodActual);
-                        $hasHiddenInput = (bool)$parser->query('input[type=hidden][name=_method]');
-                        $isMatchForMethod = $isMatchForMethod && !$hasHiddenInput;
+                        $hasHiddenInput = (bool) $parser->query('input[type=hidden][name=_method]');
+                        $isMatchForMethod = $isMatchForMethod && ! $hasHiddenInput;
                     } else {
                         $isMatchForSpoofMethod = CompareAttributes::compare('method', 'POST', $sanitizedMethodActual);
-                        $isMatchForHiddenInput = (bool)$parser->query("input[type=hidden][name=_method][value={$sanitizedMethodExpected}]");
+                        $isMatchForHiddenInput = (bool) $parser->query("input[type=hidden][name=_method][value={$sanitizedMethodExpected}]");
                         $isMatchForMethod = $isMatchForSpoofMethod && $isMatchForHiddenInput;
                     }
                 }
