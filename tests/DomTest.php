@@ -401,3 +401,9 @@ it('can run the example from the readme', function () {
             ]);
         });
 });
+
+it('can assert an element does not exist', function () {
+    $this->get('nesting')
+        ->assertElementDoesNotExist('p', ['class' => 'buzz'])
+        ->assertSuccessful();
+});

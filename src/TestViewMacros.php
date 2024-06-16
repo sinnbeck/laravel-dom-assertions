@@ -80,6 +80,34 @@ class TestViewMacros
         };
     }
 
+    public function assertElementDoesNotExist(): Closure
+    {
+        return function ($selector, $attributes = []): TestView {
+            /** @var TestView $this */
+            Assert::assertNotEmpty(
+                (string)$this,
+                'The view is empty!'
+            );
+
+            try {
+                $parser = DomParser::new((string)$this);
+            } catch (DOMException $exception) {
+                Assert::fail($exception->getMessage());
+            }
+
+            if (is_string($selector)) {
+                $element = $parser->query($selector);
+            } else {
+                Assert::fail('Invalid selector!');
+            }
+
+            (new AssertElement((string)$this, $element))
+                ->doesntContain($selector, $attributes);
+
+            return $this;
+        };
+    }
+
     public function assertFormExists(): Closure
     {
         return function ($selector = 'form', $callback = null): TestView {

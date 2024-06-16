@@ -15,6 +15,12 @@ namespace Illuminate\Testing {
             return $instance;
         }
 
+        public function assertElementDoesNotExist($selector, $attributes = [])
+        {
+            /** @var \Illuminate\Testing\TestResponse $instance */
+            return $instance;
+        }
+
         public function assertFormExists($selector = 'form', $callback = null)
         {
             /** @var \Illuminate\Testing\TestResponse $instance */
