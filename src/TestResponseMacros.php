@@ -205,7 +205,7 @@ class TestResponseMacros
                     $sanitizedActionExpected = Str::of($action)->upper()->trim()->finish('/')->start('/')->toString();
                     $sanitizedActionActual = Str::of($parser->getAttributeForRoot('action'))->upper()->trim()->finish('/')->start('/')->toString();
 
-                    $isMatchForAction = $sanitizedActionExpected === $sanitizedActionActual;
+                    $isMatchForAction = CompareAttributes::compare('action', $sanitizedActionExpected, $sanitizedActionActual);
                 }
 
                 if ($action && $method) {
