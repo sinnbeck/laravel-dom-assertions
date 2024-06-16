@@ -82,7 +82,7 @@ class TestViewMacros
         };
     }
 
-    public function assertElementDoesNotExist(): Closure
+    public function assertElementDoesntExist(): Closure
     {
         return function ($selector, $attributes = []): TestView {
             /** @var TestView $this */
@@ -153,7 +153,7 @@ class TestViewMacros
         };
     }
 
-    public function assertFormDoesNotExist(): Closure
+    public function assertFormDoesntExist(): Closure
     {
         return function ($selector = 'form', $method = null, $action = null): TestView {
             /** @var TestView $this */

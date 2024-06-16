@@ -15,7 +15,7 @@ namespace Illuminate\Testing {
             return $instance;
         }
 
-        public function assertElementDoesNotExist($selector, $attributes = [])
+        public function assertElementDoesntExist($selector, $attributes = [])
         {
             /** @var \Illuminate\Testing\TestResponse $instance */
             return $instance;
@@ -27,7 +27,7 @@ namespace Illuminate\Testing {
             return $instance;
         }
 
-        public function assertFormDoesNotExist($selector = 'form', $method = null, $action = null)
+        public function assertFormDoesntExist($selector = 'form', $method = null, $action = null)
         {
             /** @var \Illuminate\Testing\TestResponse $instance */
             return $instance;
