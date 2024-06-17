@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-dom-assertion` will be documented in this file.
 
+## v1.5.3 - 2024-06-17
+
+Re-release as last release was broken for some reason
+
 ## v1.5.2 - 2024-06-17
 
 * Implement each method to allow fluent assertions against all elements that match selector (by @FRFlor https://github.com/sinnbeck/laravel-dom-assertions/pull/22 )
