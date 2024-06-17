@@ -159,22 +159,32 @@ $this->get('/some-route')
         });
     });
 ```
+If you want to make an assertion against all elements that match the selection, you may use 'each'.
 
-This means that you can infinitely assert down the dom structure.
+```php
+$this->get('/some-route')
+    ->assertElementExists('#overview', function (AssertElement $assert) {
+        $assert->each('li', function (AssertElement $element) {
+            $element->has('class', 'list-item');
+        });
+    });
+```
+
+You can also infinitely assert down the dom structure.
 ```php
 $this->get('/some-route')
     ->assertElementExists(function (AssertElement $element) {
         $element->find('div', function (AssertElement $element) {
             $element->is('div');
-            $element->contains('p', function (AssertElement $element) {
+            $element->find('p', function (AssertElement $element) {
                 $element->is('p');
-                $element->contains('#label', function (AssertElement $element) {
+                $element->find('#label', function (AssertElement $element) {
                     $element->is('span');
                 });
             });
-            $element->contains('p:nth-of-type(2)', function (AssertElement $element) {
+            $element->find('p:nth-of-type(2)', function (AssertElement $element) {
                 $element->is('p');
-                $element->contains('.sub-header', function (AssertElement $element) {
+                $element->find('.sub-header', function (AssertElement $element) {
                     $element->is('h4');
                 });
             });
