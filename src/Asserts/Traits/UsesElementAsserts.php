@@ -73,7 +73,7 @@ trait UsesElementAsserts
         return $this;
     }
 
-    public function findAll(string $selector, $callback): self
+    public function each(string $selector, $callback): self
     {
         $elements = $this->getParser()->queryAll($selector);
         Assert::assertNotCount(

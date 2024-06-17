@@ -272,15 +272,15 @@ it('can run assertions against all elements that match the selection', function 
     $this->get('form')
         ->assertOk()
         ->assertElementExists(fn (AssertElement $view) => $view
-            ->findAll('select', fn (AssertElement $select) => $select->has('name'))
+            ->each('select', fn (AssertElement $select) => $select->has('name'))
         );
 });
 
-it('fails when findAll is used but no elements match the selector', function () {
+it('fails when each() is used but no elements match the selector', function () {
     $this->get('form')
         ->assertOk()
         ->assertElementExists(fn (AssertElement $view) => $view
-            ->findAll('img', fn (AssertElement $image) => $image->has('alt'))
+            ->each('img', fn (AssertElement $image) => $image->has('alt'))
         );
 })->throws(AssertionFailedError::class);
 
