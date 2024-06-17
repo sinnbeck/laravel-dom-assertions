@@ -76,8 +76,7 @@ trait UsesElementAsserts
     public function each(string $selector, $callback): self
     {
         $elements = $this->getParser()->queryAll($selector);
-        Assert::assertNotCount(
-            0,
+        Assert::assertNotEmpty(
             $elements,
             sprintf('Could not find any matching element for selector "%s"', $selector)
         );
