@@ -268,6 +268,22 @@ it('can fail finding a nested element with content', function () {
         });
 })->throws(AssertionFailedError::class, 'Could not find a matching "div" with data:');
 
+it('can run assertions against all elements that match the selection', function () {
+    $this->get('form')
+        ->assertOk()
+        ->assertElementExists(fn (AssertElement $view) => $view
+            ->findAll('select', fn (AssertElement $select) => $select->has('name'))
+        );
+});
+
+it('fails when findAll is used but no elements match the selector', function () {
+    $this->get('form')
+        ->assertOk()
+        ->assertElementExists(fn (AssertElement $view) => $view
+            ->findAll('img', fn (AssertElement $image) => $image->has('alt'))
+        );
+})->throws(AssertionFailedError::class);
+
 it('can find a nested element with content functional', function () {
     $this->get('nesting')
         ->assertElementExists(function (AssertElement $element) {

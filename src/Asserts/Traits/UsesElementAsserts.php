@@ -73,6 +73,23 @@ trait UsesElementAsserts
         return $this;
     }
 
+    public function findAll(string $selector, $callback): self
+    {
+        $elements = $this->getParser()->queryAll($selector);
+        Assert::assertNotCount(
+            0,
+            $elements,
+            sprintf('Could not find any matching element for selector "%s"', $selector)
+        );
+
+        foreach ($elements as $element) {
+            $elementAssert = new AssertElement($this->getContent(), $element);
+            $callback($elementAssert);
+        }
+
+        return $this;
+    }
+
     public function contains(string $selector, $attributes = null, $count = 0): self
     {
         Assert::assertNotNull(
