@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-dom-assertion` will be documented in this file.
 
+## v1.5.4 - 2024-08-28
+
+Add missing ide helpers for TestView (by @markieo1)
+
 ## v1.5.3 - 2024-06-17
 
 Re-release as last release was broken for some reason
