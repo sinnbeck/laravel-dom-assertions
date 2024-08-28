@@ -35,7 +35,7 @@ final class DomParser
 
     public function setContent($html): void
     {
-        $dom = new DOMDocument();
+        $dom = new DOMDocument;
 
         $html = '<?xml encoding="UTF-8">'.trim($html);
         $dom->loadHTML($html, LIBXML_NOERROR | LIBXML_COMPACT | LIBXML_HTML_NODEFDTD | LIBXML_NOBLANKS | LIBXML_NOXMLDECL);
@@ -107,7 +107,7 @@ final class DomParser
 
     public function getContentFormatted(): string
     {
-        return (new HtmlFormatter())->format($this->getContent());
+        return (new HtmlFormatter)->format($this->getContent());
     }
 
     public function getAttributeFor($for, string $attribute): string|bool
@@ -139,7 +139,7 @@ final class DomParser
 
     protected function cssSelectorToXpath($selector)
     {
-        $converter = new CssSelectorConverter();
+        $converter = new CssSelectorConverter;
         $xpath = $converter->toXpath($selector);
 
         return str_replace('\\', '', $xpath);

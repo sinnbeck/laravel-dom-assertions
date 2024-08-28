@@ -20,7 +20,7 @@ class HtmlFormatter
 
     protected function convertToDomDocument($html): \DOMDocument
     {
-        $dom = new \DOMDocument();
+        $dom = new \DOMDocument;
 
         $dom->loadHTML($html, LIBXML_NOERROR | LIBXML_COMPACT | LIBXML_HTML_NODEFDTD | LIBXML_NOBLANKS | LIBXML_NOXMLDECL);
         $dom->formatOutput = true;

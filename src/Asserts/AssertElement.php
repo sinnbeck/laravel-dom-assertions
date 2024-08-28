@@ -2,6 +2,4 @@
 
 namespace Sinnbeck\DomAssertions\Asserts;
 
-class AssertElement extends BaseAssert
-{
-}
+class AssertElement extends BaseAssert {}

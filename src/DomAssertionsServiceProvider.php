@@ -11,8 +11,8 @@ class DomAssertionsServiceProvider extends ServiceProvider
     public function boot()
     {
         if ($this->app->runningUnitTests()) {
-            TestResponse::mixin(new TestResponseMacros());
-            TestView::mixin(new TestViewMacros());
+            TestResponse::mixin(new TestResponseMacros);
+            TestView::mixin(new TestViewMacros);
         }
     }
 }
