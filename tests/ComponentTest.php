@@ -3,8 +3,8 @@
 use PHPUnit\Framework\AssertionFailedError;
 use Sinnbeck\DomAssertions\Asserts\AssertElement;
 use Tests\Views\Components\BrokenComponent;
+use Tests\Views\Components\EmptyBodyComponent;
 use Tests\Views\Components\EmptyComponent;
-use Tests\Views\Components\EmptyElementComponent;
 use Tests\Views\Components\Html5Component;
 use Tests\Views\Components\LivewireComponent;
 use Tests\Views\Components\NestedComponent;
@@ -17,12 +17,12 @@ it('can handle an empty component', function () {
     'The component is empty!'
 );
 
-it('can handle an empty element', function () {
-    $this->component(EmptyElementComponent::class)
-        ->assertElementExists('main');
+it('can handle an empty body', function () {
+    $this->component(EmptyBodyComponent::class)
+        ->assertElementExists();
 })->throws(
     AssertionFailedError::class,
-    'No element found with selector: main'
+    'No element found with selector: body'
 );
 
 it('can parse broken html', function () {
@@ -30,10 +30,15 @@ it('can parse broken html', function () {
         ->assertElementExists();
 });
 
-it('can find the section', function () {
+it('can find the element', function () {
     $this->component(NestedComponent::class)
-        ->assertElementExists('section', function (AssertElement $assert) {
-            $assert->is('section');
+        ->assertElementExists();
+});
+
+it('can find the body', function () {
+    $this->component(NestedComponent::class)
+        ->assertElementExists('body', function (AssertElement $assert) {
+            $assert->is('body');
         });
 });
 

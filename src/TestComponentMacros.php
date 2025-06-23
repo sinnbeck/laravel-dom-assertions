@@ -46,7 +46,7 @@ class TestComponentMacros
 
     public function assertElementExists(): Closure
     {
-        return function ($selector = 'div', $callback = null): TestComponent {
+        return function ($selector = 'body', $callback = null): TestComponent {
             /** @var TestComponent $this */
             Assert::assertNotEmpty(
                 (string) $this->rendered,
@@ -61,7 +61,7 @@ class TestComponentMacros
 
             if ($selector instanceof Closure) {
                 $callback = $selector;
-                $selector = 'div';
+                $selector = 'body';
             }
 
             if (is_string($selector)) {
