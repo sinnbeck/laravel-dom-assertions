@@ -16,7 +16,7 @@ class DomAssertionsServiceProvider extends ServiceProvider
             TestResponse::mixin(new TestResponseMacros);
             TestView::mixin(new TestViewMacros);
 
-            // @see: https://github.com/laravel/framework/pull/54359
+            // https://github.com/laravel/framework/pull/54359
             if (in_array(Macroable::class, class_uses(TestComponent::class) ?? [])) {
                 TestComponent::mixin(new TestComponentMacros);
             }
