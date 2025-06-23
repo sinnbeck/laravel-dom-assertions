@@ -24,7 +24,7 @@ it('can parse broken html', function () {
         ->assertElementExists();
 });
 
-it('can find the an element', function () {
+it('can find the element', function () {
     $this->view('nesting')
         ->assertElementExists();
 });
