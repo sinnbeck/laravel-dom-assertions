@@ -5,6 +5,7 @@ use Sinnbeck\DomAssertions\Asserts\AssertElement;
 use Tests\Views\Components\BrokenComponent;
 use Tests\Views\Components\EmptyComponent;
 use Tests\Views\Components\EmptyElementComponent;
+use Tests\Views\Components\Html5Component;
 use Tests\Views\Components\NestedComponent;
 
 it('can handle an empty component', function () {
@@ -39,3 +40,16 @@ it('can find the section', function () {
             $assert->is('section');
         });
 });
+
+it('can check for html5', function () {
+    $this->component(Html5Component::class)
+        ->assertHtml5();
+});
+
+it('can fail checking for html5', function () {
+    $this->component(NestedComponent::class)
+        ->assertHtml5();
+})->throws(
+    AssertionFailedError::class,
+    'Not a html5 doctype!'
+);
