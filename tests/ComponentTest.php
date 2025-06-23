@@ -32,3 +32,10 @@ it('can find a nested element', function () {
     $this->component(NestedComponent::class)
         ->assertElementExists('section');
 });
+
+it('can find the section', function () {
+    $this->component(NestedComponent::class)
+        ->assertElementExists('section', function (AssertElement $assert) {
+            $assert->is('section');
+        });
+});
