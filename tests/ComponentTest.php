@@ -5,6 +5,7 @@ use Sinnbeck\DomAssertions\Asserts\AssertElement;
 use Tests\Views\Components\BrokenComponent;
 use Tests\Views\Components\EmptyComponent;
 use Tests\Views\Components\EmptyElementComponent;
+use Tests\Views\Components\NestedComponent;
 
 it('can handle an empty component', function () {
     $this->component(EmptyComponent::class)
@@ -25,4 +26,9 @@ it('can handle an empty element', function () {
 it('can parse broken html', function () {
     $this->component(BrokenComponent::class)
         ->assertElementExists();
+});
+
+it('can find a nested element', function () {
+    $this->component(NestedComponent::class)
+        ->assertElementExists('section');
 });
