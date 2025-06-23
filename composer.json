@@ -25,7 +25,7 @@
     "autoload-dev": {
         "psr-4": {
             "Tests\\": "tests/",
-            "Tests\\Views\\Components": "tests/views/components"
+            "Tests\\Views\\Components\\": "tests/views/components"
         }
     },
     "extra": {
