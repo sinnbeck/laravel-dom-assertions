@@ -19,7 +19,7 @@ use Sinnbeck\DomAssertions\Support\DomParser;
  */
 class TestViewMacros
 {
-    public function assertHtml5()
+    public function assertHtml5(): Closure
     {
         return function () {
             /** @var TestView $this */
