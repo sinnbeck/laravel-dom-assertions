@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-dom-assertion` will be documented in this file.
 
+## v2.1.0 - 2025-06-27
+
+Add support for testing Blade components - by @ziadoz
+
 ## v2.0.0 - 2025-03-31
 
 Laravel 12 support (@laravel-shift and @jackbayliss)
