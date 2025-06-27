@@ -6,7 +6,7 @@ namespace Sinnbeck\DomAssertions;
 
 use Closure;
 use DOMException;
-use Illuminate\Testing\TestView;
+use Illuminate\Testing\TestComponent;
 use PHPUnit\Framework\Assert;
 use Sinnbeck\DomAssertions\Asserts\AssertElement;
 use Sinnbeck\DomAssertions\Asserts\AssertForm;
@@ -15,21 +15,21 @@ use Sinnbeck\DomAssertions\Support\DomParser;
 /**
  * @internal
  *
- * @mixin TestView
+ * @mixin TestComponent
  */
-class TestViewMacros
+class TestComponentMacros
 {
     public function assertHtml5(): Closure
     {
         return function () {
-            /** @var TestView $this */
+            /** @var TestComponent $this */
             Assert::assertNotEmpty(
-                (string) $this,
-                'The view is empty!'
+                (string) $this->rendered,
+                'The component is empty!'
             );
 
             try {
-                $parser = DomParser::new((string) $this);
+                $parser = DomParser::new((string) $this->rendered);
             } catch (DOMException $exception) {
                 Assert::fail($exception->getMessage());
             }
@@ -46,15 +46,15 @@ class TestViewMacros
 
     public function assertElementExists(): Closure
     {
-        return function ($selector = 'body', $callback = null): TestView {
-            /** @var TestView $this */
+        return function ($selector = 'body', $callback = null): TestComponent {
+            /** @var TestComponent $this */
             Assert::assertNotEmpty(
-                (string) $this,
-                'The view is empty!'
+                (string) $this->rendered,
+                'The component is empty!'
             );
 
             try {
-                $parser = DomParser::new((string) $this);
+                $parser = DomParser::new((string) $this->rendered);
             } catch (DOMException $exception) {
                 Assert::fail($exception->getMessage());
             }
@@ -73,7 +73,7 @@ class TestViewMacros
             Assert::assertNotNull($element, sprintf('No element found with selector: %s', $selector));
 
             if ($callback) {
-                $callback(new AssertElement((string) $this, $element));
+                $callback(new AssertElement((string) $this->rendered, $element));
             }
 
             return $this;
@@ -82,15 +82,15 @@ class TestViewMacros
 
     public function assertFormExists(): Closure
     {
-        return function ($selector = 'form', $callback = null): TestView {
-            /** @var TestView $this */
+        return function ($selector = 'form', $callback = null): TestComponent {
+            /** @var TestComponent $this */
             Assert::assertNotEmpty(
-                (string) $this,
-                'The view is empty!'
+                (string) $this->rendered,
+                'The component is empty!'
             );
 
             try {
-                $parser = DomParser::new((string) $this);
+                $parser = DomParser::new((string) $this->rendered);
             } catch (DOMException $exception) {
                 Assert::fail($exception->getMessage());
             }
@@ -116,7 +116,7 @@ class TestViewMacros
                 'Element is not of type form!');
 
             if ($callback) {
-                $callback(new AssertForm((string) $this, $form));
+                $callback(new AssertForm((string) $this->rendered, $form));
             }
 
             return $this;

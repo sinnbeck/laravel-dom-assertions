@@ -382,6 +382,16 @@ $this->view('navigation')
     });
 ```
 
+### Usage with Blade components
+```php
+$this->component(Navigation::class)
+    ->assertElementExists('nav > ul', function(AssertElement $ul) {
+        $ul->contains('li', [
+            'class' => 'active',
+        ]);
+    });
+```
+
 ## Overview of methods
 | Base methods                                   | Description                                                                          |
 |------------------------------------------------|--------------------------------------------------------------------------------------|
