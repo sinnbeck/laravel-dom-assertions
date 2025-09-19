@@ -24,12 +24,12 @@ class TestComponentMacros
         return function () {
             /** @var TestComponent $this */
             Assert::assertNotEmpty(
-                (string) $this->rendered,
+                (string) $this,
                 'The component is empty!'
             );
 
             try {
-                $parser = DomParser::new((string) $this->rendered);
+                $parser = DomParser::new((string) $this);
             } catch (DOMException $exception) {
                 Assert::fail($exception->getMessage());
             }
@@ -49,12 +49,12 @@ class TestComponentMacros
         return function ($selector = 'body', $callback = null): TestComponent {
             /** @var TestComponent $this */
             Assert::assertNotEmpty(
-                (string) $this->rendered,
+                (string) $this,
                 'The component is empty!'
             );
 
             try {
-                $parser = DomParser::new((string) $this->rendered);
+                $parser = DomParser::new((string) $this);
             } catch (DOMException $exception) {
                 Assert::fail($exception->getMessage());
             }
@@ -73,7 +73,7 @@ class TestComponentMacros
             Assert::assertNotNull($element, sprintf('No element found with selector: %s', $selector));
 
             if ($callback) {
-                $callback(new AssertElement((string) $this->rendered, $element));
+                $callback(new AssertElement((string) $this, $element));
             }
 
             return $this;
@@ -85,12 +85,12 @@ class TestComponentMacros
         return function ($selector = 'form', $callback = null): TestComponent {
             /** @var TestComponent $this */
             Assert::assertNotEmpty(
-                (string) $this->rendered,
+                (string) $this,
                 'The component is empty!'
             );
 
             try {
-                $parser = DomParser::new((string) $this->rendered);
+                $parser = DomParser::new((string) $this);
             } catch (DOMException $exception) {
                 Assert::fail($exception->getMessage());
             }
@@ -116,7 +116,7 @@ class TestComponentMacros
                 'Element is not of type form!');
 
             if ($callback) {
-                $callback(new AssertForm((string) $this->rendered, $form));
+                $callback(new AssertForm((string) $this, $form));
             }
 
             return $this;
