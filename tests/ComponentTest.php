@@ -21,7 +21,6 @@ beforeEach(function () {
 it('assertElement alias works for assertElementExists', function () {
     $this->component(NestedComponent::class)
         ->assertElement('body', function (AssertElement $assert) {
-            dd($assert);
             $assert->is('body');
         });
 });
