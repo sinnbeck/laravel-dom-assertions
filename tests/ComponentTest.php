@@ -18,6 +18,11 @@ beforeEach(function () {
     }
 });
 
+it('assertElement alias works for assertElementExists', function () {
+    $this->component(NestedComponent::class)
+        ->assertElement();
+});
+
 it('can handle an empty component', function () {
     $this->component(EmptyComponent::class)
         ->assertElementExists();

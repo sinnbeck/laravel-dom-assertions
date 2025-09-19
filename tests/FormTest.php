@@ -6,6 +6,11 @@ use Sinnbeck\DomAssertions\Asserts\AssertElement;
 use Sinnbeck\DomAssertions\Asserts\AssertForm;
 use Sinnbeck\DomAssertions\Asserts\AssertSelect;
 
+it('assertForm alias works for assertFormExists', function () {
+    $this->get('form')
+        ->assertForm();
+});
+
 it('can find a form by default', function () {
     $this->get('form')
         ->assertFormExists();

@@ -3,6 +3,11 @@
 use PHPUnit\Framework\AssertionFailedError;
 use Sinnbeck\DomAssertions\Asserts\AssertElement;
 
+it('assertAlias alias works for assertElementExists', function () {
+    $this->get('nesting')
+        ->assertElement();
+});
+
 it('can handle an empty view', function () {
     $this->get('empty')
         ->assertElementExists();
