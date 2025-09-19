@@ -9,6 +9,7 @@ it('assertElement alias works for assertElementExists', function () {
             $assert->is('body');
         });
 });
+
 it('can handle an empty view', function () {
     $this->view('empty')
         ->assertElementExists();
