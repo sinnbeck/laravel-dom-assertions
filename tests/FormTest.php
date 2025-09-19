@@ -8,7 +8,9 @@ use Sinnbeck\DomAssertions\Asserts\AssertSelect;
 
 it('assertForm alias works for assertFormExists', function () {
     $this->get('form')
-        ->assertForm();
+        ->assertForm('form:nth-child(2)', function (AssertForm $form) {
+            $form->hasAction('form');
+        });
 });
 
 it('can find a form by default', function () {

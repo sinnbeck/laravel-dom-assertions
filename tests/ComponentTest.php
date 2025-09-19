@@ -20,7 +20,10 @@ beforeEach(function () {
 
 it('assertElement alias works for assertElementExists', function () {
     $this->component(NestedComponent::class)
-        ->assertElement();
+        ->assertElement('body', function (AssertElement $assert) {
+            dd($assert);
+            $assert->is('body');
+        });
 });
 
 it('can handle an empty component', function () {
