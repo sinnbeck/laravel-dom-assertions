@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Support\Traits\Macroable;
-use Illuminate\Testing\TestComponent;
 use PHPUnit\Framework\AssertionFailedError;
 use PHPUnit\Framework\TestCase;
 use Sinnbeck\DomAssertions\Asserts\AssertElement;
