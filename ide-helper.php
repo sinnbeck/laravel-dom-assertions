@@ -9,7 +9,19 @@ namespace Illuminate\Testing {
             return $instance;
         }
 
+        public function assertElement($selector = 'body', $callback = null)
+        {
+            /** @var \Illuminate\Testing\TestResponse $instance */
+            return $instance;
+        }
+
         public function assertElementExists($selector = 'body', $callback = null)
+        {
+            /** @var \Illuminate\Testing\TestResponse $instance */
+            return $instance;
+        }
+
+        public function assertForm($selector = 'body', $callback = null)
         {
             /** @var \Illuminate\Testing\TestResponse $instance */
             return $instance;
@@ -30,7 +42,19 @@ namespace Illuminate\Testing {
             return $instance;
         }
 
+        public function assertElement($selector = 'body', $callback = null)
+        {
+            /** @var \Illuminate\Testing\TestResponse $instance */
+            return $instance;
+        }
+
         public function assertElementExists($selector = 'body', $callback = null)
+        {
+            /** @var \Illuminate\Testing\TestResponse $instance */
+            return $instance;
+        }
+
+        public function assertForm($selector = 'form', $callback = null)
         {
             /** @var \Illuminate\Testing\TestResponse $instance */
             return $instance;
