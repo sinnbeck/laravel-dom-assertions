@@ -44,6 +44,11 @@ class TestComponentMacros
         };
     }
 
+    public function assertElement(): Closure
+    {
+        return $this->assertElementExists();
+    }
+
     public function assertElementExists(): Closure
     {
         return function ($selector = 'body', $callback = null): TestComponent {
@@ -78,6 +83,11 @@ class TestComponentMacros
 
             return $this;
         };
+    }
+
+    public function assertForm(): Closure
+    {
+        return $this->assertFormExists();
     }
 
     public function assertFormExists(): Closure
