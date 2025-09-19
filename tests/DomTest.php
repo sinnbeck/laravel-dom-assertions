@@ -5,7 +5,9 @@ use Sinnbeck\DomAssertions\Asserts\AssertElement;
 
 it('assertAlias alias works for assertElementExists', function () {
     $this->get('nesting')
-        ->assertElement();
+        ->assertElementExists('body', function (AssertElement $assert) {
+            $assert->is('body');
+        });
 });
 
 it('can handle an empty view', function () {
