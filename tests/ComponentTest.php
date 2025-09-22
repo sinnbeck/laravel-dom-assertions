@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Support\Traits\Macroable;
-use Illuminate\Testing\TestComponent;
 use PHPUnit\Framework\AssertionFailedError;
 use PHPUnit\Framework\TestCase;
 use Sinnbeck\DomAssertions\Asserts\AssertElement;
@@ -13,7 +11,7 @@ use Tests\Views\Components\LivewireComponent;
 use Tests\Views\Components\NestedComponent;
 
 beforeEach(function () {
-    if (! in_array(Macroable::class, class_uses(TestComponent::class) ?? [])) {
+    if (! version_compare(app()->version(), '11.41.0', '>=')) {
         TestCase::markTestSkipped('Testing Blade components is unavailable in this version of Laravel');
     }
 });
