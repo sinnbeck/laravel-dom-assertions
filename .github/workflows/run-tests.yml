@@ -71,5 +71,6 @@ jobs:
         
       - name: Run PHPStan
         run: |
-          LARAVEL_VERSION="${{ matrix.laravel }%\.*}"
+          LARAVEL_VERSION="${{ matrix.laravel }}"
+          LARAVEL_VERSION="${LARAVEL_VERSION%\.*}"
           vendor/bin/phpstan analyse -c "phpstan-${LARAVEL_VERSION}.neon" src
