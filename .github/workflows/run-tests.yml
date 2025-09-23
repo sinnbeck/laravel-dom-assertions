@@ -65,7 +65,9 @@ jobs:
         run: vendor/bin/pest
         
       - name: Run PHPStan
+        shell: bash
         run: |
+          # Extract major.minor version from matrix
           LARAVEL_VERSION="${{ matrix.laravel }}"
-          LARAVEL_VERSION="${LARAVEL_VERSION%\.*}"
+          LARAVEL_VERSION="${LARAVEL_VERSION%%.*}"
           vendor/bin/phpstan analyse -c "phpstan-${LARAVEL_VERSION}.neon" src
