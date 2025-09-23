@@ -8,3 +8,6 @@ parameters:
     tmpDir: build/phpstan
     checkOctaneCompatibility: true
     checkModelProperties: true
+    reportUnmatchedIgnoredErrors: false
+    ignoreErrors:
+        - '#PHPDoc tag `@var` with type .* is not subtype of native type \$this#'
