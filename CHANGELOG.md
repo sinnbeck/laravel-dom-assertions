@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-dom-assertion` will be documented in this file.
 
+## v2.2.0 - 2025-09-23
+
+* Add assertElement and assertForm aliases #29 by @jackbayliss
+* fix phpstan #28 by @jackbayliss
+
 ## v2.1.0 - 2025-06-27
 
 Add support for testing Blade components - by @ziadoz
