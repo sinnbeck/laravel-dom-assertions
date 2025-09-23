@@ -10,4 +10,4 @@ parameters:
     checkModelProperties: true
     reportUnmatchedIgnoredErrors: false
     ignoreErrors:
-        - '#PHPDoc tag `@var` with type .* is not subtype of native type \$this#'
+        - '#PHPDoc tag @var with type .* is not subtype of native type \$this\(.*\)#'
