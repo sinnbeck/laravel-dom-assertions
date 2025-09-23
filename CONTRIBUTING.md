@@ -12,7 +12,7 @@ The project uses:
 
 All three are automatically run on every pull request.
 
-You can run them locally (recommend) with:
+You can run them locally (recommended) with:
 
 ```bash
 vendor/bin/pest
