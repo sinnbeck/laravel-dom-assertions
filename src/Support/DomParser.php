@@ -76,12 +76,12 @@ final class DomParser
         return new self($this->getContent());
     }
 
-    public function getAttributeForRoot(string $attribute): string|bool
+    public function getAttributeForRoot(string $attribute): string
     {
         return $this->getRoot()->getAttribute($attribute);
     }
 
-    public function hasAttributeForRoot(string $attribute): string|bool
+    public function hasAttributeForRoot(string $attribute): bool
     {
         return $this->getRoot()->hasAttribute($attribute);
     }
