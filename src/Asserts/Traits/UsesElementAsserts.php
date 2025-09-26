@@ -4,7 +4,6 @@ namespace Sinnbeck\DomAssertions\Asserts\Traits;
 
 use Illuminate\Testing\Assert as PHPUnit;
 use PHPUnit\Framework\Assert;
-use ReflectionFunction;
 use Sinnbeck\DomAssertions\Asserts\AssertElement;
 use Sinnbeck\DomAssertions\Support\CompareAttributes;
 
@@ -82,16 +81,10 @@ trait UsesElementAsserts
             sprintf('Could not find any matching element for selector "%s"', $selector)
         );
 
-        $requiresIndex = new ReflectionFunction($callback)->getNumberOfParameters() === 2;
-
         foreach ($elements as $index => $element) {
             $elementAssert = new AssertElement($this->getContent(), $element);
 
-            if ($requiresIndex) {
-                $callback($elementAssert, $index);
-            } else {
-                $callback($elementAssert);
-            }
+            $callback($elementAssert, $index);
         }
 
         return $this;
