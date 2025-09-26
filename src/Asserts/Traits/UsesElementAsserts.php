@@ -82,10 +82,12 @@ trait UsesElementAsserts
             sprintf('Could not find any matching element for selector "%s"', $selector)
         );
 
+        $requiresIndex = new ReflectionFunction($callback)->getNumberOfParameters() === 2;
+
         foreach ($elements as $index => $element) {
             $elementAssert = new AssertElement($this->getContent(), $element);
 
-            if (new ReflectionFunction($callback)->getNumberOfParameters() === 2) {
+            if ($requiresIndex) {
                 $callback($elementAssert, $index);
             } else {
                 $callback($elementAssert);
