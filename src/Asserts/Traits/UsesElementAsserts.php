@@ -83,7 +83,6 @@ trait UsesElementAsserts
 
         foreach ($elements as $index => $element) {
             $elementAssert = new AssertElement($this->getContent(), $element);
-
             $callback($elementAssert, $index);
         }
 
