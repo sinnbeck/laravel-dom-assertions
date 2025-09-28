@@ -29,7 +29,7 @@ trait UsesElementAsserts
                 $value,
                 $found = $this->getAttribute($attribute)
             ),
-            sprintf('Could not find an attribute "%s" with value "%s". "%s" found', $attribute, $value, trim($found))
+            sprintf('Could not find an attribute "%s" with value "%s". "%s" found within: %s', $attribute, $value, trim($found), $this->getSelectors())
         );
 
         return $this;
@@ -52,7 +52,7 @@ trait UsesElementAsserts
                 $value,
                 $this->getAttribute($attribute)
             ),
-            sprintf('Found an attribute "%s" with value "%s"', $attribute, $value)
+            sprintf('Found an attribute "%s" with value "%s" within: %s', $attribute, $value, $this->getSelectors())
         );
 
         return $this;
@@ -67,6 +67,9 @@ trait UsesElementAsserts
 
         if (! is_null($callback)) {
             $elementAssert = new AssertElement($this->getContent(), $element);
+
+            $elementAssert->trackSelector($this->selectorPath, $selector);
+
             $callback($elementAssert);
         }
 
@@ -93,7 +96,11 @@ trait UsesElementAsserts
     {
         Assert::assertNotNull(
             $this->getParser()->query($selector),
-            sprintf('Could not find any matching element of type "%s"', $selector)
+            sprintf(
+                'Could not find any matching element of type "%s" within: %s',
+                $selector,
+                $this->getSelectors()
+            )
         );
 
         if (is_numeric($attributes)) {
@@ -109,7 +116,7 @@ trait UsesElementAsserts
             Assert::assertEquals(
                 $count,
                 $found = $this->getParser()->queryAll($selector)->count(),
-                sprintf('Expected to find %s elements but found %s for %s', $count, $found, $selector)
+                sprintf('Expected to find %s elements but found %s for %s within: %s', $count, $found, $selector, $this->getSelectors())
             );
 
             return $this;
@@ -123,7 +130,13 @@ trait UsesElementAsserts
                 $found = collect($this->attributes[$selector])
                     ->filter(fn ($foundAttributes) => $this->compareAttributesArrays($attributes, $foundAttributes))
                     ->count(),
-                sprintf('Expected to find %s elements but found %s for %s', $count, $found, $selector)
+                sprintf(
+                    'Expected to find %s elements but found %s for "%s" within: %s',
+                    $count,
+                    $found,
+                    $selector,
+                    $this->getSelectors()
+                )
             );
         }
 
@@ -132,7 +145,12 @@ trait UsesElementAsserts
 
         Assert::assertNotFalse(
             $first,
-            sprintf('Could not find a matching "%s" with data: %s', $selector, json_encode($attributes, JSON_PRETTY_PRINT))
+            sprintf(
+                'Could not find a matching "%s" with data: %s within: %s',
+                $selector,
+                json_encode($attributes, JSON_PRETTY_PRINT),
+                $this->getSelectors()
+            )
         );
 
         return $this;
@@ -157,7 +175,7 @@ trait UsesElementAsserts
 
         Assert::assertFalse(
             $first,
-            sprintf('Found a matching "%s" with data: %s', $elementName, json_encode($attributes, JSON_PRETTY_PRINT))
+            sprintf('Found a matching "%s" with data: %s within: %s', $elementName, json_encode($attributes, JSON_PRETTY_PRINT), $this->getSelectors())
         );
 
         return $this;
@@ -175,7 +193,7 @@ trait UsesElementAsserts
             [PHPUnit::class, $assertFunction],
             $needle,
             $text,
-            sprintf('Could not find text content "%s" containing %s', $text, $needle)
+            sprintf('Could not find text content "%s" containing %s within: %s', $text, $needle, $this->getSelectors())
         );
 
         return $this;
@@ -193,7 +211,7 @@ trait UsesElementAsserts
             [PHPUnit::class, $assertFunction],
             $needle,
             $text,
-            sprintf('Found text content "%s" containing %s', $text, $needle)
+            sprintf('Found text content "%s" containing %s within: %s', $text, $needle, $this->getSelectors())
         );
 
         return $this;
@@ -204,7 +222,7 @@ trait UsesElementAsserts
         PHPUnit::assertEquals(
             $type,
             $this->getParser()->getType(),
-            sprintf('Element is not of type "%s"', $type)
+            sprintf('Element is not of type "%s" within: %s', $type, $this->getSelectors())
         );
 
         return $this;
