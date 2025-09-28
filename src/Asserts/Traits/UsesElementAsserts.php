@@ -68,7 +68,7 @@ trait UsesElementAsserts
         if (! is_null($callback)) {
             $elementAssert = new AssertElement($this->getContent(), $element);
 
-            $elementAssert->trackSelector($this->selectorPath, $selector);
+            $elementAssert->withSelectors($this->selectorPath, $selector);
 
             $callback($elementAssert);
         }
