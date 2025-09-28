@@ -2,7 +2,7 @@
 
 namespace Sinnbeck\DomAssertions\Asserts\Traits;
 
-trait TracksSelectorPath
+trait TracksSelectors
 {
     protected array $selectorPath = [];
 
