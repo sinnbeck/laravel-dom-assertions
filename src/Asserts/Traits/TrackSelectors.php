@@ -6,9 +6,9 @@ trait TrackSelectors
 {
     protected array $selectorPath = [];
 
-    public function withSelectors(array $previousPath, string $selector): self
+    public function withSelectors(array $previousSelectors, string $currentSelector): self
     {
-        $this->selectorPath = array_merge($previousPath, [$selector]);
+        $this->selectorPath = array_merge($previousSelectors, [$currentSelector]);
 
         return $this;
     }
