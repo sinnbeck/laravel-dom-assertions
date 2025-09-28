@@ -96,12 +96,7 @@ trait UsesElementAsserts
     {
         Assert::assertNotNull(
             $this->getParser()->query($selector),
-            sprintf(
-                'Could not find any matching element of type "%s" within: %s',
-                $selector,
-                $this->getSelectors()
-            )
-        );
+            sprintf('Could not find any matching element of type "%s" within: %s', $selector, $this->getSelectors()));
 
         if (is_numeric($attributes)) {
             $count = $attributes;
@@ -130,13 +125,7 @@ trait UsesElementAsserts
                 $found = collect($this->attributes[$selector])
                     ->filter(fn ($foundAttributes) => $this->compareAttributesArrays($attributes, $foundAttributes))
                     ->count(),
-                sprintf(
-                    'Expected to find %s elements but found %s for "%s" within: %s',
-                    $count,
-                    $found,
-                    $selector,
-                    $this->getSelectors()
-                )
+                sprintf('Expected to find %s elements but found %s for %s within: %s', $count, $found, $selector, $this->getSelectors())
             );
         }
 
@@ -145,12 +134,7 @@ trait UsesElementAsserts
 
         Assert::assertNotFalse(
             $first,
-            sprintf(
-                'Could not find a matching "%s" with data: %s within: %s',
-                $selector,
-                json_encode($attributes, JSON_PRETTY_PRINT),
-                $this->getSelectors()
-            )
+            sprintf('Could not find a matching "%s" with data: %s within: %s', $selector, json_encode($attributes, JSON_PRETTY_PRINT), $this->getSelectors())
         );
 
         return $this;
