@@ -428,11 +428,11 @@ it('includes dom selectors when nesting and errors occur', function () {
 it('includes dom selectors when only one deep', function () {
     $this->get('nesting')
         ->assertElementExists(function (AssertElement $element) {
-            $element->findDiv(function (AssertElement $element) {
+            $element->find('.foobar',function (AssertElement $element) {
                 $element->is('not-real');
             });
         });
-})->throws(AssertionFailedError::class, 'Element is not of type "not-real" within: div');
+})->throws(AssertionFailedError::class, 'Element is not of type "not-real" within: .foobar');
 
 it('can run the example from the readme', function () {
     $this->get(route('about'))
