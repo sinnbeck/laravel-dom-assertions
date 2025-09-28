@@ -96,7 +96,8 @@ trait UsesElementAsserts
     {
         Assert::assertNotNull(
             $this->getParser()->query($selector),
-            sprintf('Could not find any matching element of type "%s" within: %s', $selector, $this->getSelectors()));
+            sprintf('Could not find any matching element of type "%s" within: %s', $selector, $this->getSelectors())
+        );
 
         if (is_numeric($attributes)) {
             $count = $attributes;
