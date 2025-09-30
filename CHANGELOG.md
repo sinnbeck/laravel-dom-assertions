@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-dom-assertion` will be documented in this file.
 
+## v2.3.0 - 2025-09-30
+
+* Give each() callback access to foreach index #33 by @MizouziE
+* Include DOM path when nesting in assertions #34 by @jackbayliss
+
 ## v2.2.0 - 2025-09-23
 
 * Add assertElement and assertForm aliases #29 by @jackbayliss
