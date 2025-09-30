@@ -8,6 +8,7 @@ use Illuminate\Support\Traits\Macroable;
 use Sinnbeck\DomAssertions\Asserts\Traits\CanGatherAttributes;
 use Sinnbeck\DomAssertions\Asserts\Traits\Debugging;
 use Sinnbeck\DomAssertions\Asserts\Traits\InteractsWithParser;
+use Sinnbeck\DomAssertions\Asserts\Traits\TrackSelectors;
 use Sinnbeck\DomAssertions\Asserts\Traits\UsesElementAsserts;
 use Sinnbeck\DomAssertions\Support\DomParser;
 
@@ -22,6 +23,7 @@ abstract class BaseAssert
     use Macroable {
         __call as protected callMacro;
     }
+    use TrackSelectors;
     use UsesElementAsserts;
 
     protected array $attributes = [];

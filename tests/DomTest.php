@@ -410,6 +410,30 @@ it('can match on livewire contains as attribute', function () {
         });
 });
 
+it('includes dom selectors when nesting and errors occur', function () {
+    $this->get('nesting')
+        ->assertElementExists(function (AssertElement $element) {
+            $element->findDiv(function (AssertElement $element) {
+                $element->is('div');
+                $element->find('div', function (AssertElement $element) {
+                    $element->is('div');
+                    $element->findDiv(function (AssertElement $element) {
+                        $element->contains('not-existing');
+                    });
+                });
+            });
+        });
+})->throws(AssertionFailedError::class, 'Could not find any matching element of type "not-existing" within: div > div > div');
+
+it('includes dom selectors when only one deep', function () {
+    $this->get('nesting')
+        ->assertElementExists(function (AssertElement $element) {
+            $element->find('.foobar', function (AssertElement $element) {
+                $element->is('not-real');
+            });
+        });
+})->throws(AssertionFailedError::class, 'Element is not of type "not-real" within: .foobar');
+
 it('can run the example from the readme', function () {
     $this->get(route('about'))
         ->assertOk()
