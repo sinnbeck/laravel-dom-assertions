@@ -283,6 +283,15 @@ it('can run assertions against all elements that match the selection', function 
         );
 });
 
+it('can run assertions against indexed elements that match the selection', function () {
+    $this->get('form')
+        ->assertOk()
+        ->assertElementExists(function (AssertElement $view) {
+            $all = $view->getParser()->queryAll('select');
+            $view->each('select', fn (AssertElement $select, int $index) => $select->containsText($all->item($index)->nodeValue));
+        });
+});
+
 it('fails when each() is used but no elements match the selector', function () {
     $this->get('form')
         ->assertOk()

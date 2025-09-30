@@ -84,9 +84,9 @@ trait UsesElementAsserts
             sprintf('Could not find any matching element for selector "%s"', $selector)
         );
 
-        foreach ($elements as $element) {
+        foreach ($elements as $index => $element) {
             $elementAssert = new AssertElement($this->getContent(), $element);
-            $callback($elementAssert);
+            $callback($elementAssert, $index);
         }
 
         return $this;
