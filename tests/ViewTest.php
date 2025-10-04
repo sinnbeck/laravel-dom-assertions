@@ -3,6 +3,22 @@
 use PHPUnit\Framework\AssertionFailedError;
 use Sinnbeck\DomAssertions\Asserts\AssertElement;
 
+it('assertContainsElement works as expects', function () {
+    $this->view('nesting')
+        ->assertContainsElement('span.foo', ['text' => 'Foo'])
+        ->assertContainsElement('nav');
+});
+
+it('assertContainsElement throws if selector not found', function () {
+    $this->view('nesting')
+        ->assertContainsElement('span.non-existing', ['text' => 'Foo']);
+})->throws(AssertionFailedError::class, 'No element found with selector: span.non-existing');
+
+it('assertContainsElement throws if contains array does not exist', function () {
+    $this->view('nesting')
+        ->assertContainsElement('span.foo', ['text' => 'non-existing']);
+})->throws(AssertionFailedError::class, 'Failed asserting that element [span.foo] text contains "non-existing". Actual: "Foo"');
+
 it('assertElement alias works for assertElementExists', function () {
     $this->view('nesting')
         ->assertElement('body', function (AssertElement $assert) {

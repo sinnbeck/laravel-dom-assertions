@@ -10,6 +10,22 @@ it('assertAlias alias works for assertElementExists', function () {
         });
 });
 
+it('assertContainsElement works as expects', function () {
+    $this->get('nesting')
+        ->assertContainsElement('span.foo', ['text' => 'Foo', 'class' => 'bar foo'])
+        ->assertContainsElement('nav');
+});
+
+it('assertContainsElement throws if selector not found', function () {
+    $this->get('nesting')
+        ->assertContainsElement('span.non-existing', ['text' => 'Foo']);
+})->throws(AssertionFailedError::class, 'No element found with selector: span.non-existing');
+
+it('assertContainsElement throws if contains array does not exist', function () {
+    $this->get('nesting')
+        ->assertContainsElement('span.foo', ['text' => 'non-existing']);
+})->throws(AssertionFailedError::class, 'Failed asserting that element [span.foo] text contains "non-existing". Actual: "Foo"');
+
 it('can handle an empty view', function () {
     $this->get('empty')
         ->assertElementExists();
