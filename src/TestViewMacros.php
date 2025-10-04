@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Sinnbeck\DomAssertions;
 
 use Closure;
+use DOMElement;
 use DOMException;
 use Illuminate\Testing\TestView;
 use PHPUnit\Framework\Assert;
@@ -79,6 +80,75 @@ class TestViewMacros
 
             if ($callback) {
                 $callback(new AssertElement((string) $this, $element));
+            }
+
+            return $this;
+        };
+    }
+
+    public function assertContainsElement(): Closure
+    {
+        return function (string $selector, array $attributes = []): TestView {
+            /** @var TestView $this */
+            Assert::assertNotEmpty(
+                (string) $this,
+                'The view is empty!'
+            );
+
+            try {
+                $parser = DomParser::new((string) $this);
+            } catch (DOMException $exception) {
+                Assert::fail($exception->getMessage());
+            }
+
+            $element = $parser->query($selector);
+
+            Assert::assertNotNull(
+                $element,
+                sprintf('No element found with selector: %s', $selector)
+            );
+
+            if (! $element instanceof DOMElement) {
+                Assert::fail('The element found is not a DOMElement!');
+            }
+
+            foreach ($attributes as $attribute => $expected) {
+                switch ($attribute) {
+                    case 'text':
+                        $actual = trim($element->textContent ?? '');
+                        Assert::assertStringContainsString(
+                            $expected,
+                            $actual,
+                            sprintf(
+                                'Failed asserting that element [%s] text contains "%s". Actual: "%s".',
+                                $selector,
+                                $expected,
+                                $actual
+                            )
+                        );
+                        break;
+
+                    default:
+                        $actual = $element->getAttribute($attribute);
+
+                        Assert::assertNotFalse(
+                            $actual,
+                            sprintf('Attribute [%s] not found in element [%s].', $attribute, $selector)
+                        );
+
+                        Assert::assertStringContainsString(
+                            $expected,
+                            $actual,
+                            sprintf(
+                                'Failed asserting that attribute [%s] of element [%s] contains "%s". Actual: "%s".',
+                                $attribute,
+                                $selector,
+                                $expected,
+                                $actual
+                            )
+                        );
+                        break;
+                }
             }
 
             return $this;
