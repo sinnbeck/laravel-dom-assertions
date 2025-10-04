@@ -116,11 +116,11 @@ class TestViewMacros
                 switch ($attribute) {
                     case 'text':
                         $actual = trim($element->textContent ?? '');
-                        Assert::assertStringContainsString(
+                        Assert::assertEquals(
                             $expected,
                             $actual,
                             sprintf(
-                                'Failed asserting that element [%s] text contains "%s". Actual: "%s".',
+                                'Failed asserting that element [%s] text is "%s". Actual: "%s".',
                                 $selector,
                                 $expected,
                                 $actual
