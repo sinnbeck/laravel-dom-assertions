@@ -193,7 +193,7 @@ $this->get('/some-route')
 ```
 
 
-For simple and quick checks assertions, you can use assertContainsElement. 
+For simple and quick checks, you can use `assertContainsElement`. 
 This method allows you to verify that a specific element exists on the page you can optionally include an array of expected attributes.
 ```
 $this->get('/some-route')
