@@ -115,7 +115,7 @@ class TestViewMacros
             foreach ($attributes as $attribute => $expected) {
                 switch ($attribute) {
                     case 'text':
-                        $actual = trim($element->textContent ?? '');
+                        $actual = trim($element->textContent);
                         Assert::assertEquals(
                             $expected,
                             $actual,
