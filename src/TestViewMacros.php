@@ -131,7 +131,7 @@ class TestViewMacros
                     default:
                         $actual = $element->getAttribute($attribute);
 
-                        Assert::assertNotFalse(
+                        Assert::assertNotEmpty(
                             $actual,
                             sprintf('Attribute [%s] not found in element [%s].', $attribute, $selector)
                         );
