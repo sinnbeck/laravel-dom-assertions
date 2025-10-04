@@ -192,6 +192,15 @@ $this->get('/some-route')
     });
 ```
 
+
+For simple and quick checks assertions, you can use assertContainsElement. 
+This method allows you to verify that a specific element exists on the page you can optionally include an array of expected attributes.
+```
+$this->get('/some-route')
+    ->assertContainsElement('#content')
+    ->assertContainsElement('div.banner', ['text' => 'Successfully deleted', 'data-status' => 'success']);
+```
+
 ### Testing forms
 Testing forms allows using all the dom asserts from above, but has a few special helpers to help test for forms.
 Instead of using `->assertElementExists()` you can use `->assertFormExists()`, or the alias `assertForm()` on the test response.
