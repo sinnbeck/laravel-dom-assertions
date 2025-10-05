@@ -17,7 +17,7 @@ it('assertContainsElement throws if selector not found', function () {
 it('assertContainsElement throws if contains text does not exist', function () {
     $this->view('nesting')
         ->assertContainsElement('span.foo', ['text' => 'non-existing']);
-})->throws(AssertionFailedError::class, 'Failed asserting that element [span.foo] text is "non-existing". Actual: "Foo"');
+})->throws(AssertionFailedError::class, 'Failed asserting that element [span.foo] text contains "non-existing". Actual: "Foo"');
 
 it('assertContainsElement throws if contains attribute does not exist', function () {
     $this->view('nesting')

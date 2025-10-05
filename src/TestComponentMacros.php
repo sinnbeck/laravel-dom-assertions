@@ -116,11 +116,11 @@ class TestComponentMacros
                 switch ($attribute) {
                     case 'text':
                         $actual = trim($element->textContent);
-                        Assert::assertEquals(
+                        Assert::assertStringContainsString(
                             $expected,
                             $actual,
                             sprintf(
-                                'Failed asserting that element [%s] text is "%s". Actual: "%s".',
+                                'Failed asserting that element [%s] text contains "%s". Actual: "%s".',
                                 $selector,
                                 $expected,
                                 $actual

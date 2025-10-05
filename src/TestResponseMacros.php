@@ -116,11 +116,11 @@ class TestResponseMacros
                 switch ($attribute) {
                     case 'text':
                         $actual = trim($element->textContent);
-                        Assert::assertEquals(
+                        Assert::assertStringContainsString(
                             $expected,
                             $actual,
                             sprintf(
-                                'Failed asserting that element [%s] text is "%s". Actual: "%s".',
+                                'Failed asserting that element [%s] text contains "%s". Actual: "%s".',
                                 $selector,
                                 $expected,
                                 $actual
@@ -135,11 +135,11 @@ class TestResponseMacros
                             sprintf('Attribute [%s] not found in element [%s].', $attribute, $selector)
                         );
 
-                        Assert::assertEquals(
+                        Assert::assertStringContainsString(
                             $expected,
                             $actual,
                             sprintf(
-                                'Failed asserting that attribute [%s] of element [%s] is "%s". Actual: "%s".',
+                                'Failed asserting that attribute [%s] of element [%s] contains "%s". Actual: "%s".',
                                 $attribute,
                                 $selector,
                                 $expected,
