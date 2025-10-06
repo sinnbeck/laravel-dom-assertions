@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-dom-assertion` will be documented in this file.
 
+## v2.4.0 - 2025-10-06
+
+* Add assertContainsElement #35 by @jackbayliss
+
 ## v2.3.0 - 2025-09-30
 
 * Give each() callback access to foreach index #33 by @MizouziE
