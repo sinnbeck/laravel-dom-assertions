@@ -32,6 +32,12 @@ namespace Illuminate\Testing {
             /** @var \Illuminate\Testing\TestResponse $instance */
             return $instance;
         }
+
+        public function assertContainsElement($selector, array $attributes = [])
+        {
+            /** @var \Illuminate\Testing\TestResponse $instance */
+            return $instance;
+        }
     }
 
     class TestView
@@ -61,6 +67,12 @@ namespace Illuminate\Testing {
         }
 
         public function assertFormExists($selector = 'form', $callback = null)
+        {
+            /** @var \Illuminate\Testing\TestResponse $instance */
+            return $instance;
+        }
+
+        public function assertContainsElement($selector, array $attributes = [])
         {
             /** @var \Illuminate\Testing\TestResponse $instance */
             return $instance;
@@ -96,6 +108,12 @@ namespace Illuminate\Testing {
         public function assertFormExists($selector = 'form', $callback = null)
         {
             /** @var \Illuminate\Testing\TestResponse $instance */
+            return $instance;
+        }
+
+        public function assertContainsElement($selector, array $attributes = [])
+        {
+            /** @var \Illuminate\Testing\TestComponent $instance */
             return $instance;
         }
     }
