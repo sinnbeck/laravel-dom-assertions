@@ -6,4 +6,4 @@ parameters:
     checkOctaneCompatibility: true
     checkModelProperties: true
     ignoreErrors:
-        - '#Access to an undefined property .*::\domParser#'
+        - '#Access to an undefined property .*::\$domParser#'
