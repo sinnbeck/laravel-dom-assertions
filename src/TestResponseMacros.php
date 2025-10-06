@@ -96,14 +96,14 @@ class TestResponseMacros
             );
 
             try {
-                if (! isset($this->parser)) {
-                    $this->parser = DomParser::new($this->getContent());
+                if (! isset($this->domParser)) {
+                    $this->domParser = DomParser::new($this->getContent());
                 }
             } catch (DOMException $exception) {
                 Assert::fail($exception->getMessage());
             }
 
-            $element = $this->parser->query($selector);
+            $element = $this->domParser->query($selector);
 
             Assert::assertNotNull(
                 $element,
