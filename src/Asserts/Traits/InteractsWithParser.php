@@ -13,7 +13,7 @@ trait InteractsWithParser
 
     public function getParser(): DomParser
     {
-        return $this->domParser;
+        return $this->parser;
     }
 
     protected function getContent(): string

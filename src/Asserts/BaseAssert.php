@@ -30,10 +30,10 @@ abstract class BaseAssert
 
     public function __construct($html, $element = null)
     {
-        $this->domParser = DomParser::new($html);
+        $this->parser = DomParser::new($html);
 
         if (! is_null($element)) {
-            $this->domParser->setRoot($element);
+            $this->parser->setRoot($element);
         }
     }
 
