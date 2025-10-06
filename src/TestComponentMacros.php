@@ -96,12 +96,14 @@ class TestComponentMacros
             );
 
             try {
-                $parser = DomParser::new((string) $this);
+                if (! isset($this->parser)) {
+                    $this->parser = DomParser::new((string) $this);
+                }
             } catch (DOMException $exception) {
                 Assert::fail($exception->getMessage());
             }
 
-            $element = $parser->query($selector);
+            $element = $this->parser->query($selector);
 
             Assert::assertNotNull(
                 $element,
