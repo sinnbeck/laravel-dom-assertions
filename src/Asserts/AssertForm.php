@@ -42,7 +42,7 @@ class AssertForm extends BaseAssert
 
     public function hasSpoofMethod(string $type): self
     {
-        $element = this->parser->query('input[type="hidden"][name="_method"]');
+        $element = $this->parser->query('input[type="hidden"][name="_method"]');
         Assert::assertNotNull(
             $element,
             sprintf('No spoof methods was found in form!')
@@ -59,7 +59,8 @@ class AssertForm extends BaseAssert
 
     public function hasCSRF(): self
     {
-        Assert::assertNotNull($this->parser->query('input[type="hidden"][name="_token"]'),
+        Assert::assertNotNull(
+            $this->parser->query('input[type="hidden"][name="_token"]'),
             'No CSRF was found in form!');
 
         return $this;
