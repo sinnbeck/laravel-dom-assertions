@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-dom-assertion` will be documented in this file.
 
+## v2.5.0 - 2025-10-09
+
+* Cache parser in the container to speed up tests - by @jackbayliss
+* Use correct classes in ide-helper.php - by @jackbayliss
+
 ## v2.4.0 - 2025-10-06
 
 * Add assertContainsElement #35 by @jackbayliss
