@@ -96,14 +96,14 @@ class TestViewMacros
             );
 
             try {
-                if (! isset($this->domParser)) {
-                    $this->domParser = DomParser::new((string) $this);
+                if (! app()->has('dom-assertions.parser')) {
+                    app()->instance('dom-assertions.parser', DomParser::new((string) $this));
                 }
             } catch (DOMException $exception) {
                 Assert::fail($exception->getMessage());
             }
 
-            $element = $this->domParser->query($selector);
+            $element = app()->make('dom-assertions.parser')->query($selector);
 
             Assert::assertNotNull(
                 $element,

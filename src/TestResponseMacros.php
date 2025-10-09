@@ -96,14 +96,14 @@ class TestResponseMacros
             );
 
             try {
-                if (! isset($this->domParser)) {
-                    $this->domParser = DomParser::new($this->getContent());
+                if (! app()->has('dom-assertions.parser')) {
+                    app()->instance('dom-assertions.parser', DomParser::new($this->getContent()));
                 }
             } catch (DOMException $exception) {
                 Assert::fail($exception->getMessage());
             }
 
-            $element = $this->domParser->query($selector);
+            $element = app()->make('dom-assertions.parser')->query($selector);
 
             Assert::assertNotNull(
                 $element,
