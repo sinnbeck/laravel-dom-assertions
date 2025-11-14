@@ -21,7 +21,7 @@ namespace Illuminate\Testing {
             return $instance;
         }
 
-        public function assertForm($selector = 'body', $callback = null)
+        public function assertForm($selector = 'form', $callback = null)
         {
             /** @var \Illuminate\Testing\TestResponse $instance */
             return $instance;
