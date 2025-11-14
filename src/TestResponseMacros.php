@@ -246,7 +246,7 @@ class TestResponseMacros
                 'Element is not of type select!');
 
             if ($callback) {
-                $callback(new AssertSelect( $this->getContent(), $select));
+                $callback(new AssertSelect($this->getContent(), $select));
             }
 
             return $this;

@@ -4,7 +4,6 @@ use PHPUnit\Framework\AssertionFailedError;
 use Sinnbeck\DomAssertions\Asserts\AssertDatalist;
 use Sinnbeck\DomAssertions\Asserts\AssertElement;
 use Sinnbeck\DomAssertions\Asserts\AssertForm;
-use Sinnbeck\DomAssertions\Asserts\AssertSelect;
 
 it('assertForm alias works for assertFormExists', function () {
     $this->get('form')
