@@ -33,6 +33,18 @@ namespace Illuminate\Testing {
             return $instance;
         }
 
+        public function assertSelect($selector = 'select', $callback = null)
+        {
+            /** @var \Illuminate\Testing\TestResponse $instance */
+            return $instance;
+        }
+
+        public function assertSelectExists($selector = 'select', $callback = null)
+        {
+            /** @var \Illuminate\Testing\TestResponse $instance */
+            return $instance;
+        }
+
         public function assertContainsElement($selector, array $attributes = [])
         {
             /** @var \Illuminate\Testing\TestResponse $instance */
