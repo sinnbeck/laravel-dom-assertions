@@ -11,6 +11,7 @@ use Illuminate\Testing\TestView;
 use PHPUnit\Framework\Assert;
 use Sinnbeck\DomAssertions\Asserts\AssertElement;
 use Sinnbeck\DomAssertions\Asserts\AssertForm;
+use Sinnbeck\DomAssertions\Asserts\AssertSelect;
 use Sinnbeck\DomAssertions\Support\DomParser;
 
 /**
@@ -199,6 +200,54 @@ class TestViewMacros
 
             if ($callback) {
                 $callback(new AssertForm((string) $this, $form));
+            }
+
+            return $this;
+        };
+    }
+
+    public function assertSelect(): Closure
+    {
+        return $this->assertSelectExists();
+    }
+
+    public function assertSelectExists(): Closure
+    {
+        return function ($selector = 'select', $callback = null): TestView {
+            /** @var TestView $this */
+            Assert::assertNotEmpty(
+                (string) $this,
+                'The view is empty!'
+            );
+
+            try {
+                $parser = DomParser::new((string) $this);
+            } catch (DOMException $exception) {
+                Assert::fail($exception->getMessage());
+            }
+
+            if ($selector instanceof Closure) {
+                $callback = $selector;
+                $selector = 'select';
+            }
+
+            if (is_string($selector)) {
+                $select = $parser->query($selector);
+            } else {
+                Assert::fail('Invalid selector!');
+            }
+
+            Assert::assertNotNull(
+                $select,
+                sprintf('No select was found with selector "%s"', $selector)
+            );
+            Assert::assertEquals(
+                'select',
+                $select->nodeName,
+                'Element is not of type select!');
+
+            if ($callback) {
+                $callback(new AssertSelect((string) $this, $select));
             }
 
             return $this;
