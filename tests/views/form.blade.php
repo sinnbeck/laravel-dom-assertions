@@ -18,7 +18,7 @@
         @php
             $selected = ['da', 'en'];
         @endphp
-        <select name="languages multiple">
+        <select name="languages multiple" x-data="bar">
             <option>None</option>
             @foreach(['en' => 'English', 'da' => 'Danish', 'fi' => 'Finland'] as $value => $label)
                 <option {{in_array($value, $selected) ? 'selected' : ''}} value="{{$value}}">{{$label}}</option>
