@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-dom-assertion` will be documented in this file.
 
+## v2.6.0 - 2025-11-17
+
+* Add assertSelect and assertSelectExists macros #39 (by @MizouziE )
+
 ## v2.5.0 - 2025-10-09
 
 * Cache parser in the container to speed up tests - by @jackbayliss
