@@ -3,9 +3,12 @@
 use PHPUnit\Framework\AssertionFailedError;
 use PHPUnit\Framework\TestCase;
 use Sinnbeck\DomAssertions\Asserts\AssertElement;
+use Sinnbeck\DomAssertions\Asserts\AssertForm;
+use Sinnbeck\DomAssertions\Asserts\AssertSelect;
 use Tests\Views\Components\BrokenComponent;
 use Tests\Views\Components\EmptyBodyComponent;
 use Tests\Views\Components\EmptyComponent;
+use Tests\Views\Components\FormComponent;
 use Tests\Views\Components\Html5Component;
 use Tests\Views\Components\LivewireComponent;
 use Tests\Views\Components\NestedComponent;
@@ -43,6 +46,29 @@ it('assertContainsElement throws if contains attribute does not exist', function
     $this->view('nesting')
         ->assertContainsElement('span.foo', ['non-existing-attribute' => 'non-existing']);
 })->throws(AssertionFailedError::class, 'Attribute [non-existing-attribute] not found in element [span.foo]');
+
+it('assertFormExists works as expects', function () {
+    $this->component(FormComponent::class)
+        ->assertFormExists('#form1', function (AssertForm $form) {
+            $form->hasAction('store-comment');
+        });
+});
+
+it('assertSelectExists works as expects', function () {
+    $this->component(FormComponent::class)
+        ->assertSelectExists('[name="things"]', function (AssertSelect $select) {
+            $select->containsOptgroups(
+                ['label' => 'Animals'],
+                ['label' => 'Vegetables'],
+                ['label' => 'Minerals'],
+            );
+            $select->containsOptions(
+                ['value' => 'dog'],
+                ['value' => 'carrot'],
+                ['value' => 'calcium'],
+            );
+        });
+});
 
 it('can handle an empty component', function () {
     $this->component(EmptyComponent::class)
