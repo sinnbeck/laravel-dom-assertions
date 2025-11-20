@@ -84,6 +84,18 @@ namespace Illuminate\Testing {
             return $instance;
         }
 
+        public function assertSelect($selector = 'select', $callback = null)
+        {
+            /** @var \Illuminate\Testing\TestView $instance */
+            return $instance;
+        }
+
+        public function assertSelectExists($selector = 'select', $callback = null)
+        {
+            /** @var \Illuminate\Testing\TestView $instance */
+            return $instance;
+        }
+
         public function assertContainsElement($selector, array $attributes = [])
         {
             /** @var \Illuminate\Testing\TestView $instance */
@@ -118,6 +130,18 @@ namespace Illuminate\Testing {
         }
 
         public function assertFormExists($selector = 'form', $callback = null)
+        {
+            /** @var \Illuminate\Testing\TestComponent $instance */
+            return $instance;
+        }
+
+        public function assertSelect($selector = 'select', $callback = null)
+        {
+            /** @var \Illuminate\Testing\TestComponent $instance */
+            return $instance;
+        }
+
+        public function assertSelectExists($selector = 'select', $callback = null)
         {
             /** @var \Illuminate\Testing\TestComponent $instance */
             return $instance;
