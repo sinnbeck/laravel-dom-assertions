@@ -193,12 +193,15 @@ $this->get('/some-route')
 ```
 
 
-For simple and quick checks, you can use `assertContainsElement`. 
-This method allows you to verify that a specific element exists on the page you can optionally include an array of expected attributes.
+For simple and quick checks, you can use  `assertContainsElement` or `assertDoesntExist` 
+These methods allow you to verify that a specific element exists on the page.
+
+`assertContainsElement` optionally allows an array of expected attributes
 ```
 $this->get('/some-route')
     ->assertContainsElement('#content')
-    ->assertContainsElement('div.banner', ['text' => 'Successfully deleted', 'data-status' => 'success']);
+    ->assertContainsElement('div.banner', ['text' => 'Successfully deleted', 'data-status' => 'success'])
+    ->assertDoesntExist('div.not-here');
 ```
 
 ### Testing forms

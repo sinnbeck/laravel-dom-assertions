@@ -10,7 +10,13 @@ it('assertAlias alias works for assertElementExists', function () {
         });
 });
 
-it('assertContainsElement works as expects', function () {
+it('assertDoesntExist works as expected', function () {
+    $this->get('nesting')
+        ->assertDoesntExist('span.fake')
+        ->assertDoesntExist('nav.fake');
+});
+
+it('assertContainsElement works as expected', function () {
     $this->get('nesting')
         ->assertContainsElement('span.foo', ['text' => 'Foo', 'class' => 'bar foo'])
         ->assertContainsElement('nav');

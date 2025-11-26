@@ -3,7 +3,13 @@
 use PHPUnit\Framework\AssertionFailedError;
 use Sinnbeck\DomAssertions\Asserts\AssertElement;
 
-it('assertContainsElement works as expects', function () {
+it('assertDoesntExist works as expected', function () {
+    $this->get('nesting')
+        ->assertDoesntExist('span.fake')
+        ->assertDoesntExist('nav.fake');
+});
+
+it('assertContainsElement works as expected', function () {
     $this->view('nesting')
         ->assertContainsElement('span.foo', ['text' => 'Foo'])
         ->assertContainsElement('nav');

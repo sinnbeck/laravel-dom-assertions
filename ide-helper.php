@@ -50,6 +50,12 @@ namespace Illuminate\Testing {
             /** @var \Illuminate\Testing\TestResponse $instance */
             return $instance;
         }
+
+        public function assertDoesntExist($selector)
+        {
+            /** @var \Illuminate\Testing\TestResponse $instance */
+            return $instance;
+        }
     }
 
     class TestView
@@ -101,6 +107,12 @@ namespace Illuminate\Testing {
             /** @var \Illuminate\Testing\TestView $instance */
             return $instance;
         }
+
+        public function assertDoesntExist($selector)
+        {
+            /** @var \Illuminate\Testing\TestView $instance */
+            return $instance;
+        }
     }
 
     class TestComponent
@@ -148,6 +160,12 @@ namespace Illuminate\Testing {
         }
 
         public function assertContainsElement($selector, array $attributes = [])
+        {
+            /** @var \Illuminate\Testing\TestComponent $instance */
+            return $instance;
+        }
+
+        public function assertDoesntExist($selector)
         {
             /** @var \Illuminate\Testing\TestComponent $instance */
             return $instance;
