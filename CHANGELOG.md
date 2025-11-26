@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-dom-assertion` will be documented in this file.
 
+## v2.7.0 - 2025-11-26
+
+* Add missing ide-helper methods and component #41 by @MizouziE
+* Add assertDoesntExist method #42 by @jackbayliss
+
 ## v2.6.0 - 2025-11-17
 
 * Add assertSelect and assertSelectExists macros #39 (by @MizouziE )
