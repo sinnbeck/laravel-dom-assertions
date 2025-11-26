@@ -157,6 +157,34 @@ class TestResponseMacros
         };
     }
 
+    public function assertDoesntExist(): Closure
+    {
+        return function (string $selector): TestResponse {
+            /** @var TestResponse $this */
+            Assert::assertNotEmpty(
+                (string) $this->getContent(),
+                'The view is empty!'
+            );
+
+            try {
+                if (! app()->has('dom-assertions.parser')) {
+                    app()->instance('dom-assertions.parser', DomParser::new($this->getContent()));
+                }
+            } catch (DOMException $exception) {
+                Assert::fail($exception->getMessage());
+            }
+
+            $element = app()->make('dom-assertions.parser')->query($selector);
+
+            Assert::assertNull(
+                $element,
+                sprintf('Expected no element with selector: %s, but one was found.', $selector)
+            );
+
+            return $this;
+        };
+    }
+
     public function assertForm(): Closure
     {
         return $this->assertFormExists();
