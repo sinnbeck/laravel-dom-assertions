@@ -202,6 +202,44 @@ trait UsesElementAsserts
         return $this;
     }
 
+    public function containsHtml(string $html, bool $ignoreCase = false): self
+    {
+        $content = $this->getContent();
+        if ($ignoreCase) {
+            \PHPUnit\Framework\Assert::assertStringContainsStringIgnoringCase(
+                $html,
+                $content,
+                sprintf('Failed asserting that HTML contains (ignore case): %s', $html)
+            );
+        } else {
+            \PHPUnit\Framework\Assert::assertStringContainsString(
+                $html,
+                $content,
+                sprintf('Failed asserting that HTML contains: %s', $html)
+            );
+        }
+        return $this;
+    }
+
+    public function doesntContainHtml(string $html, bool $ignoreCase = false): self
+    {
+        $content = $this->getContent();
+        if ($ignoreCase) {
+            \PHPUnit\Framework\Assert::assertStringNotContainsStringIgnoringCase(
+                $html,
+                $content,
+                sprintf('Failed asserting that HTML does not contain (ignore case): %s', $html)
+            );
+        } else {
+            \PHPUnit\Framework\Assert::assertStringNotContainsString(
+                $html,
+                $content,
+                sprintf('Failed asserting that HTML does not contain: %s', $html)
+            );
+        }
+        return $this;
+    }
+
     public function is(string $type): self
     {
         PHPUnit::assertEquals(

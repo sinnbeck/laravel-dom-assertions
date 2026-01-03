@@ -204,6 +204,34 @@ $this->get('/some-route')
     ->assertDoesntExist('div.not-here');
 ```
 
+### Matching text content
+
+Use `containsText` and `doesntContainText` to assert that the element's text content contains or does not contain a given substring. These methods also support an optional `$ignoreCase` parameter for case-insensitive matching.
+
+```php
+$this->get('/some-route')
+    ->assertElement('h1', function (\Sinnbeck\DomAssertions\Asserts\AssertElement $assert) {
+        $assert->containsText('Page Title');
+    });
+```
+
+- `containsText($needle, $ignoreCase = false)` asserts the element’s text contains a substring.
+- `doesntContainText($needle, $ignoreCase = false)` asserts the element’s text does not contain a substring.
+
+### Matching HTML content
+
+Use `containsHtml` and `doesntContainHtml` to assert that the element's HTML contains or does not contain a given substring. These methods also support an optional `$ignoreCase` parameter for case-insensitive matching.
+
+```php
+$this->get('/some-route')
+    ->assertElement('img', function (\Sinnbeck\DomAssertions\Asserts\AssertElement $assert) {
+        $assert->containsHtml('src="/images/cat.jpg"');
+    });
+```
+
+- `containsHtml($needle, $ignoreCase = false)` asserts the element’s HTML contains a substring.
+- `doesntContainHtml($needle, $ignoreCase = false)` asserts the element’s HTML does not contain a substring.
+
 ### Testing forms
 Testing forms allows using all the dom asserts from above, but has a few special helpers to help test for forms.
 Instead of using `->assertElementExists()` you can use `->assertFormExists()`, or the alias `assertForm()` on the test response.
@@ -384,7 +412,7 @@ Livewire::test(UserForm::class)
 ```
 
 ### Usage with Blade views
-You can also use this package to test blade views. 
+You can also use this package to test blade views.
 ```php
 $this->view('navigation')
     ->assertElementExists('nav > ul', function(AssertElement $ul) {
@@ -418,6 +446,8 @@ $this->component(Navigation::class)
 | `->doesntContain($selector, $attributes)`      | Ensures that there are no matching children                                          |
 | `->doesntContainDiv, ['class' => 'foo'])`      | Magic method. Same as `->doesntContain('div', ['class' => 'foo'])`                   |
 | `->doesntContainText($needle, $ignoreCase)`    | Checks if the element's text content doesn't contain a specified string              |
+| `->containsHtml($needle, $ignoreCase)`         | Checks if the element's HTML contains a specified string                             |
+| `->doesntContainHtml($needle, $ignoreCase)`    | Checks if the element's HTML does not contain a specified string                     |
 | `->find($selector, $callback)`                 | Find a specific child element and get a new AssertElement. Returns the first match.  |
 | `->findDiv(fn (AssertElement $element) => {})` | Magic method. Same as `->find('div', fn (AssertElement $element) => {})`             |
 
