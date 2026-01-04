@@ -57,7 +57,7 @@ namespace Illuminate\Testing {
             return $instance;
         }
 
-        public function dd() {}
+        public function dd(): void {}
     }
 
     class TestView
@@ -116,7 +116,7 @@ namespace Illuminate\Testing {
             return $instance;
         }
 
-        public function dd() {}
+        public function dd(): void {}
     }
 
     class TestComponent
@@ -175,6 +175,6 @@ namespace Illuminate\Testing {
             return $instance;
         }
 
-        public function dd() {}
+        public function dd(): void {}
     }
 }
