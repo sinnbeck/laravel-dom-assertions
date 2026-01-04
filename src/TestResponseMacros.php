@@ -280,4 +280,12 @@ class TestResponseMacros
             return $this;
         };
     }
+
+    public function ddContent(): Closure
+    {
+        /** @var TestResponse $this */
+        return function (): void {
+            dd($this->getContent());
+        };
+    }
 }
