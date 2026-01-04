@@ -283,8 +283,8 @@ class TestResponseMacros
 
     public function ddContent(): Closure
     {
-        /** @var TestResponse $this */
         return function (): void {
+            /** @var TestResponse $this */
             dd($this->getContent());
         };
     }

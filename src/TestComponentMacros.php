@@ -283,8 +283,8 @@ class TestComponentMacros
 
     public function ddContent(): Closure
     {
-        /** @var TestComponent $this */
         return function (): void {
+            /** @var TestComponent $this */
             dd((string) $this);
         };
     }
