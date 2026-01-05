@@ -9,12 +9,21 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
         with:
           ref: ${{ github.head_ref }}
 
-      - name: Fix PHP code style issues
-        uses: aglipanci/laravel-pint-action@1.0.0
+      - name: Cache dependencies
+        uses: actions/cache@v5
+        with:
+          key: composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install Composer dependencies
+        run: composer install --no-interaction --no-progress --prefer-dist
+
+      - name: Run Laravel Pint (PSR-12)
+        run: vendor/bin/pint
 
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v4
