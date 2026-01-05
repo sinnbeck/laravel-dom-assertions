@@ -204,6 +204,16 @@ $this->get('/some-route')
     ->assertDoesntExist('div.not-here');
 ```
 
+While using either `assertContainsElement` or `assertDoesntExist` you can use the `ddContent` method to dump the content of the page to aid with debugging
+```
+$this->blade('<x-some-blade>')
+    ->assertContainsElement('#content')
+    ->ddContent();`
+```
+
+> [!TIP]
+> Because this method is shared across the Test macros (response, view and component), it's technically available anywhere.
+
 ### Testing forms
 Testing forms allows using all the dom asserts from above, but has a few special helpers to help test for forms.
 Instead of using `->assertElementExists()` you can use `->assertFormExists()`, or the alias `assertForm()` on the test response.

@@ -281,4 +281,12 @@ class TestViewMacros
             return $this;
         };
     }
+
+    public function ddContent(): Closure
+    {
+        return function (): void {
+            /** @var TestView $this */
+            dd((string) $this);
+        };
+    }
 }

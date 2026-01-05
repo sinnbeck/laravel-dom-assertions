@@ -280,4 +280,12 @@ class TestComponentMacros
             return $this;
         };
     }
+
+    public function ddContent(): Closure
+    {
+        return function (): void {
+            /** @var TestComponent $this */
+            dd((string) $this);
+        };
+    }
 }

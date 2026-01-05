@@ -56,6 +56,8 @@ namespace Illuminate\Testing {
             /** @var \Illuminate\Testing\TestResponse $instance */
             return $instance;
         }
+
+        public function ddContent(): void {}
     }
 
     class TestView
@@ -113,6 +115,8 @@ namespace Illuminate\Testing {
             /** @var \Illuminate\Testing\TestView $instance */
             return $instance;
         }
+
+        public function ddContent(): void {}
     }
 
     class TestComponent
@@ -170,5 +174,7 @@ namespace Illuminate\Testing {
             /** @var \Illuminate\Testing\TestComponent $instance */
             return $instance;
         }
+
+        public function ddContent(): void {}
     }
 }
