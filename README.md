@@ -394,7 +394,7 @@ Livewire::test(UserForm::class)
 ```
 
 ### Usage with Blade views
-You can also use this package to test blade views. 
+You can also use this package to test blade views.
 ```php
 $this->view('navigation')
     ->assertElementExists('nav > ul', function(AssertElement $ul) {
@@ -431,16 +431,16 @@ $this->component(Navigation::class)
 | `->find($selector, $callback)`                 | Find a specific child element and get a new AssertElement. Returns the first match.  |
 | `->findDiv(fn (AssertElement $element) => {})` | Magic method. Same as `->find('div', fn (AssertElement $element) => {})`             |
 
-| Form specific methods                   | Description                            |
-|-----------------------------------------|----------------------------------------|
-| `->hasAction($url)`                       | Ensures the form has a specific action |
-| `->hasMethod($method)`                    | Ensures a form has a specific method   |
-| `->hasSpoofMethod($method)`               | Ensures form has a spoofed method      |
-| `->hasCSRF()`                             | Ensures form has a csrf token          |
-| `->findSelect($selector, $callback)`      | Finds a select to run assertions on    |
+| Form specific methods                | Description                            |
+|--------------------------------------|----------------------------------------|
+| `->hasAction($url)`                  | Ensures the form has a specific action |
+| `->hasMethod($method)`               | Ensures a form has a specific method   |
+| `->hasSpoofMethod($method)`          | Ensures form has a spoofed method      |
+| `->hasCSRF()`                        | Ensures form has a csrf token          |
+| `->findSelect($selector, $callback)` | Finds a select to run assertions on    |
 
-| Select specific methods        | Description                                                        |
-|--------------------------------|--------------------------------------------------------------------|
+| Select specific methods          | Description                                                        |
+|----------------------------------|--------------------------------------------------------------------|
 | `->hasValue($value)`             | Ensures a select has a specific value                              |
 | `->hasValues($values)`           | Ensures a select has an array of values (multiple select)          |
 | `->containsOption($attributes)`  | Checks for an option with the given attributes                     |
