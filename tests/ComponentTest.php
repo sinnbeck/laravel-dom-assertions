@@ -458,5 +458,4 @@ it('multiple views can be tested in the same test', function () {
         ->assertContainsElement('span.foo', ['text' => 'Foo'])
     )
         ->toThrow(AssertionFailedError::class, 'No element found with selector: span.foo');
-
 });
