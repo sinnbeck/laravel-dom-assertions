@@ -436,3 +436,18 @@ it('can match on livewire contains as attribute', function () {
             ]);
         });
 });
+
+it('multiple views can be tested in the same test', function () {
+    $this->component(NestedComponent::class)
+        ->assertDoesntExist('span.fake')
+        ->assertDoesntExist('nav.fake')
+        ->assertElementExists(function (AssertElement $element) {
+            $element->contains('nav');
+        });
+
+    $this->component(LivewireComponent::class)
+        ->assertElementExists('input')
+        ->assertElementExists(function (AssertElement $element) {
+            $element->contains('input[wire\:model="foo"]');
+        });
+});
