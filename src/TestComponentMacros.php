@@ -25,7 +25,7 @@ class TestComponentMacros
     {
         return function (): DomParser {
             /** @var TestComponent $this */
-            $cacheKey = 'dom-assertions.parser.'.spl_object_id($this);
+            $cacheKey = 'dom-assertions.parser.'.md5((string) $this);
 
             if (! app()->has($cacheKey)) {
                 try {
