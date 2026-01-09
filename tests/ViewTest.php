@@ -430,4 +430,12 @@ it('multiple views can be tested in the same test', function () {
         ->assertElementExists(function (AssertElement $element) {
             $element->contains('input[wire\:model="foo"]');
         });
+
+    $this->get('nesting')
+        ->assertContainsElement('span.foo', ['text' => 'Foo']);
+
+    expect(fn () => $this->get('livewire')
+        ->assertContainsElement('span.foo', ['text' => 'Foo'])
+    )
+        ->toThrow(AssertionFailedError::class, 'No element found with selector: span.foo');
 });
