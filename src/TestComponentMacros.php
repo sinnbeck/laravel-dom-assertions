@@ -21,6 +21,24 @@ use Sinnbeck\DomAssertions\Support\DomParser;
  */
 class TestComponentMacros
 {
+    public function getParser(): Closure
+    {
+        return function (): DomParser {
+            /** @var TestComponent $this */
+            $cacheKey = 'dom-assertions.parser.'.spl_object_id($this);
+
+            if (! app()->has($cacheKey)) {
+                try {
+                    app()->instance($cacheKey, DomParser::new((string) $this));
+                } catch (DOMException $exception) {
+                    Assert::fail($exception->getMessage());
+                }
+            }
+
+            return app()->make($cacheKey);
+        };
+    }
+
     public function assertHtml5(): Closure
     {
         return function () {
@@ -30,11 +48,7 @@ class TestComponentMacros
                 'The component is empty!'
             );
 
-            try {
-                $parser = DomParser::new((string) $this);
-            } catch (DOMException $exception) {
-                Assert::fail($exception->getMessage());
-            }
+            $parser = $this->getParser();
 
             Assert::assertEquals(
                 'html',
@@ -60,11 +74,7 @@ class TestComponentMacros
                 'The component is empty!'
             );
 
-            try {
-                $parser = DomParser::new((string) $this);
-            } catch (DOMException $exception) {
-                Assert::fail($exception->getMessage());
-            }
+            $parser = $this->getParser();
 
             if ($selector instanceof Closure) {
                 $callback = $selector;
@@ -96,15 +106,9 @@ class TestComponentMacros
                 'The component is empty!'
             );
 
-            try {
-                if (! app()->has('dom-assertions.parser')) {
-                    app()->instance('dom-assertions.parser', DomParser::new((string) $this));
-                }
-            } catch (DOMException $exception) {
-                Assert::fail($exception->getMessage());
-            }
+            $parser = $this->getParser();
 
-            $element = app()->make('dom-assertions.parser')->query($selector);
+            $element = $parser->query($selector);
 
             Assert::assertNotNull(
                 $element,
@@ -166,15 +170,9 @@ class TestComponentMacros
                 'The component is empty!'
             );
 
-            try {
-                if (! app()->has('dom-assertions.parser')) {
-                    app()->instance('dom-assertions.parser', DomParser::new((string) $this));
-                }
-            } catch (DOMException $exception) {
-                Assert::fail($exception->getMessage());
-            }
+            $parser = $this->getParser();
 
-            $element = app()->make('dom-assertions.parser')->query($selector);
+            $element = $parser->query($selector);
 
             Assert::assertNull(
                 $element,
@@ -199,11 +197,7 @@ class TestComponentMacros
                 'The component is empty!'
             );
 
-            try {
-                $parser = DomParser::new((string) $this);
-            } catch (DOMException $exception) {
-                Assert::fail($exception->getMessage());
-            }
+            $parser = $this->getParser();
 
             if ($selector instanceof Closure) {
                 $callback = $selector;
@@ -247,11 +241,7 @@ class TestComponentMacros
                 'The component is empty!'
             );
 
-            try {
-                $parser = DomParser::new((string) $this);
-            } catch (DOMException $exception) {
-                Assert::fail($exception->getMessage());
-            }
+            $parser = $this->getParser();
 
             if ($selector instanceof Closure) {
                 $callback = $selector;
