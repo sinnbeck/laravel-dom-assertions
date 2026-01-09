@@ -1,6 +1,9 @@
 <?php
 
 namespace Illuminate\Testing {
+    /**
+     * @method \Sinnbeck\DomAssertions\Support\DomParser getParser()
+     */
     class TestResponse
     {
         public function assertHtml5()
