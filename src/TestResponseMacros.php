@@ -7,7 +7,6 @@ namespace Sinnbeck\DomAssertions;
 use Closure;
 use DOMElement;
 use DOMException;
-use Illuminate\Testing\TestComponent;
 use Illuminate\Testing\TestResponse;
 use PHPUnit\Framework\Assert;
 use Sinnbeck\DomAssertions\Asserts\AssertElement;
