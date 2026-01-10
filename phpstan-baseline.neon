@@ -6,4 +6,4 @@ parameters:
     checkOctaneCompatibility: true
     checkModelProperties: true
     ignoreErrors:
-        - '#Call to an undefined method.*::getParser#'
+        - '#Call to an undefined method.*::getParser#' # We macro the parser so stan complains
