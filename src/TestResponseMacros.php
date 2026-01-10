@@ -25,7 +25,7 @@ class TestResponseMacros
     public function getParser(): Closure
     {
         return function (): DomParser {
-            /** @var TestComponent $this */
+            /** @var TestResponse $this */
             $cacheKey = 'dom-assertions.parser.'.md5((string) $this->getContent());
 
             if (! app()->has($cacheKey)) {
