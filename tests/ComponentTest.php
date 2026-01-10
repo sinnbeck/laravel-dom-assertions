@@ -454,8 +454,6 @@ it('multiple views can be tested in the same test', function () {
     $this->component(NestedComponent::class)
         ->assertContainsElement('span.foo', ['text' => 'Foo']);
 
-    expect(fn () => $this->component(LivewireComponent::class)
-        ->assertContainsElement('span.foo', ['text' => 'Foo'])
-    )
+    expect(fn () => $this->component(LivewireComponent::class)->assertContainsElement('span.foo', ['text' => 'Foo']))
         ->toThrow(AssertionFailedError::class, 'No element found with selector: span.foo');
 });
