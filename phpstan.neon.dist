@@ -1,2 +1,2 @@
 includes:
-    - ./phpstan-baseline.neon
+    - ./phpstan/phpstan-baseline.neon
