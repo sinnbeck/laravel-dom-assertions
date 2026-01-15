@@ -21,7 +21,10 @@ use Sinnbeck\DomAssertions\Support\DomParser;
  */
 class TestResponseMacros
 {
-    public function getParser(): Closure
+    /**
+     * @internal
+     */
+    protected function getParser(): Closure
     {
         return function (): DomParser {
             /** @var TestResponse $this */
