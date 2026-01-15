@@ -24,7 +24,7 @@ class TestViewMacros
     /**
      * @internal
      */
-    protected function getParser(): Closure
+    protected function getDomParser(): Closure
     {
         return function (): DomParser {
             /** @var TestView $this */
@@ -51,7 +51,7 @@ class TestViewMacros
                 'The view is empty!'
             );
 
-            $parser = $this->getParser();
+            $parser = $this->getDomParser();
 
             Assert::assertEquals(
                 'html',
@@ -77,7 +77,7 @@ class TestViewMacros
                 'The view is empty!'
             );
 
-            $parser = $this->getParser();
+            $parser = $this->getDomParser();
 
             if ($selector instanceof Closure) {
                 $callback = $selector;
@@ -109,7 +109,7 @@ class TestViewMacros
                 'The view is empty!'
             );
 
-            $parser = $this->getParser();
+            $parser = $this->getDomParser();
 
             $element = $parser->query($selector);
 
@@ -174,7 +174,7 @@ class TestViewMacros
                 'The view is empty!'
             );
 
-            $parser = $this->getParser();
+            $parser = $this->getDomParser();
 
             $element = $parser->query($selector);
 
@@ -201,7 +201,7 @@ class TestViewMacros
                 'The view is empty!'
             );
 
-            $parser = $this->getParser();
+            $parser = $this->getDomParser();
 
             if ($selector instanceof Closure) {
                 $callback = $selector;
@@ -245,7 +245,7 @@ class TestViewMacros
                 'The view is empty!'
             );
 
-            $parser = $this->getParser();
+            $parser = $this->getDomParser();
 
             if ($selector instanceof Closure) {
                 $callback = $selector;

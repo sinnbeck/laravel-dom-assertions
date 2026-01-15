@@ -24,7 +24,7 @@ class TestComponentMacros
     /**
      * @internal
      */
-    protected function getParser(): Closure
+    protected function getDomParser(): Closure
     {
         return function (): DomParser {
             /** @var TestComponent $this */
@@ -51,7 +51,7 @@ class TestComponentMacros
                 'The component is empty!'
             );
 
-            $parser = $this->getParser();
+            $parser = $this->getDomParser();
 
             Assert::assertEquals(
                 'html',
@@ -77,7 +77,7 @@ class TestComponentMacros
                 'The component is empty!'
             );
 
-            $parser = $this->getParser();
+            $parser = $this->getDomParser();
 
             if ($selector instanceof Closure) {
                 $callback = $selector;
@@ -109,7 +109,7 @@ class TestComponentMacros
                 'The component is empty!'
             );
 
-            $parser = $this->getParser();
+            $parser = $this->getDomParser();
 
             $element = $parser->query($selector);
 
@@ -173,7 +173,7 @@ class TestComponentMacros
                 'The component is empty!'
             );
 
-            $parser = $this->getParser();
+            $parser = $this->getDomParser();
 
             $element = $parser->query($selector);
 
@@ -200,7 +200,7 @@ class TestComponentMacros
                 'The component is empty!'
             );
 
-            $parser = $this->getParser();
+            $parser = $this->getDomParser();
 
             if ($selector instanceof Closure) {
                 $callback = $selector;
@@ -244,7 +244,7 @@ class TestComponentMacros
                 'The component is empty!'
             );
 
-            $parser = $this->getParser();
+            $parser = $this->getDomParser();
 
             if ($selector instanceof Closure) {
                 $callback = $selector;
