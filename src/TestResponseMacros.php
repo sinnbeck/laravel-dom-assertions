@@ -28,11 +28,15 @@ class TestResponseMacros
     {
         return function (): DomParser {
             /** @var TestResponse $this */
-            $cacheKey = 'dom-assertions.parser.'.md5((string) $this->getContent());
+            $content = $this->getContent();
+
+            $hash = PHP_VERSION_ID >= 80100 ? hash('xxh128', $content) : md5($content);
+
+            $cacheKey = 'dom-assertions.parser.'.$hash;
 
             if (! app()->has($cacheKey)) {
                 try {
-                    app()->instance($cacheKey, DomParser::new($this->getContent()));
+                    app()->instance($cacheKey, DomParser::new($content));
                 } catch (DOMException $exception) {
                     Assert::fail($exception->getMessage());
                 }
