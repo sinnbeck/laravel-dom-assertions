@@ -2,7 +2,7 @@
 
 All notable changes to `laravel-dom-assertion` will be documented in this file.
 
-## 2.9.0  - 2026-01-16
+## v2.9.0  - 2026-01-16
 
 ### What's Changed
 
@@ -11,8 +11,6 @@ All notable changes to `laravel-dom-assertion` will be documented in this file.
 * Update PHP Unit Config by @jackbayliss in https://github.com/sinnbeck/laravel-dom-assertions/pull/49
 * Update phpstan-baseline.neon by @jackbayliss in https://github.com/sinnbeck/laravel-dom-assertions/pull/51
 * [2.x] Cache all parsers by @jackbayliss in https://github.com/sinnbeck/laravel-dom-assertions/pull/48
-
-**Full Changelog**: https://github.com/sinnbeck/laravel-dom-assertions/compare/v2.8.0...v2.9.0
 
 ## v2.8.0 - 2026-01-05
 
