@@ -484,3 +484,38 @@ it('can run the example from the readme', function () {
             ]);
         });
 });
+
+it('multiple views can be tested in the same test', function () {
+    $this->get('nesting')
+        ->assertDoesntExist('span.fake')
+        ->assertDoesntExist('nav.fake')
+        ->assertElementExists(function (AssertElement $element) {
+            $element->contains('nav');
+        });
+
+    $this->get('livewire')
+        ->assertElementExists('input')
+        ->assertElementExists(function (AssertElement $element) {
+            $element->contains('input[wire\:model="foo"]');
+        });
+
+    $this->get('nesting')
+        ->assertDoesntExist('span.fake')
+        ->assertDoesntExist('nav.fake')
+        ->assertElementExists(function (AssertElement $element) {
+            $element->contains('nav');
+        });
+
+    $this->get('livewire')
+        ->assertElementExists('input')
+        ->assertElementExists(function (AssertElement $element) {
+            $element->contains('input[wire\:model="foo"]');
+        });
+
+    $this->get('nesting')
+        ->assertContainsElement('span.foo', ['text' => 'Foo']);
+
+    expect(fn () => $this->get('livewire')->assertContainsElement('span.foo', ['text' => 'Foo']))
+        ->toThrow(AssertionFailedError::class, 'No element found with selector: span.foo');
+
+});

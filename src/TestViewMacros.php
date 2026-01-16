@@ -21,6 +21,31 @@ use Sinnbeck\DomAssertions\Support\DomParser;
  */
 class TestViewMacros
 {
+    /**
+     * @internal
+     */
+    protected function getDomParser(): Closure
+    {
+        return function (): DomParser {
+            /** @var TestView $this */
+            $content = (string) $this;
+
+            $hash = PHP_VERSION_ID >= 80100 ? hash('xxh128', $content) : md5($content);
+
+            $cacheKey = 'dom-assertions.parser.'.$hash;
+
+            if (! app()->has($cacheKey)) {
+                try {
+                    app()->instance($cacheKey, DomParser::new($content));
+                } catch (DOMException $exception) {
+                    Assert::fail($exception->getMessage());
+                }
+            }
+
+            return app()->make($cacheKey);
+        };
+    }
+
     public function assertHtml5(): Closure
     {
         return function () {
@@ -30,11 +55,7 @@ class TestViewMacros
                 'The view is empty!'
             );
 
-            try {
-                $parser = DomParser::new((string) $this);
-            } catch (DOMException $exception) {
-                Assert::fail($exception->getMessage());
-            }
+            $parser = $this->getDomParser();
 
             Assert::assertEquals(
                 'html',
@@ -60,11 +81,7 @@ class TestViewMacros
                 'The view is empty!'
             );
 
-            try {
-                $parser = DomParser::new((string) $this);
-            } catch (DOMException $exception) {
-                Assert::fail($exception->getMessage());
-            }
+            $parser = $this->getDomParser();
 
             if ($selector instanceof Closure) {
                 $callback = $selector;
@@ -96,15 +113,9 @@ class TestViewMacros
                 'The view is empty!'
             );
 
-            try {
-                if (! app()->has('dom-assertions.parser')) {
-                    app()->instance('dom-assertions.parser', DomParser::new((string) $this));
-                }
-            } catch (DOMException $exception) {
-                Assert::fail($exception->getMessage());
-            }
+            $parser = $this->getDomParser();
 
-            $element = app()->make('dom-assertions.parser')->query($selector);
+            $element = $parser->query($selector);
 
             Assert::assertNotNull(
                 $element,
@@ -167,15 +178,9 @@ class TestViewMacros
                 'The view is empty!'
             );
 
-            try {
-                if (! app()->has('dom-assertions.parser')) {
-                    app()->instance('dom-assertions.parser', DomParser::new((string) $this));
-                }
-            } catch (DOMException $exception) {
-                Assert::fail($exception->getMessage());
-            }
+            $parser = $this->getDomParser();
 
-            $element = app()->make('dom-assertions.parser')->query($selector);
+            $element = $parser->query($selector);
 
             Assert::assertNull(
                 $element,
@@ -200,11 +205,7 @@ class TestViewMacros
                 'The view is empty!'
             );
 
-            try {
-                $parser = DomParser::new((string) $this);
-            } catch (DOMException $exception) {
-                Assert::fail($exception->getMessage());
-            }
+            $parser = $this->getDomParser();
 
             if ($selector instanceof Closure) {
                 $callback = $selector;
@@ -248,11 +249,7 @@ class TestViewMacros
                 'The view is empty!'
             );
 
-            try {
-                $parser = DomParser::new((string) $this);
-            } catch (DOMException $exception) {
-                Assert::fail($exception->getMessage());
-            }
+            $parser = $this->getDomParser();
 
             if ($selector instanceof Closure) {
                 $callback = $selector;
