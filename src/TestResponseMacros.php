@@ -39,7 +39,7 @@ class TestResponseMacros
                 }
             }
 
-            $hash = PHP_VERSION_ID >= 80100 ? hash('xxh128', $content) : md5($content);
+            $hash = hash('xxh128', $content);
 
             $cacheKey = 'dom-assertions.parser.'.$hash;
 
