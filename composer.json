@@ -50,7 +50,8 @@
         "phpstan/extension-installer": "^1.2",
         "phpstan/phpstan-deprecation-rules": "^1.0|^2.0",
         "phpstan/phpstan-phpunit": "^1.1|^2.0",
-        "vimeo/psalm": "^4.29|^5.22|^6.6"
+        "vimeo/psalm": "^4.29|^5.22|^6.6",
+        "livewire/livewire": "^3.0|^4.0"
     },
     "config": {
         "allow-plugins": {

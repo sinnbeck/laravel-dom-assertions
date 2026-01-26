@@ -6,3 +6,4 @@ psalm.xml
 vendor
 cache
 build
+/.phpunit.cache
