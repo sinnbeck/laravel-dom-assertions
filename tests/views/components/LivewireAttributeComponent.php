@@ -2,15 +2,14 @@
 
 namespace Tests\Views\Components;
 
-use Livewire\Component;
+use Illuminate\View\Component;
 
-class LivewireComponent extends Component
+class LivewireAttributeComponent extends Component
 {
     public function render(): string
     {
         return <<<'HTML'
         <div>
-            <nav id="nav"><a href="/foo">Foo</a></nav>
             <input wire:model="foo">
         </div>
         HTML;

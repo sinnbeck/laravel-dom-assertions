@@ -30,7 +30,16 @@ class TestResponseMacros
             /** @var TestResponse $this */
             $content = $this->getContent();
 
-            $hash = PHP_VERSION_ID >= 80100 ? hash('xxh128', $content) : md5($content);
+            // Due to being the test response, livewire users can access the DOM assertions.
+            // If the component is updated and the content-type is json, we attempt to render the html.
+            if ($this->headers->get('content-type') === 'application/json') {
+                $json = json_decode($content, true);
+                if (isset($json['components'][0]['effects']['html'])) {
+                    $content = $json['components'][0]['effects']['html'];
+                }
+            }
+
+            $hash = hash('xxh128', $content);
 
             $cacheKey = 'dom-assertions.parser.'.$hash;
 
