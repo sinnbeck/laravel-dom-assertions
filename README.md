@@ -11,9 +11,19 @@ This package provides some extra assertion helpers to use in HTTP Tests. If you 
 
 You can install the package via composer:
 
+> **Note:** If you're using PHP 8.0 or Laravel 9, please use version 2.x:
+ 
+```bash
+ composer require sinnbeck/laravel-dom-assertions:^2.0 --dev
+ ```
+
+> Version 3.x and above requires PHP 8.1+ and Laravel 10+.
+
 ```bash
 composer require sinnbeck/laravel-dom-assertions --dev
 ```
+
+
 
 ## Example
 
