@@ -471,6 +471,7 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 ## Credits
 
 - [René Sinnbeck](https://github.com/sinnbeck)
+- [Jack Bayliss](https://github.com/jackbayliss)
 - [All Contributors](../../contributors)
 
 ## License
