@@ -23,8 +23,6 @@ You can install the package via composer:
 composer require sinnbeck/laravel-dom-assertions --dev
 ```
 
-
-
 ## Example
 
 Imagine we have a view with this html
