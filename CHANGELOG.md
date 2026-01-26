@@ -2,6 +2,16 @@
 
 All notable changes to `laravel-dom-assertion` will be documented in this file.
 
+## v3.0.0 - 2026-01-26
+
+### What's Changed
+
+* [3.x] Support Livewire updates / drop Laravel 9 support / drop PHP 8.0 by @jackbayliss in https://github.com/sinnbeck/laravel-dom-assertions/pull/53
+
+**This includes breaking changes, if you're using PHP 8.0 or Laravel 9, please use version 2.x: otherwise use 3.x**
+
+**Full Changelog**: https://github.com/sinnbeck/laravel-dom-assertions/compare/v2.9.0...v3.0.0
+
 ## v2.9.0  - 2026-01-16
 
 ### What's Changed
