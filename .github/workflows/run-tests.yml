@@ -16,9 +16,9 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        os: [ ubuntu-latest, windows-latest ]
-        php: [ 8.3, 8.2, 8.1 ]
-        laravel: [ 10.*, 11.*, 12.* ]
+        os: [ubuntu-latest, windows-latest]
+        php: [8.3, 8.2, 8.1]
+        laravel: [10.*, 11.*, 12.*]
         include:
           - laravel: 10.*
             testbench: 8.*
@@ -52,14 +52,29 @@ jobs:
 
       - name: Install dependencies
         run: |
+          # Install Laravel & Testbench
           composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
+
+          # Install Pest + ParaTest only for PHP >= 8.2 due to pinning issue.
+          if [ "${{ matrix.php }}" != "8.1" ]; then
+            composer require "pestphp/pest:^3.7" "brianium/paratest:^7.4" --no-update
+          fi
+
+          # Update all dependencies
           composer update --prefer-dist --no-interaction
 
       - name: List Installed Dependencies
         run: composer show -D
 
       - name: Execute tests
-        run: vendor/bin/pest
+        run: |
+          if [ "${{ matrix.php }}" = "8.1" ]; then
+            # Use PHPUnit only for PHP 8.1 to avoid Pest conflicts - @todo drop this when removing 8.1 support.
+            vendor/bin/phpunit
+          else
+            # Use Pest for PHP 8.2+
+            vendor/bin/pest
+          fi
 
       - name: Run PHPStan
         shell: bash
