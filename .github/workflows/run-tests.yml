@@ -59,7 +59,7 @@ jobs:
           # Pin Pest and PHPUnit for PHP 8.1
           # https://github.com/pestphp/pest/issues/1618
           if [ "${{ matrix.php }}" = "8.1" ]; then
-          composer require "pestphp/pest:2.36.0" "phpunit/phpunit:10.5.36" --no-update
+            composer require "pestphp/pest:2.36.0" "phpunit/phpunit:10.5.36" --no-update
           fi
           
           # Update all dependencies
