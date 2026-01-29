@@ -47,7 +47,7 @@
         "larastan/larastan": "^2.0|^3.0",
         "livewire/livewire": "^3.0|^4.0",
         "orchestra/testbench": "^8.0|^9.0|^10.0",
-        "pestphp/pest": "^2.34|^3.7",
+        "pestphp/pest": "^2.34|^3.7|^3.8",
         "phpstan/extension-installer": "^1.2",
         "phpstan/phpstan-deprecation-rules": "^1.0|^2.0",
         "phpstan/phpstan-phpunit": "^1.1|^2.0",
@@ -58,7 +58,12 @@
             "pestphp/pest-plugin": true,
             "phpstan/extension-installer": true
         },
-        "sort-packages": true
+        "sort-packages": true,
+        "audit": {
+            "ignore": {
+                "GHSA-vvj3-c3rp-c85p": "Ensure testing features are compatible with affected PHPUnit versions"
+            }
+        }
     },
     "minimum-stability": "dev",
     "prefer-stable": true
