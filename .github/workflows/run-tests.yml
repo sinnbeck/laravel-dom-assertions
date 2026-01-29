@@ -66,7 +66,7 @@ jobs:
           fi
 
           # Update all dependencies
-          composer update --prefer-dist --no-interaction
+          composer update --prefer-dist --no-interaction --with-all-dependencies
 
       - name: List Installed Dependencies
         run: composer show -D
