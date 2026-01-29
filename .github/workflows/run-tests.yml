@@ -54,7 +54,7 @@ jobs:
         shell: bash
         run: |
           # Install Laravel + Testbench first
-          composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
+          composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --dev --no-interaction --no-update
           
           # Pin Pest and PHPUnit for PHP 8.1
           # https://github.com/pestphp/pest/issues/1618
