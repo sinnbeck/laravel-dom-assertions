@@ -1,0 +1,5 @@
+# CODEOWNERS file for laravel-dom-assertions
+# This file defines who is responsible for reviewing code in this repository
+
+# Default for everything in the repo
+* @sinnbeck @jackbayliss
