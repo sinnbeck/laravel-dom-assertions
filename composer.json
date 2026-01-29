@@ -58,7 +58,12 @@
             "pestphp/pest-plugin": true,
             "phpstan/extension-installer": true
         },
-        "sort-packages": true
+        "sort-packages": true,
+        "audit": {
+            "ignore": {
+                "GHSA-vvj3-c3rp-c85p": "Ensure testing features are compatible with affected PHPUnit versions"
+            }
+        }
     },
     "minimum-stability": "dev",
     "prefer-stable": true
