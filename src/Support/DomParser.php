@@ -5,10 +5,7 @@ declare(strict_types=1);
 namespace Sinnbeck\DomAssertions\Support;
 
 use DOMDocument;
-use DOMElement;
 use DOMException;
-use DOMNode;
-use DOMNodeList;
 use DOMXPath;
 use Symfony\Component\CssSelector\CssSelectorConverter;
 
@@ -17,9 +14,15 @@ use Symfony\Component\CssSelector\CssSelectorConverter;
  */
 final class DomParser
 {
-    protected DOMElement $root;
+    /**
+     * @var \DOMElement|\Dom\Element
+     */
+    protected object $root;
 
-    protected DOMDocument $document;
+    /**
+     * @var \DOMDocument|\Dom\HTMLDocument
+     */
+    protected object $document;
 
     public function __construct($html = '')
     {
@@ -35,10 +38,14 @@ final class DomParser
 
     public function setContent($html): void
     {
-        $dom = new DOMDocument;
+        if (PHP_VERSION_ID >= 80400) {
+            $dom = \Dom\HTMLDocument::createFromString(trim($html), LIBXML_NOERROR, 'UTF-8');
+        } else {
+            $dom = new DOMDocument;
+            $html = '<?xml encoding="UTF-8">'.trim($html);
+            $dom->loadHTML($html, LIBXML_NOERROR | LIBXML_COMPACT | LIBXML_HTML_NODEFDTD | LIBXML_NOBLANKS | LIBXML_NOXMLDECL);
+        }
 
-        $html = '<?xml encoding="UTF-8">'.trim($html);
-        $dom->loadHTML($html, LIBXML_NOERROR | LIBXML_COMPACT | LIBXML_HTML_NODEFDTD | LIBXML_NOBLANKS | LIBXML_NOXMLDECL);
         $this->document = $dom;
         $root = $dom->getElementsByTagName('html')->item(0);
 
@@ -49,22 +56,31 @@ final class DomParser
         $this->setRoot($root);
     }
 
-    public function getElementOfType(string $type, $index = 0): ?DOMNode
+    /**
+     * @return \DOMNode|\Dom\Element|null
+     */
+    public function getElementOfType(string $type, $index = 0): ?object
     {
         return $this->getRoot()->getElementsByTagName($type)->item($index);
     }
 
-    public function getDocument()
+    public function getDocument(): object
     {
         return $this->document;
     }
 
-    public function getRoot(): DOMElement
+    /**
+     * @return \DOMElement|\Dom\Element
+     */
+    public function getRoot(): object
     {
         return $this->root;
     }
 
-    public function setRoot(DOMElement $root): self
+    /**
+     * @param \DOMElement|\Dom\Element $root
+     */
+    public function setRoot(object $root): self
     {
         $this->root = $root;
 
@@ -114,7 +130,7 @@ final class DomParser
     {
         $for = is_string($for) ? $this->getElementOfType($for) : $for;
 
-        if (! $for instanceof DOMElement) {
+        if (! is_object($for)) {
             return false;
         }
 
@@ -126,13 +142,27 @@ final class DomParser
         return $this->getRoot()->nodeName;
     }
 
-    public function query($selector): ?DOMNode
+    /**
+     * @return \DOMNode|\Dom\Element|null
+     */
+    public function query($selector): ?object
     {
+        if (PHP_VERSION_ID >= 80400) {
+            return $this->getRoot()->querySelector($selector);
+        }
+
         return $this->queryAll($selector)->item(0);
     }
 
-    public function queryAll(string $selector): DOMNodeList
+    /**
+     * @return \DOMNodeList|\Dom\NodeList
+     */
+    public function queryAll(string $selector)
     {
+        if (PHP_VERSION_ID >= 80400) {
+            return $this->getRoot()->querySelectorAll($selector);
+        }
+
         return (new DOMXPath($this->cloneFromRoot()->getRoot()->ownerDocument))
             ->query($this->cssSelectorToXpath($selector));
     }

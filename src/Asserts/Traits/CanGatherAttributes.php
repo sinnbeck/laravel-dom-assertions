@@ -18,7 +18,7 @@ trait CanGatherAttributes
         $elements = $this->getParser()->queryAll($type);
         $extra = [];
 
-        /** @var \DOMElement $element */
+        /** @var \DOMElement|\Dom\Element $element */
         foreach ($elements as $element) {
             $attributes = [];
             foreach ($element->attributes as $attribute) {

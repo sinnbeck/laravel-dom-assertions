@@ -111,7 +111,7 @@ class TestComponentMacros
                 sprintf('No element found with selector: %s', $selector)
             );
 
-            if (! $element instanceof DOMElement) {
+            if (! ($element instanceof DOMElement || is_a($element, 'Dom\Element'))) {
                 Assert::fail('The element found is not a DOMElement!');
             }
 
