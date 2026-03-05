@@ -2,6 +2,20 @@
 
 All notable changes to `laravel-dom-assertion` will be documented in this file.
 
+## v3.0.1 - 2026-03-05
+
+### What's Changed
+
+* Try fixing php-cs action by @sinnbeck in https://github.com/sinnbeck/laravel-dom-assertions/pull/55
+* Fix tests by @jackbayliss in https://github.com/sinnbeck/laravel-dom-assertions/pull/58
+* Create CODEOWNERS file by @jackbayliss in https://github.com/sinnbeck/laravel-dom-assertions/pull/56
+* Add dependabot.yml by @jackbayliss in https://github.com/sinnbeck/laravel-dom-assertions/pull/57
+* Add daily update schedule for GitHub Actions by @jackbayliss in https://github.com/sinnbeck/laravel-dom-assertions/pull/59
+* Bump stefanzweifel/git-auto-commit-action from 4 to 7 by @dependabot[bot] in https://github.com/sinnbeck/laravel-dom-assertions/pull/60
+* Laravel 13 support by @jackbayliss in https://github.com/sinnbeck/laravel-dom-assertions/pull/61
+
+**Full Changelog**: https://github.com/sinnbeck/laravel-dom-assertions/compare/v3.0.0...v3.0.1
+
 ## v3.0.0 - 2026-01-26
 
 ### What's Changed
