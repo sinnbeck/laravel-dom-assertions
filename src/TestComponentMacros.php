@@ -122,7 +122,7 @@ class TestComponentMacros
                 sprintf('No element found with selector: %s', $selector)
             );
 
-            if (! ($element instanceof DOMElement || is_a($element, 'Dom\Element'))) {
+            if (PHP_VERSION_ID < 80400 && ! ($element instanceof DOMElement)) {
                 Assert::fail('The element found is not a DOMElement!');
             }
 
