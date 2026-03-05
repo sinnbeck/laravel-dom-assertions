@@ -14,14 +14,8 @@ use Symfony\Component\CssSelector\CssSelectorConverter;
  */
 final class DomParser
 {
-    /**
-     * @var \DOMElement|\Dom\Element
-     */
     protected object $root;
 
-    /**
-     * @var \DOMDocument|\Dom\HTMLDocument
-     */
     protected object $document;
 
     public function __construct($html = '')
@@ -56,9 +50,6 @@ final class DomParser
         $this->setRoot($root);
     }
 
-    /**
-     * @return \DOMNode|\Dom\Element|null
-     */
     public function getElementOfType(string $type, $index = 0): ?object
     {
         return $this->getRoot()->getElementsByTagName($type)->item($index);
@@ -69,17 +60,11 @@ final class DomParser
         return $this->document;
     }
 
-    /**
-     * @return \DOMElement|\Dom\Element
-     */
     public function getRoot(): object
     {
         return $this->root;
     }
 
-    /**
-     * @param \DOMElement|\Dom\Element $root
-     */
     public function setRoot(object $root): self
     {
         $this->root = $root;
@@ -142,9 +127,6 @@ final class DomParser
         return $this->getRoot()->nodeName;
     }
 
-    /**
-     * @return \DOMNode|\Dom\Element|null
-     */
     public function query($selector): ?object
     {
         if (PHP_VERSION_ID >= 80400) {
@@ -154,9 +136,6 @@ final class DomParser
         return $this->queryAll($selector)->item(0);
     }
 
-    /**
-     * @return \DOMNodeList|\Dom\NodeList
-     */
     public function queryAll(string $selector)
     {
         if (PHP_VERSION_ID >= 80400) {
