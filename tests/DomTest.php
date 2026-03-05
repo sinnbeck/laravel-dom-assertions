@@ -46,12 +46,14 @@ it('can handle an empty view', function () {
 );
 
 it('can handle an empty body', function () {
-    $this->get('empty-body')
-        ->assertElementExists();
-})->throws(
-    AssertionFailedError::class,
-    'No element found with selector: body'
-);
+    if (PHP_VERSION_ID >= 80400) {
+        // HTML5 parser auto-generates an empty body element
+        $this->get('empty-body')->assertElementExists();
+    } else {
+        expect(fn () => $this->get('empty-body')->assertElementExists())
+            ->toThrow(AssertionFailedError::class, 'No element found with selector: body');
+    }
+});
 
 it('can parse broken html', function () {
     $this->get('broken')
@@ -315,7 +317,7 @@ it('can run assertions against indexed elements that match the selection', funct
         ->assertOk()
         ->assertElementExists(function (AssertElement $view) {
             $all = $view->getParser()->queryAll('select');
-            $view->each('select', fn (AssertElement $select, int $index) => $select->containsText($all->item($index)->nodeValue));
+            $view->each('select', fn (AssertElement $select, int $index) => $select->containsText($all->item($index)->textContent));
         });
 });
 

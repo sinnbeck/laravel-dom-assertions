@@ -85,12 +85,14 @@ it('can handle an empty component', function () {
 );
 
 it('can handle an empty body', function () {
-    $this->component(EmptyBodyComponent::class)
-        ->assertElementExists();
-})->throws(
-    AssertionFailedError::class,
-    'No element found with selector: body'
-);
+    if (PHP_VERSION_ID >= 80400) {
+        // HTML5 parser auto-generates an empty body element
+        $this->component(EmptyBodyComponent::class)->assertElementExists();
+    } else {
+        expect(fn () => $this->component(EmptyBodyComponent::class)->assertElementExists())
+            ->toThrow(AssertionFailedError::class, 'No element found with selector: body');
+    }
+});
 
 it('can parse broken html', function () {
     $this->component(BrokenComponent::class)

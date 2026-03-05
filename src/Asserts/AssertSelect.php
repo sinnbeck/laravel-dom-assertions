@@ -43,7 +43,7 @@ class AssertSelect extends BaseAssert
     public function hasValue($value): self
     {
         Assert::assertNotNull(
-            $option = $this->getParser()->query('option[selected="selected"]'),
+            $option = $this->getParser()->query('option[selected]'),
             'No options are selected!'
         );
 
@@ -58,12 +58,12 @@ class AssertSelect extends BaseAssert
     public function hasValues(array $values): self
     {
         Assert::assertNotNull(
-            $this->getParser()->query('option[selected="selected"]'),
+            $this->getParser()->query('option[selected]'),
             'No options are selected!'
         );
 
         $selected = [];
-        foreach ($this->getParser()->queryAll('option[selected="selected"]') as $option) {
+        foreach ($this->getParser()->queryAll('option[selected]') as $option) {
             $selected[] = $this->getAttributeFor($option, 'value');
         }
 

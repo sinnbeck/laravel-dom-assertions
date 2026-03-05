@@ -20,7 +20,7 @@ class CompareAttributes
 
         return match ($attribute) {
             'class' => Classes::compare($value, $actual),
-            'required', 'readonly' => NoValues::compare($value, $actual),
+            'required', 'readonly', 'selected', 'checked', 'disabled', 'multiple', 'autofocus', 'defer' => NoValues::compare($value, $actual),
             'text', 'value' => Text::compare($value, $actual),
             default => Values::compare($value, $actual),
         };

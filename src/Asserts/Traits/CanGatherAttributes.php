@@ -25,10 +25,10 @@ trait CanGatherAttributes
                 $attributes[$attribute->nodeName] = $attribute->value;
             }
 
-            $extra['text'] = $element->nodeValue;
+            $extra['text'] = $element->textContent;
 
             if ($type === 'textarea') {
-                $extra['value'] = $element->nodeValue;
+                $extra['value'] = $element->textContent;
             }
 
             $this->attributes[$type][] = $attributes + $extra;
