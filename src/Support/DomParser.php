@@ -78,7 +78,7 @@ final class DomParser
     }
 
     /**
-     * @param \DOMElement|\Dom\Element $root
+     * @param  \DOMElement|\Dom\Element  $root
      */
     public function setRoot(object $root): self
     {
