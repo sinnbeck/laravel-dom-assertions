@@ -10,7 +10,7 @@ use Tests\Views\Components\EmptyBodyComponent;
 use Tests\Views\Components\EmptyComponent;
 use Tests\Views\Components\FormComponent;
 use Tests\Views\Components\Html5Component;
-use Tests\Views\Components\LivewireComponent;
+use Tests\Views\Components\LivewireAttributeComponent;
 use Tests\Views\Components\NestedComponent;
 
 beforeEach(function () {
@@ -408,31 +408,52 @@ it('can fail finding an contained element with query', function () {
 );
 
 it('can match on livewire attributes', function () {
-    $this->component(LivewireComponent::class)
+    $this->component(LivewireAttributeComponent::class)
         ->assertElementExists('[wire\:model="foo"]', function (AssertElement $element) {
             $element->is('input');
         });
 });
 
 it('can match has on livewire attributes', function () {
-    $this->component(LivewireComponent::class)
+    $this->component(LivewireAttributeComponent::class)
         ->assertElementExists('input', function (AssertElement $element) {
             $element->has('wire:model', 'foo');
         });
 });
 
 it('can match on livewire with contains', function () {
-    $this->component(LivewireComponent::class)
+    $this->component(LivewireAttributeComponent::class)
         ->assertElementExists(function (AssertElement $element) {
             $element->contains('input[wire\:model="foo"]');
         });
 });
 
 it('can match on livewire contains as attribute', function () {
-    $this->component(LivewireComponent::class)
+    $this->component(LivewireAttributeComponent::class)
         ->assertElementExists(function (AssertElement $element) {
             $element->contains('input', [
                 'wire:model' => 'foo',
             ]);
         });
+});
+
+it('multiple views can be tested in the same test', function () {
+    $this->component(NestedComponent::class)
+        ->assertDoesntExist('span.fake')
+        ->assertDoesntExist('nav.fake')
+        ->assertElementExists(function (AssertElement $element) {
+            $element->contains('nav');
+        });
+
+    $this->component(LivewireAttributeComponent::class)
+        ->assertElementExists('input')
+        ->assertElementExists(function (AssertElement $element) {
+            $element->contains('input[wire\:model="foo"]');
+        });
+
+    $this->component(NestedComponent::class)
+        ->assertContainsElement('span.foo', ['text' => 'Foo']);
+
+    expect(fn () => $this->component(LivewireAttributeComponent::class)->assertContainsElement('span.foo', ['text' => 'Foo']))
+        ->toThrow(AssertionFailedError::class, 'No element found with selector: span.foo');
 });

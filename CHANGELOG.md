@@ -2,6 +2,45 @@
 
 All notable changes to `laravel-dom-assertion` will be documented in this file.
 
+## v3.0.1 - 2026-03-05
+
+### What's Changed
+
+* Try fixing php-cs action by @sinnbeck in https://github.com/sinnbeck/laravel-dom-assertions/pull/55
+* Fix tests by @jackbayliss in https://github.com/sinnbeck/laravel-dom-assertions/pull/58
+* Create CODEOWNERS file by @jackbayliss in https://github.com/sinnbeck/laravel-dom-assertions/pull/56
+* Add dependabot.yml by @jackbayliss in https://github.com/sinnbeck/laravel-dom-assertions/pull/57
+* Add daily update schedule for GitHub Actions by @jackbayliss in https://github.com/sinnbeck/laravel-dom-assertions/pull/59
+* Bump stefanzweifel/git-auto-commit-action from 4 to 7 by @dependabot[bot] in https://github.com/sinnbeck/laravel-dom-assertions/pull/60
+* Laravel 13 support by @jackbayliss in https://github.com/sinnbeck/laravel-dom-assertions/pull/61
+
+**Full Changelog**: https://github.com/sinnbeck/laravel-dom-assertions/compare/v3.0.0...v3.0.1
+
+## v3.0.0 - 2026-01-26
+
+### What's Changed
+
+* [3.x] Support Livewire updates / drop Laravel 9 support / drop PHP 8.0 by @jackbayliss in https://github.com/sinnbeck/laravel-dom-assertions/pull/53
+
+**This includes breaking changes, if you're using PHP 8.0 or Laravel 9, please use version 2.x: otherwise use 3.x**
+
+**Full Changelog**: https://github.com/sinnbeck/laravel-dom-assertions/compare/v2.9.0...v3.0.0
+
+## v2.9.0  - 2026-01-16
+
+### What's Changed
+
+* clean up readme by @jackbayliss in https://github.com/sinnbeck/laravel-dom-assertions/pull/46
+* Clean up PHP Stan files, and adjust GH Workflows by @jackbayliss in https://github.com/sinnbeck/laravel-dom-assertions/pull/50
+* Update PHP Unit Config by @jackbayliss in https://github.com/sinnbeck/laravel-dom-assertions/pull/49
+* Update phpstan-baseline.neon by @jackbayliss in https://github.com/sinnbeck/laravel-dom-assertions/pull/51
+* [2.x] Cache all parsers by @jackbayliss in https://github.com/sinnbeck/laravel-dom-assertions/pull/48
+
+## v2.8.0 - 2026-01-05
+
+* Add ddContent method #44 by @jackbayliss
+* Update actions #45  by @jackbayliss
+
 ## v2.7.0 - 2025-11-26
 
 * Add missing ide-helper methods and component #41 by @MizouziE
