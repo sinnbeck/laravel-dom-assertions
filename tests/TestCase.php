@@ -4,6 +4,8 @@ namespace Tests;
 
 use Illuminate\Foundation\Testing\Concerns\InteractsWithViews;
 use Illuminate\Support\Facades\Route;
+use Livewire\LivewireServiceProvider;
+use Sinnbeck\DomAssertions\DomAssertionsServiceProvider;
 
 class TestCase extends \Orchestra\Testbench\TestCase
 {
@@ -12,7 +14,8 @@ class TestCase extends \Orchestra\Testbench\TestCase
     protected function getPackageProviders($app)
     {
         return [
-            \Sinnbeck\DomAssertions\DomAssertionsServiceProvider::class,
+            DomAssertionsServiceProvider::class,
+            LivewireServiceProvider::class,
         ];
     }
 
@@ -20,6 +23,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
     {
         // Setup default database to use sqlite :memory:
         $app['config']->set('view.paths', [__DIR__.'/views']);
+        $app['config']->set('app.key', 'base64:9CpCKisSUj8BrPJu2LeKXMyFi4a0/U/4Cb7/8K558w4=');
     }
 
     protected function defineRoutes($router)

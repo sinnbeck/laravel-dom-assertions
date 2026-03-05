@@ -21,6 +21,40 @@ use Sinnbeck\DomAssertions\Support\DomParser;
  */
 class TestResponseMacros
 {
+    /**
+     * @internal
+     */
+    protected function getDomParser(): Closure
+    {
+        return function (): DomParser {
+            /** @var TestResponse $this */
+            $content = $this->getContent();
+
+            // Due to being the test response, livewire users can access the DOM assertions.
+            // If the component is updated and the content-type is json, we attempt to render the html.
+            if ($this->headers->get('content-type') === 'application/json') {
+                $json = json_decode($content, true);
+                if (isset($json['components'][0]['effects']['html'])) {
+                    $content = $json['components'][0]['effects']['html'];
+                }
+            }
+
+            $hash = hash('xxh128', $content);
+
+            $cacheKey = 'dom-assertions.parser.'.$hash;
+
+            if (! app()->has($cacheKey)) {
+                try {
+                    app()->instance($cacheKey, DomParser::new($content));
+                } catch (DOMException $exception) {
+                    Assert::fail($exception->getMessage());
+                }
+            }
+
+            return app()->make($cacheKey);
+        };
+    }
+
     public function assertHtml5(): Closure
     {
         return function () {
@@ -30,11 +64,7 @@ class TestResponseMacros
                 'The view is empty!'
             );
 
-            try {
-                $parser = DomParser::new($this->getContent());
-            } catch (DOMException $exception) {
-                Assert::fail($exception->getMessage());
-            }
+            $parser = $this->getDomParser();
 
             Assert::assertEquals(
                 'html',
@@ -60,11 +90,7 @@ class TestResponseMacros
                 'The view is empty!'
             );
 
-            try {
-                $parser = DomParser::new($this->getContent());
-            } catch (DOMException $exception) {
-                Assert::fail($exception->getMessage());
-            }
+            $parser = $this->getDomParser();
 
             if ($selector instanceof Closure) {
                 $callback = $selector;
@@ -96,15 +122,9 @@ class TestResponseMacros
                 'The response is empty!'
             );
 
-            try {
-                if (! app()->has('dom-assertions.parser')) {
-                    app()->instance('dom-assertions.parser', DomParser::new($this->getContent()));
-                }
-            } catch (DOMException $exception) {
-                Assert::fail($exception->getMessage());
-            }
+            $parser = $this->getDomParser();
 
-            $element = app()->make('dom-assertions.parser')->query($selector);
+            $element = $parser->query($selector);
 
             Assert::assertNotNull(
                 $element,
@@ -166,15 +186,9 @@ class TestResponseMacros
                 'The view is empty!'
             );
 
-            try {
-                if (! app()->has('dom-assertions.parser')) {
-                    app()->instance('dom-assertions.parser', DomParser::new($this->getContent()));
-                }
-            } catch (DOMException $exception) {
-                Assert::fail($exception->getMessage());
-            }
+            $parser = $this->getDomParser();
 
-            $element = app()->make('dom-assertions.parser')->query($selector);
+            $element = $parser->query($selector);
 
             Assert::assertNull(
                 $element,
@@ -199,11 +213,7 @@ class TestResponseMacros
                 'The view is empty!'
             );
 
-            try {
-                $parser = DomParser::new($this->getContent());
-            } catch (DOMException $exception) {
-                Assert::fail($exception->getMessage());
-            }
+            $parser = $this->getDomParser();
 
             if ($selector instanceof Closure) {
                 $callback = $selector;
@@ -247,11 +257,7 @@ class TestResponseMacros
                 'The view is empty!'
             );
 
-            try {
-                $parser = DomParser::new($this->getContent());
-            } catch (DOMException $exception) {
-                Assert::fail($exception->getMessage());
-            }
+            $parser = $this->getDomParser();
 
             if ($selector instanceof Closure) {
                 $callback = $selector;

@@ -11,6 +11,14 @@ This package provides some extra assertion helpers to use in HTTP Tests. If you 
 
 You can install the package via composer:
 
+> **Note:** If you're using PHP 8.0 or Laravel 9, please use version 2.x:
+ 
+```bash
+ composer require sinnbeck/laravel-dom-assertions:^2.0 --dev
+ ```
+
+> Version 3.x and above requires PHP 8.1+ and Laravel 10+.
+
 ```bash
 composer require sinnbeck/laravel-dom-assertions --dev
 ```
@@ -394,7 +402,7 @@ Livewire::test(UserForm::class)
 ```
 
 ### Usage with Blade views
-You can also use this package to test blade views. 
+You can also use this package to test blade views.
 ```php
 $this->view('navigation')
     ->assertElementExists('nav > ul', function(AssertElement $ul) {
@@ -431,16 +439,16 @@ $this->component(Navigation::class)
 | `->find($selector, $callback)`                 | Find a specific child element and get a new AssertElement. Returns the first match.  |
 | `->findDiv(fn (AssertElement $element) => {})` | Magic method. Same as `->find('div', fn (AssertElement $element) => {})`             |
 
-| Form specific methods                   | Description                            |
-|-----------------------------------------|----------------------------------------|
-| `->hasAction($url)`                       | Ensures the form has a specific action |
-| `->hasMethod($method)`                    | Ensures a form has a specific method   |
-| `->hasSpoofMethod($method)`               | Ensures form has a spoofed method      |
-| `->hasCSRF()`                             | Ensures form has a csrf token          |
-| `->findSelect($selector, $callback)`      | Finds a select to run assertions on    |
+| Form specific methods                | Description                            |
+|--------------------------------------|----------------------------------------|
+| `->hasAction($url)`                  | Ensures the form has a specific action |
+| `->hasMethod($method)`               | Ensures a form has a specific method   |
+| `->hasSpoofMethod($method)`          | Ensures form has a spoofed method      |
+| `->hasCSRF()`                        | Ensures form has a csrf token          |
+| `->findSelect($selector, $callback)` | Finds a select to run assertions on    |
 
-| Select specific methods        | Description                                                        |
-|--------------------------------|--------------------------------------------------------------------|
+| Select specific methods          | Description                                                        |
+|----------------------------------|--------------------------------------------------------------------|
 | `->hasValue($value)`             | Ensures a select has a specific value                              |
 | `->hasValues($values)`           | Ensures a select has an array of values (multiple select)          |
 | `->containsOption($attributes)`  | Checks for an option with the given attributes                     |
@@ -463,6 +471,7 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 ## Credits
 
 - [René Sinnbeck](https://github.com/sinnbeck)
+- [Jack Bayliss](https://github.com/jackbayliss)
 - [All Contributors](../../contributors)
 
 ## License
