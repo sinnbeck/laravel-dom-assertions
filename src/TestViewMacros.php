@@ -224,7 +224,7 @@ class TestViewMacros
             );
             Assert::assertEquals(
                 'form',
-                $form->nodeName,
+                strtolower($form->nodeName),
                 'Element is not of type form!');
 
             if ($callback) {
@@ -268,7 +268,7 @@ class TestViewMacros
             );
             Assert::assertEquals(
                 'select',
-                $select->nodeName,
+                strtolower($select->nodeName),
                 'Element is not of type select!');
 
             if ($callback) {

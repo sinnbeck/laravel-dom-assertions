@@ -55,7 +55,7 @@ HTML;
 
     $parser = DomParser::new($html);
 
-    $this->assertEquals('input', $parser->getElementOfType('input')->nodeName);
+    $this->assertEqualsIgnoringCase('input', $parser->getElementOfType('input')->nodeName);
 });
 
 it('can query a scope', function () {
@@ -74,7 +74,7 @@ HTML;
     $ul = $parser->getElementOfType('ul');
     $parser->setRoot($ul);
 
-    $this->assertEquals('li', $parser->query('.foo')->nodeName);
+    $this->assertEqualsIgnoringCase('li', $parser->query('.foo')->nodeName);
 });
 
 it('can query by nth of type', function () {
@@ -106,7 +106,7 @@ HTML;
     $div = $parser->getElementOfType('div');
     $parser->setRoot($div);
 
-    $this->assertEquals('input', $parser->query('input[foo\:bar]')->nodeName);
+    $this->assertEqualsIgnoringCase('input', $parser->query('input[foo\:bar]')->nodeName);
 });
 
 it('can get content', function () {

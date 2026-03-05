@@ -124,7 +124,7 @@ final class DomParser
 
     public function getType()
     {
-        return $this->getRoot()->nodeName;
+        return strtolower($this->getRoot()->nodeName);
     }
 
     public function query($selector): ?object
@@ -156,6 +156,6 @@ final class DomParser
 
     public function getText()
     {
-        return $this->getRoot()->nodeValue;
+        return $this->getRoot()->textContent;
     }
 }
