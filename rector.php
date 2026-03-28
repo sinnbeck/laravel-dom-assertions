@@ -7,6 +7,7 @@ use Rector\CodingStyle\Rector\Closure\StaticClosureRector;
 use Rector\Config\RectorConfig;
 
 return RectorConfig::configure()
+    ->withCache(cacheDirectory: __DIR__.'/build/rector')
     ->withPaths([
         __DIR__.'/phpstan',
         __DIR__.'/src',
