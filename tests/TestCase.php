@@ -2,6 +2,8 @@
 
 namespace Tests;
 
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Testing\Concerns\InteractsWithViews;
 use Illuminate\Support\Facades\Route;
 use Livewire\LivewireServiceProvider;
@@ -34,7 +36,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
         Route::view('empty-body', 'empty-body');
         Route::view('broken', 'broken');
         Route::view('livewire', 'livewire');
-        Route::get('about', static function (): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View {
+        Route::get('about', static function (): Factory|View {
             $menuItems = [
                 [
                     'route' => 'home',
