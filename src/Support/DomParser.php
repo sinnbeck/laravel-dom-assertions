@@ -54,7 +54,7 @@ final class DomParser
         return $this->root->getElementsByTagName($type)->item($index);
     }
 
-    public function getDocument(): \DOMDocument
+    public function getDocument(): DOMDocument
     {
         return $this->document;
     }
@@ -89,7 +89,7 @@ final class DomParser
     public function getDocType(): ?string
     {
         $documentType = $this->document->doctype;
-        if (!$documentType instanceof \DOMDocumentType) {
+        if (! $documentType instanceof \DOMDocumentType) {
             return null;
         }
 

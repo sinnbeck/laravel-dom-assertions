@@ -204,7 +204,7 @@ it('can check arbitrary children', function (): void {
 it('can parse a datalist with options', function (): void {
     $this->get('form')
         ->assertFormExists('#form2', static function (AssertForm $form): void {
-            $form->findDatalist('#skills', static function (AssertDataList $datalist): void {
+            $form->findDatalist('#skills', static function (AssertDatalist $datalist): void {
                 $datalist->containsOption([
                     'value' => 'PHP',
                 ])
@@ -223,7 +223,7 @@ it('can parse a datalist with options', function (): void {
 it('requires that the selector for datalist is an id', function (): void {
     $this->get('form')
         ->assertFormExists('#form2', static function (AssertForm $form): void {
-            $form->findDatalist('.my-datalist', static function (AssertDataList $datalist): void {
+            $form->findDatalist('.my-datalist', static function (AssertDatalist $datalist): void {
                 $datalist->containsOption([
                     'value' => 'My first value',
                 ]);

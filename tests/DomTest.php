@@ -2,6 +2,7 @@
 
 use PHPUnit\Framework\AssertionFailedError;
 use Sinnbeck\DomAssertions\Asserts\AssertElement;
+use Sinnbeck\DomAssertions\Asserts\BaseAssert;
 
 it('assertAlias alias works for assertElementExists', function (): void {
     $this->get('nesting')
@@ -305,8 +306,8 @@ it('can fail finding a nested element with content', function (): void {
 it('can run assertions against all elements that match the selection', function (): void {
     $this->get('form')
         ->assertOk()
-        ->assertElementExists(static fn (AssertElement $view): \Sinnbeck\DomAssertions\Asserts\BaseAssert => $view
-            ->each('select', static fn (AssertElement $select): \Sinnbeck\DomAssertions\Asserts\BaseAssert => $select->has('name'))
+        ->assertElementExists(static fn (AssertElement $view): BaseAssert => $view
+            ->each('select', static fn (AssertElement $select): BaseAssert => $select->has('name'))
         );
 });
 
@@ -315,15 +316,15 @@ it('can run assertions against indexed elements that match the selection', funct
         ->assertOk()
         ->assertElementExists(static function (AssertElement $view): void {
             $all = $view->getParser()->queryAll('select');
-            $view->each('select', static fn (AssertElement $select, int $index): \Sinnbeck\DomAssertions\Asserts\BaseAssert => $select->containsText($all->item($index)->nodeValue));
+            $view->each('select', static fn (AssertElement $select, int $index): BaseAssert => $select->containsText($all->item($index)->nodeValue));
         });
 });
 
 it('fails when each() is used but no elements match the selector', function (): void {
     $this->get('form')
         ->assertOk()
-        ->assertElementExists(static fn (AssertElement $view): \Sinnbeck\DomAssertions\Asserts\BaseAssert => $view
-            ->each('img', static fn (AssertElement $image): \Sinnbeck\DomAssertions\Asserts\BaseAssert => $image->has('alt'))
+        ->assertElementExists(static fn (AssertElement $view): BaseAssert => $view
+            ->each('img', static fn (AssertElement $image): BaseAssert => $image->has('alt'))
         );
 })->throws(AssertionFailedError::class);
 
