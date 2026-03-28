@@ -48,7 +48,7 @@ class TestViewMacros
 
     public function assertHtml5(): Closure
     {
-        return function () {
+        return function (): static {
             /** @var TestView $this */
             Assert::assertNotEmpty(
                 (string) $this,

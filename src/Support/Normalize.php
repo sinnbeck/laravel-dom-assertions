@@ -18,7 +18,7 @@ class Normalize
             ->toArray();
     }
 
-    public static function text(string $text)
+    public static function text(string $text): ?string
     {
         return preg_replace(['/\v+/', '/\s+/'], ['', ' '], trim($text));
     }

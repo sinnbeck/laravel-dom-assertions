@@ -34,7 +34,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
         Route::view('empty-body', 'empty-body');
         Route::view('broken', 'broken');
         Route::view('livewire', 'livewire');
-        Route::get('about', function () {
+        Route::get('about', static function (): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View {
             $menuItems = [
                 [
                     'route' => 'home',

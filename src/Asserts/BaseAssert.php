@@ -37,7 +37,7 @@ abstract class BaseAssert
         }
     }
 
-    public function __call($method, $arguments)
+    public function __call(string $method, array $arguments)
     {
         if (static::hasMacro($method)) {
             return $this->callMacro($method, $arguments);

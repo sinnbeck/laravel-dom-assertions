@@ -39,7 +39,7 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-function getFixture($filename)
+function getFixture(string $filename): string|false
 {
     return file_get_contents(__DIR__.'/fixtures/'.$filename);
 }

@@ -6,8 +6,6 @@ use Illuminate\View\Component;
 
 class FormComponent extends Component
 {
-    public function __construct() {}
-
     public function render(): string
     {
         return <<<'HTML'

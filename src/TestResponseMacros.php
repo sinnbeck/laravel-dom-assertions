@@ -57,7 +57,7 @@ class TestResponseMacros
 
     public function assertHtml5(): Closure
     {
-        return function () {
+        return function (): static {
             /** @var TestResponse $this */
             Assert::assertNotEmpty(
                 $this->getContent(),
