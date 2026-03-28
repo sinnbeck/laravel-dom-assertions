@@ -143,7 +143,7 @@ trait UsesElementAsserts
 
     public function doesntContain(string $elementName, array $attributes = []): self
     {
-        if (! $attributes) {
+        if ($attributes === []) {
             $found = $this->getParser()->query($elementName);
             Assert::assertNull(
                 $found ? get_class($found) : null,
@@ -213,7 +213,7 @@ trait UsesElementAsserts
         return $this;
     }
 
-    private function compareAttributesArrays($attributes, $foundAttributes): bool
+    private function compareAttributesArrays($attributes, array $foundAttributes): bool
     {
         foreach ($attributes as $attribute => $value) {
             if (! isset($foundAttributes[$attribute])) {

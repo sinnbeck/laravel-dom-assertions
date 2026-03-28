@@ -51,10 +51,10 @@ final class DomParser
 
     public function getElementOfType(string $type, $index = 0): ?DOMNode
     {
-        return $this->getRoot()->getElementsByTagName($type)->item($index);
+        return $this->root->getElementsByTagName($type)->item($index);
     }
 
-    public function getDocument()
+    public function getDocument(): DOMDocument
     {
         return $this->document;
     }
@@ -78,22 +78,22 @@ final class DomParser
 
     public function getAttributeForRoot(string $attribute): string
     {
-        return $this->getRoot()->getAttribute($attribute);
+        return $this->root->getAttribute($attribute);
     }
 
     public function hasAttributeForRoot(string $attribute): bool
     {
-        return $this->getRoot()->hasAttribute($attribute);
+        return $this->root->hasAttribute($attribute);
     }
 
-    public function getDocType()
+    public function getDocType(): ?string
     {
-        $documentType = $this->getDocument()->doctype;
-        if (! $documentType) {
+        $documentType = $this->document->doctype;
+        if (! $documentType instanceof \DOMDocumentType) {
             return null;
         }
 
-        return $documentType->publicId ? implode(' ',
+        return $documentType->publicId !== '' && $documentType->publicId !== '0' ? implode(' ',
             [
                 $documentType->name,
                 $documentType->publicId,
@@ -102,7 +102,7 @@ final class DomParser
 
     public function getContent(): string
     {
-        return $this->getRoot()->C14N();
+        return $this->root->C14N();
     }
 
     public function getContentFormatted(): string
@@ -121,12 +121,12 @@ final class DomParser
         return $for->getAttribute($attribute);
     }
 
-    public function getType()
+    public function getType(): string
     {
-        return $this->getRoot()->nodeName;
+        return $this->root->nodeName;
     }
 
-    public function query($selector): ?DOMNode
+    public function query(string $selector): ?DOMNode
     {
         return $this->queryAll($selector)->item(0);
     }
@@ -137,7 +137,7 @@ final class DomParser
             ->query($this->cssSelectorToXpath($selector));
     }
 
-    protected function cssSelectorToXpath($selector)
+    private function cssSelectorToXpath(string $selector): string
     {
         $converter = new CssSelectorConverter;
         $xpath = $converter->toXpath($selector);
@@ -145,8 +145,8 @@ final class DomParser
         return str_replace('\\', '', $xpath);
     }
 
-    public function getText()
+    public function getText(): ?string
     {
-        return $this->getRoot()->nodeValue;
+        return $this->root->nodeValue;
     }
 }

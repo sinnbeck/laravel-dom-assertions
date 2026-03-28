@@ -7,7 +7,7 @@ namespace Sinnbeck\DomAssertions\Support;
  */
 class HtmlFormatter
 {
-    public function format($html)
+    public function format($html): string|array|null
     {
         if (! $html) {
             return '';
@@ -47,7 +47,7 @@ class HtmlFormatter
         return preg_replace('/^[ ]+(?=<)/m', '$0$0', $html);
     }
 
-    private function closeElementWithoutClosingElement($html)
+    private function closeElementWithoutClosingElement(string|array|bool $html): string|array|null
     {
         return preg_replace(
             '~></(?:area|base|br|col|command|embed|hr|img|input|keygen|link|meta|param|source|track|wbr)>~',
@@ -69,12 +69,11 @@ class HtmlFormatter
         return preg_replace('~>[[:space:]]++<~m', '><', $html);
     }
 
-    private function removeBody(string $html)
+    private function removeBody(string $html): ?string
     {
         $linebreak = PHP_EOL;
         $html = str_replace(["<body>{$linebreak}", "{$linebreak}</body>"], ['', ''], $html);
-        $html = preg_replace('/^[ ]{2}/m', '', $html);
 
-        return $html;
+        return preg_replace('/^[ ]{2}/m', '', $html);
     }
 }

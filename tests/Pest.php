@@ -1,5 +1,7 @@
 <?php
 
+use Tests\TestCase;
+
 /*
 |--------------------------------------------------------------------------
 | Test Case
@@ -11,7 +13,7 @@
 |
 */
 
-uses(Tests\TestCase::class)->in(__DIR__);
+uses(TestCase::class)->in(__DIR__);
 
 /*
 |--------------------------------------------------------------------------
@@ -39,7 +41,7 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-function getFixture($filename)
+function getFixture(string $filename): string|false
 {
     return file_get_contents(__DIR__.'/fixtures/'.$filename);
 }
