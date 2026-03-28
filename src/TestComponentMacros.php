@@ -48,7 +48,7 @@ class TestComponentMacros
 
     public function assertHtml5(): Closure
     {
-        return function (): static {
+        return function (): TestComponent {
             /** @var TestComponent $this */
             Assert::assertNotEmpty(
                 (string) $this,
