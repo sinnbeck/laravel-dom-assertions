@@ -3,7 +3,7 @@
 use Livewire\Livewire;
 use Tests\Views\Components\LivewireComponent;
 
-it('can find an element by selector after performing update', function () {
+it('can find an element by selector after performing update', function (): void {
     Livewire::test(LivewireComponent::class)
         ->assertOk()
         ->assertElementExists('#nav')

@@ -5,49 +5,49 @@ use Sinnbeck\DomAssertions\Asserts\AssertDatalist;
 use Sinnbeck\DomAssertions\Asserts\AssertElement;
 use Sinnbeck\DomAssertions\Asserts\AssertForm;
 
-it('assertForm alias works for assertFormExists', function () {
+it('assertForm alias works for assertFormExists', function (): void {
     $this->get('form')
-        ->assertForm('form:nth-child(2)', function (AssertForm $form) {
+        ->assertForm('form:nth-child(2)', static function (AssertForm $form): void {
             $form->hasAction('form');
         });
 });
 
-it('can find a form by default', function () {
+it('can find a form by default', function (): void {
     $this->get('form')
         ->assertFormExists();
 });
 
-it('can find a form by css selector', function () {
+it('can find a form by css selector', function (): void {
     $this->get('form')
-        ->assertFormExists('form:nth-child(2)', function (AssertForm $form) {
+        ->assertFormExists('form:nth-child(2)', static function (AssertForm $form): void {
             $form->hasAction('form');
         });
 });
 
-it('can fail to find a form', function () {
+it('can fail to find a form', function (): void {
     $this->get('form')
-        ->assertFormExists('div', function (AssertForm $form) {
+        ->assertFormExists('div', static function (AssertForm $form): void {
             $form->hasAction('form');
         });
 })->throws(AssertionFailedError::class, 'Element is not of type form!');
 
-it('can fail with wrong type of selector', function () {
+it('can fail with wrong type of selector', function (): void {
     $this->get('form')
-        ->assertFormExists(['form'], function (AssertForm $form) {
+        ->assertFormExists(['form'], static function (AssertForm $form): void {
             $form->hasAction('form');
         });
 })->throws(AssertionFailedError::class, 'Invalid selector!');
 
-it('can fail to find anything', function () {
+it('can fail to find anything', function (): void {
     $this->get('form')
-        ->assertFormExists('foobar', function (AssertForm $form) {
+        ->assertFormExists('foobar', static function (AssertForm $form): void {
             $form->hasAction('form');
         });
 })->throws(AssertionFailedError::class, 'No form was found with selector "foobar"');
 
-it('can find elements', function () {
+it('can find elements', function (): void {
     $this->get('form')
-        ->assertFormExists('#form2', function (AssertForm $form) {
+        ->assertFormExists('#form2', static function (AssertForm $form): void {
             $form->hasAction('/form')
                 ->hasMethod('post')
                 ->hasCSRF()
@@ -56,26 +56,26 @@ it('can find elements', function () {
         ->assertOk();
 });
 
-it('can assert method with wrong casing', function () {
+it('can assert method with wrong casing', function (): void {
     $this->get('form')
-        ->assertFormExists('#form2', function (AssertForm $form) {
+        ->assertFormExists('#form2', static function (AssertForm $form): void {
             $form->hasMethod('PoSt');
         })
         ->assertOk();
 });
 
-it('can pass no spoff methods', function () {
+it('can pass no spoff methods', function (): void {
     $this->get('form')
-        ->assertFormExists('#form2', function (AssertForm $form) {
+        ->assertFormExists('#form2', static function (AssertForm $form): void {
             $form->hasAction('/form')
                 ->hasMethod('PUT');
         })
         ->assertOk();
 });
 
-it('can pass no spoff methods with wrong casing', function () {
+it('can pass no spoff methods with wrong casing', function (): void {
     $this->get('form')
-        ->assertFormExists('#form2', function (AssertForm $form) {
+        ->assertFormExists('#form2', static function (AssertForm $form): void {
             $form->hasAction('/form')
                 ->hasMethod('puT')
                 ->hasSpoofMethod('Put');
@@ -83,17 +83,17 @@ it('can pass no spoff methods with wrong casing', function () {
         ->assertOk();
 });
 
-it('can find enc type', function () {
+it('can find enc type', function (): void {
     $this->get('form')
-        ->assertFormExists('#form1', function (AssertForm $form) {
+        ->assertFormExists('#form1', static function (AssertForm $form): void {
             $form->hasEnctype('multipart/form-data');
         })
         ->assertOk();
 });
 
-it('can find inputs', function () {
+it('can find inputs', function (): void {
     $this->get('form')
-        ->assertFormExists('#form2', function (AssertForm $form) {
+        ->assertFormExists('#form2', static function (AssertForm $form): void {
             $form->hasAction('/form')
                 ->hasMethod('post')
                 ->hasCSRF()
@@ -117,9 +117,9 @@ it('can find inputs', function () {
         ->assertOk();
 });
 
-it('can detect a missing input', function () {
+it('can detect a missing input', function (): void {
     $this->get('form')
-        ->assertFormExists('#form2', function (AssertForm $form) {
+        ->assertFormExists('#form2', static function (AssertForm $form): void {
             $form->hasAction('/form')
                 ->hasMethod('post')
                 ->doesntContainInput([
@@ -128,9 +128,9 @@ it('can detect a missing input', function () {
         })->assertOk();
 });
 
-it('can ignore an input outside the form ', function () {
+it('can ignore an input outside the form ', function (): void {
     $this->get('form')
-        ->assertFormExists('#form2', function (AssertForm $form) {
+        ->assertFormExists('#form2', static function (AssertForm $form): void {
             $form->hasAction('/form')
                 ->hasMethod('post')
                 ->doesntContainInput([
@@ -139,9 +139,9 @@ it('can ignore an input outside the form ', function () {
         })->assertOk();
 });
 
-it('can test a textarea', function () {
+it('can test a textarea', function (): void {
     $this->get('form')
-        ->assertFormExists(function (AssertForm $form) {
+        ->assertFormExists(static function (AssertForm $form): void {
             $form->containsTextarea([
                 'name' => 'comment',
                 'value' => 'foo',
@@ -149,62 +149,62 @@ it('can test a textarea', function () {
         })->assertOk();
 });
 
-it('can test a textarea is required', function () {
+it('can test a textarea is required', function (): void {
     $this->get('form')
-        ->assertFormExists(function (AssertForm $form) {
-            $form->findTextarea(function (AssertElement $textArea) {
+        ->assertFormExists(static function (AssertForm $form): void {
+            $form->findTextarea(static function (AssertElement $textArea): void {
                 $textArea->hasRequired();
             });
         })->assertOk();
 });
 
-it('can test a textarea has required true', function () {
+it('can test a textarea has required true', function (): void {
     $this->get('form')
-        ->assertFormExists(function (AssertForm $form) {
+        ->assertFormExists(static function (AssertForm $form): void {
             $form->contains('textarea', [
                 'required' => true,
             ]);
         })->assertOk();
 });
 
-it('can find no inputs with required', function () {
+it('can find no inputs with required', function (): void {
     $this->get('form')
-        ->assertFormExists(function (AssertForm $form) {
+        ->assertFormExists(static function (AssertForm $form): void {
             $form->doesntContain('input', [
                 'required' => true,
             ]);
         })->assertOk();
 });
 
-it('can find a button', function () {
+it('can find a button', function (): void {
     $this->get('form')
-        ->assertFormExists('#form2', function (AssertForm $form) {
+        ->assertFormExists('#form2', static function (AssertForm $form): void {
             $form->containsButton([
                 'type' => 'submit',
             ]);
         })->assertOk();
 });
 
-it('can check arbitrary attributes', function () {
+it('can check arbitrary attributes', function (): void {
     $this->get('form')
-        ->assertFormExists(function (AssertForm $form) {
+        ->assertFormExists(static function (AssertForm $form): void {
             $form->hasXData('foo');
         })->assertOk();
 });
 
-it('can check arbitrary children', function () {
+it('can check arbitrary children', function (): void {
     $this->get('form')
-        ->assertFormExists(function (AssertForm $form) {
+        ->assertFormExists(static function (AssertForm $form): void {
             $form->containsLabel([
                 'for' => 'comment',
             ]);
         })->assertOk();
 });
 
-it('can parse a datalist with options', function () {
+it('can parse a datalist with options', function (): void {
     $this->get('form')
-        ->assertFormExists('#form2', function (AssertForm $form) {
-            $form->findDatalist('#skills', function (AssertDataList $datalist) {
+        ->assertFormExists('#form2', static function (AssertForm $form): void {
+            $form->findDatalist('#skills', static function (AssertDatalist $datalist): void {
                 $datalist->containsOption([
                     'value' => 'PHP',
                 ])
@@ -220,10 +220,10 @@ it('can parse a datalist with options', function () {
         })->assertOk();
 });
 
-it('requires that the selector for datalist is an id', function () {
+it('requires that the selector for datalist is an id', function (): void {
     $this->get('form')
-        ->assertFormExists('#form2', function (AssertForm $form) {
-            $form->findDatalist('.my-datalist', function (AssertDataList $datalist) {
+        ->assertFormExists('#form2', static function (AssertForm $form): void {
+            $form->findDatalist('.my-datalist', static function (AssertDatalist $datalist): void {
                 $datalist->containsOption([
                     'value' => 'My first value',
                 ]);

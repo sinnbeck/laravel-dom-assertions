@@ -70,7 +70,7 @@ class AssertSelect extends BaseAssert
         Assert::assertEqualsCanonicalizing(
             $values,
             $selected,
-            sprintf('Selected values does not match')
+            'Selected values does not match'
         );
 
         return $this;

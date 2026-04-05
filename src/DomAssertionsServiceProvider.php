@@ -9,7 +9,7 @@ use Illuminate\Testing\TestView;
 
 class DomAssertionsServiceProvider extends ServiceProvider
 {
-    public function boot()
+    public function boot(): void
     {
         if ($this->app->runningUnitTests()) {
             TestResponse::mixin(new TestResponseMacros);

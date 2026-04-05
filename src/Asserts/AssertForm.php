@@ -45,7 +45,7 @@ class AssertForm extends BaseAssert
         $element = $this->parser->query('input[type="hidden"][name="_method"]');
         Assert::assertNotNull(
             $element,
-            sprintf('No spoof methods was found in form!')
+            'No spoof methods was found in form!'
         );
 
         Assert::assertEquals(
@@ -66,7 +66,7 @@ class AssertForm extends BaseAssert
         return $this;
     }
 
-    protected function getAttributeFromForm(string $attribute)
+    protected function getAttributeFromForm(string $attribute): string
     {
         return $this->parser->getAttributeForRoot($attribute);
     }
@@ -78,7 +78,7 @@ class AssertForm extends BaseAssert
             $selector = 'select';
         }
 
-        if (! $select = $this->getParser()->query($selector)) {
+        if (! ($select = $this->getParser()->query($selector)) instanceof \DOMNode) {
             Assert::fail(sprintf('No select found for selector: %s', $selector));
         }
 
@@ -98,7 +98,7 @@ class AssertForm extends BaseAssert
             Assert::fail(sprintf('Selectors for datalists must be an id, given: %s', $selector));
         }
 
-        if (! $select = $this->getParser()->query($selector)) {
+        if (! ($select = $this->getParser()->query($selector)) instanceof \DOMNode) {
             Assert::fail(sprintf('No datalist found for datalist: %s', $selector));
         }
 

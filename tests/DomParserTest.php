@@ -2,7 +2,7 @@
 
 use Sinnbeck\DomAssertions\Support\DomParser;
 
-it('can find a form', function () {
+it('can find a form', function (): void {
     $html = <<<'HTML'
 <form id="form1"></form>
 <form id="form2"></form>
@@ -15,7 +15,7 @@ HTML;
     $this->assertEquals('form2', $form->getAttribute('id'));
 });
 
-it('can find a select inside a form', function () {
+it('can find a select inside a form', function (): void {
     $html = <<<'HTML'
 <form id="form1"></form>
 <form id="form2">
@@ -37,7 +37,7 @@ HTML;
     $this->assertNotNull($parser->query('input'));
 });
 
-it('can get an attribute', function () {
+it('can get an attribute', function (): void {
     $html = <<<'HTML'
 <input type="text" value="foo"/>
 HTML;
@@ -48,7 +48,7 @@ HTML;
     $this->assertEquals($parser->getAttributeFor('input', 'value'), 'foo');
 });
 
-it('can get an element by type', function () {
+it('can get an element by type', function (): void {
     $html = <<<'HTML'
 <input type="text" value="foo"/>
 HTML;
@@ -58,7 +58,7 @@ HTML;
     $this->assertEquals('input', $parser->getElementOfType('input')->nodeName);
 });
 
-it('can query a scope', function () {
+it('can query a scope', function (): void {
     $html = <<<'HTML'
 <div>
     <div>
@@ -77,7 +77,7 @@ HTML;
     $this->assertEquals('li', $parser->query('.foo')->nodeName);
 });
 
-it('can query by nth of type', function () {
+it('can query by nth of type', function (): void {
     $html = <<<'HTML'
 <div>
     <ul>
@@ -95,7 +95,7 @@ HTML;
     $this->assertEquals('bar', $parser->query('li:nth-of-type(3)')->getAttribute('class'));
 });
 
-it('can query an attribute with namespace', function () {
+it('can query an attribute with namespace', function (): void {
     $html = <<<'HTML'
 <div>
     <input foo:bar="foo">
@@ -109,7 +109,7 @@ HTML;
     $this->assertEquals('input', $parser->query('input[foo\:bar]')->nodeName);
 });
 
-it('can get content', function () {
+it('can get content', function (): void {
     $html = <<<'HTML'
 <div>
     <ul>
@@ -127,7 +127,7 @@ HTML;
     $this->assertStringStartsWith('<div>', $parser->getContent());
 });
 
-it('can get content formatted', function () {
+it('can get content formatted', function (): void {
     $html = <<<'HTML'
 <div>
     <ul><li class="foo"></li>
