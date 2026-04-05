@@ -54,6 +54,7 @@ trait ProvidesDomAssertionMacros
         return function () use ($content, $emptyMessage) {
             Assert::assertNotEmpty($content($this), $emptyMessage);
 
+            /** @var DomParser $parser */
             $parser = $this->getDomParser();
 
             Assert::assertEquals(
@@ -79,6 +80,7 @@ trait ProvidesDomAssertionMacros
         return function ($selector = 'body', $callback = null) use ($content, $emptyMessage) {
             Assert::assertNotEmpty($content($this), $emptyMessage);
 
+            /** @var DomParser $parser */
             $parser = $this->getDomParser();
 
             if ($selector instanceof Closure) {
@@ -110,6 +112,7 @@ trait ProvidesDomAssertionMacros
         return function (string $selector, array $attributes = []) use ($content, $emptyMessage) {
             Assert::assertNotEmpty($content($this), $emptyMessage);
 
+            /** @var DomParser $parser */
             $parser = $this->getDomParser();
 
             $element = $parser->query($selector);
@@ -173,6 +176,7 @@ trait ProvidesDomAssertionMacros
         return function (string $selector) use ($content, $emptyMessage) {
             Assert::assertNotEmpty($content($this), $emptyMessage);
 
+            /** @var DomParser $parser */
             $parser = $this->getDomParser();
 
             $element = $parser->query($selector);
@@ -199,6 +203,7 @@ trait ProvidesDomAssertionMacros
         return function ($selector = 'form', $callback = null) use ($content, $emptyMessage) {
             Assert::assertNotEmpty($content($this), $emptyMessage);
 
+            /** @var DomParser $parser */
             $parser = $this->getDomParser();
 
             if ($selector instanceof Closure) {
@@ -242,6 +247,7 @@ trait ProvidesDomAssertionMacros
         return function ($selector = 'select', $callback = null) use ($content, $emptyMessage) {
             Assert::assertNotEmpty($content($this), $emptyMessage);
 
+            /** @var DomParser $parser */
             $parser = $this->getDomParser();
 
             if ($selector instanceof Closure) {

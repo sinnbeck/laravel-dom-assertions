@@ -38,7 +38,6 @@ class TestResponseMacros
         $content = $this->content();
 
         return function () use ($content): DomParser {
-            /** @var TestResponse $this */
             $html = $content($this);
 
             // Due to being the test response, livewire users can access the DOM assertions.

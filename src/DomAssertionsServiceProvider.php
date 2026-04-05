@@ -15,7 +15,6 @@ class DomAssertionsServiceProvider extends ServiceProvider
             TestResponse::mixin(new TestResponseMacros);
             TestView::mixin(new TestViewMacros);
             if (version_compare($this->app->version(), '11.41.0', '>=')) {
-                // @phpstan-ignore-next-line
                 TestComponent::mixin(new TestComponentMacros);
             }
         }

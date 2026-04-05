@@ -6,4 +6,5 @@ parameters:
     checkOctaneCompatibility: true
     checkModelProperties: true
     ignoreErrors:
-        - '#Call to an undefined method.*::getDomParser#' # We macro the parser so stan complains
+        - '#PHPDoc tag @var with type Sinnbeck\\DomAssertions\\Support\\DomParser is not subtype of native type Closure#' # getDomParser() is a macro that returns DomParser at runtime
+        - '#Access to an undefined property Sinnbeck\\DomAssertions\\TestResponseMacros::\$headers#' # $this is bound to TestResponse at runtime via mixin
