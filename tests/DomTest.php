@@ -43,7 +43,7 @@ it('can handle an empty view', function (): void {
         ->assertElementExists();
 })->throws(
     AssertionFailedError::class,
-    'The view is empty!'
+    'The response is empty!'
 );
 
 it('can handle an empty body', function (): void {
