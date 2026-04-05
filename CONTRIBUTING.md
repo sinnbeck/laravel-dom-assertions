@@ -9,6 +9,7 @@ The project uses:
 - **Pest** for unit and feature tests.
 - **PHPStan** for static analysis.
 - **Pint** for code styling.
+- **Rector** for code refactoring.
 
 All three are automatically run on every pull request.
 
@@ -18,4 +19,5 @@ You can run them locally (recommended) with:
 vendor/bin/pest
 vendor/bin/phpstan analyse
 vendor/bin/pint
+vendor/bin/rector process
 ```
