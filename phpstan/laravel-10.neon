@@ -2,4 +2,7 @@ includes:
     - ./phpstan-baseline.neon
 
 parameters:
+    reportUnmatchedIgnoredErrors: false
     checkMissingIterableValueType: false
+    ignoreErrors:
+        - '#Call to an undefined static method Illuminate\\Testing\\TestComponent::mixin\(\)#'
