@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Views\Components;
 
 use Illuminate\View\Component;
