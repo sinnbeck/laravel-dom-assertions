@@ -68,9 +68,6 @@ jobs:
             composer require "pestphp/pest:2.36.0" "phpunit/phpunit:10.5.36" --no-update
           fi
           
-          # Remove rector (not needed for tests; conflicts with larastan phpstan version)
-          composer remove rector/rector --dev --no-update --no-interaction
-
           # Update all dependencies
           composer update --prefer-dist --no-interaction
 
