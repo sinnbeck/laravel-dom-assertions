@@ -78,7 +78,7 @@ jobs:
         run: composer show -D
 
       - name: Execute tests
-        run: vendor/bin/pest
+        run: vendor/bin/pest --testsuite="Test Suite"
 
       - name: Run PHPStan
         shell: bash
@@ -86,3 +86,24 @@ jobs:
           LARAVEL_VERSION="${{ matrix.laravel }}"
           LARAVEL_VERSION="${LARAVEL_VERSION%%.*}"
           vendor/bin/phpstan analyse -c "./phpstan/laravel-${LARAVEL_VERSION}.neon" src
+
+  test-rector:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    name: Rector Rules
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: latest
+          coverage: none
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-interaction
+
+      - name: Execute Rector tests
+        run: vendor/bin/pest --testsuite=Rector

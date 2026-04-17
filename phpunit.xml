@@ -4,6 +4,9 @@
     <testsuite name="Test Suite">
       <directory>./tests</directory>
     </testsuite>
+    <testsuite name="Rector">
+      <directory>./tests/Rector</directory>
+    </testsuite>
   </testsuites>
   <source>
     <include>
