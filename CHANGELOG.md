@@ -2,6 +2,15 @@
 
 All notable changes to `laravel-dom-assertion` will be documented in this file.
 
+## v3.0.2 - 2026-04-17
+
+### What's Changed
+
+* Apply Rector by @jackbayliss in https://github.com/sinnbeck/laravel-dom-assertions/pull/63
+* normalize text in assertContainsElement by @jackbayliss in https://github.com/sinnbeck/laravel-dom-assertions/pull/65
+
+**Full Changelog**: https://github.com/sinnbeck/laravel-dom-assertions/compare/v3.0.1...v3.0.2
+
 ## v3.0.1 - 2026-03-05
 
 ### What's Changed
