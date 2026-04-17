@@ -454,6 +454,44 @@ $this->component(Navigation::class)
 | `->containsOption($attributes)`  | Checks for an option with the given attributes                     |
 | `->containsOptions($attributes)` | Checks for any options with the given attributes (array of arrays) |
 
+## Rector
+
+This package ships with [Rector](https://getrector.com/) rules that help your team keep test assertions consistent and up to date as the package evolves.
+
+| Rule | Description |
+|------|-------------|
+| `AssertElementToAssertContainsElementRule` | Converts verbose `assertElement()` closures to flat `assertContainsElement()` chains |
+
+To register a rule, add it to your `rector.php`:
+
+```php
+use Rector\Config\RectorConfig;
+use Sinnbeck\DomAssertions\Rector\Rules\AssertElementToAssertContainsElementRule;
+
+return RectorConfig::configure()
+    ->withRules([
+        AssertElementToAssertContainsElementRule::class,
+    ]);
+```
+
+### `AssertElementToAssertContainsElementRule`
+
+Converts `assertElement()` calls whose closures only use `find`, `contains`, `containsText`, or `has` into flat `assertContainsElement()` chains.
+
+```php
+// Before
+$response->assertElement('#content', function (AssertElement $element) {
+    $element->find('h1', function (AssertElement $element) {
+        $element->containsText('Hello World');
+    });
+    $element->contains('p', ['class' => 'foo']);
+});
+
+// After
+$response->assertContainsElement('#content h1', ['text' => 'Hello World'])
+         ->assertContainsElement('#content p', ['class' => 'foo']);
+```
+
 ## Testing this package
 
 ```bash
