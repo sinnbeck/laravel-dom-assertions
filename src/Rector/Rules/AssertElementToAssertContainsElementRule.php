@@ -117,7 +117,7 @@ final class AssertElementToAssertContainsElementRule extends AbstractRector
             } elseif ($this->isContainsCall($call)) {
                 $entries[] = [
                     'selectors' => [...$selectors, $call->args[0]->value],
-                    'items'     => array_values(array_filter($call->args[1]->value->items)),
+                    'items' => array_values(array_filter($call->args[1]->value->items)),
                 ];
             } else {
                 return null;
@@ -181,7 +181,7 @@ final class AssertElementToAssertContainsElementRule extends AbstractRector
 
         foreach (array_slice($selectors, 1) as $selector) {
             $combined = $combined instanceof String_ && $selector instanceof String_
-                ? new String_($combined->value . ' ' . $selector->value)
+                ? new String_($combined->value.' '.$selector->value)
                 : new Concat(new Concat($combined, new String_(' ')), $selector);
         }
 
