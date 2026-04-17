@@ -10,11 +10,11 @@ final class AssertElementToAssertContainsElementRuleTest extends AbstractRectorT
 {
     public function test(): void
     {
-        $this->doTestFile(__DIR__ . '/Fixture/assert_element_to_assert_contains_element.php.inc');
+        $this->doTestFile(__DIR__.'/Fixture/assert_element_to_assert_contains_element.php.inc');
     }
 
     public function provideConfigFilePath(): string
     {
-        return __DIR__ . '/rector.php';
+        return __DIR__.'/rector.php';
     }
 }
