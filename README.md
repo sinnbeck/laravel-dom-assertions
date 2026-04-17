@@ -456,7 +456,7 @@ $this->component(Navigation::class)
 
 ## Rector
 
-This package ships with [Rector](https://getrector.com/) rules that help your team keep test assertions consistent and up to date as the package evolves.
+This package includes [Rector](https://getrector.com/) rules to help keep test assertions consistent and up to date as the package evolves.
 
 | Rule | Description |
 |------|-------------|
