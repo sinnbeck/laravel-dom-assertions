@@ -13,6 +13,7 @@ use Sinnbeck\DomAssertions\Asserts\AssertElement;
 use Sinnbeck\DomAssertions\Asserts\AssertForm;
 use Sinnbeck\DomAssertions\Asserts\AssertSelect;
 use Sinnbeck\DomAssertions\Support\DomParser;
+use Sinnbeck\DomAssertions\Support\Normalize;
 
 /**
  * @internal
@@ -138,7 +139,7 @@ class TestResponseMacros
             foreach ($attributes as $attribute => $expected) {
                 switch ($attribute) {
                     case 'text':
-                        $actual = trim($element->textContent);
+                        $actual = Normalize::text($element->textContent);
                         Assert::assertStringContainsString(
                             $expected,
                             $actual,

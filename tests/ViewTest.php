@@ -30,6 +30,16 @@ it('assertContainsElement throws if contains attribute does not exist', function
         ->assertContainsElement('span.foo', ['non-existing-attribute' => 'non-existing']);
 })->throws(AssertionFailedError::class, 'Attribute [non-existing-attribute] not found in element [span.foo]');
 
+it('assertContainsElement matches text across child elements', function (): void {
+    $this->view('nesting')
+        ->assertContainsElement('p.foo', ['text' => 'Foo Bar']);
+});
+
+it('assertContainsElement matches text separated by a br tag', function (): void {
+    $this->view('nesting')
+        ->assertContainsElement('small.multi-line', ['text' => 'Foo Bar']);
+});
+
 it('assertElement alias works for assertElementExists', function (): void {
     $this->view('nesting')
         ->assertElement('body', static function (AssertElement $assert): void {

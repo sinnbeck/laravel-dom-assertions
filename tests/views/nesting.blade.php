@@ -26,6 +26,10 @@
                 Foo
                 <span>Bar</span>
             </p>
+            <small class="multi-line">
+                Foo<br>
+                Bar
+            </small>
         </div>
     </body>
 </html>
