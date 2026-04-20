@@ -4,6 +4,8 @@
 [![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/sinnbeck/laravel-dom-assertions/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/sinnbeck/laravel-dom-assertions/actions?query=workflow%3Arun-tests+branch%3Amain)
 [![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/sinnbeck/laravel-dom-assertions/fix-php-cs.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/sinnbeck/laravel-dom-assertions/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/sinnbeck/laravel-dom-assertions.svg?style=flat-square)](https://packagist.org/packages/sinnbeck/laravel-dom-assertions)
+[![Laravel Compatibility](https://badge.laravel.cloud/badge/sinnbeck/laravel-dom-assertions?style=flat)](https://packagist.org/packages/sinnbeck/laravel-dom-assertions)
+
 
 This package provides some extra assertion helpers to use in HTTP Tests. If you have ever needed more control over your view assertions than `assertSee`, `assertSeeInOrder`, `assertSeeText`, `assertSeeTextInOrder`, `assertDontSee`, and `assertDontSeeText` then this is the package for you.
 
@@ -11,17 +13,17 @@ This package provides some extra assertion helpers to use in HTTP Tests. If you 
 
 You can install the package via composer:
 
-> **Note:** If you're using PHP 8.0 or Laravel 9, please use version 2.x:
- 
-```bash
- composer require sinnbeck/laravel-dom-assertions:^2.0 --dev
- ```
-
 > Version 3.x and above requires PHP 8.1+ and Laravel 10+.
 
 ```bash
 composer require sinnbeck/laravel-dom-assertions --dev
 ```
+
+> **Note:** If you're using PHP 8.0 or Laravel 9, please use version 2.x:
+ 
+```bash
+ composer require sinnbeck/laravel-dom-assertions:^2.0 --dev
+ ```
 
 ## Example
 
