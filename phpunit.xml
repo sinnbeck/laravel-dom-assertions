@@ -3,6 +3,10 @@
   <testsuites>
     <testsuite name="Test Suite">
       <directory>./tests</directory>
+      <exclude>./tests/Rector</exclude>
+    </testsuite>
+    <testsuite name="Rector">
+      <directory>./tests/Rector</directory>
     </testsuite>
   </testsuites>
   <source>
