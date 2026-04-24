@@ -22,8 +22,8 @@ class NestedComponent extends Component
                         </div>
                     </div>
                     <ul>
-                        <li x-data="foobar"></li>
-                        <li x-data="foobar"></li>
+                        <li x-data="foobar" data-id="1"></li>
+                        <li x-data="foobar" data-id="2"></li>
                     </ul>
                 </div>
                 <p class="foo bar">

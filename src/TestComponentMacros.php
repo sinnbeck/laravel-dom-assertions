@@ -116,52 +116,44 @@ class TestComponentMacros
 
             $parser = $this->getDomParser();
 
-            $element = $parser->query($selector);
-
             Assert::assertNotNull(
-                $element,
+                $parser->query($selector),
                 sprintf('No element found with selector: %s', $selector)
             );
 
-            if (! $element instanceof DOMElement) {
-                Assert::fail('The element found is not a DOMElement!');
+            if ($attributes === []) {
+                return $this;
             }
 
+            $elements = $parser->queryAll($selector);
+
             foreach ($attributes as $attribute => $expected) {
-                switch ($attribute) {
-                    case 'text':
+                $matched = false;
+
+                foreach ($elements as $element) {
+                    if (! $element instanceof DOMElement) {
+                        continue;
+                    }
+
+                    if ($attribute === 'text') {
                         $actual = Normalize::text($element->textContent);
-                        Assert::assertStringContainsString(
-                            (string) $expected,
-                            $actual,
-                            sprintf(
-                                'Failed asserting that element [%s] text contains "%s". Actual: "%s".',
-                                $selector,
-                                $expected,
-                                $actual
-                            )
-                        );
-                        break;
-
-                    default:
+                        if (str_contains($actual, (string) $expected)) {
+                            $matched = true;
+                            break;
+                        }
+                    } else {
                         $actual = $element->getAttribute($attribute);
-                        Assert::assertNotEmpty(
-                            $actual,
-                            sprintf('Attribute [%s] not found in element [%s].', $attribute, $selector)
-                        );
+                        if ($actual !== '' && str_contains($actual, (string) $expected)) {
+                            $matched = true;
+                            break;
+                        }
+                    }
+                }
 
-                        Assert::assertStringContainsString(
-                            (string) $expected,
-                            $actual,
-                            sprintf(
-                                'Failed asserting that attribute [%s] of element [%s] contains "%s". Actual: "%s".',
-                                $attribute,
-                                $selector,
-                                $expected,
-                                $actual
-                            )
-                        );
-                        break;
+                if (! $matched) {
+                    $attribute === 'text'
+                        ? Assert::fail(sprintf('Failed asserting that any element [%s] text contains "%s".', $selector, $expected))
+                        : Assert::fail(sprintf('Failed asserting that attribute [%s] of any element [%s] contains "%s".', $attribute, $selector, $expected));
                 }
             }
 
