@@ -2,6 +2,16 @@
 
 All notable changes to `laravel-dom-assertion` will be documented in this file.
 
+## v3.0.5 - 2026-04-24
+
+### What's Changed
+
+* allow non normalized as a fallback by @jackbayliss in https://github.com/sinnbeck/laravel-dom-assertions/pull/69
+
+**Full Changelog**: https://github.com/sinnbeck/laravel-dom-assertions/compare/v3.0.4...v3.0.5
+
+Sorry for the release spam, bunch of little bug fixes I was catching
+
 ## v3.0.4 - 2026-04-24
 
 ### What's Changed
