@@ -2,6 +2,15 @@
 
 All notable changes to `laravel-dom-assertion` will be documented in this file.
 
+## v3.0.4 - 2026-04-24
+
+### What's Changed
+
+* Account for numeric vals in assertContainsElement by @jackbayliss in https://github.com/sinnbeck/laravel-dom-assertions/pull/67
+* assertContainsElement should handle multiple matching by @jackbayliss in https://github.com/sinnbeck/laravel-dom-assertions/pull/68
+
+**Full Changelog**: https://github.com/sinnbeck/laravel-dom-assertions/compare/v3.0.3...v3.0.4
+
 ## v3.0.3 - 2026-04-24
 
 ### What's Changed
