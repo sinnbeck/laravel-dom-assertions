@@ -12,7 +12,7 @@ class NestedComponent extends Component
     {
         return <<<'HTML'
         <div>
-           <nav id="nav"><a href="/foo">Foo</a></nav>
+           <nav id="nav" data-id="42"><a href="/foo">Foo</a></nav>
             <div>
                 <span class="bar foo">Foo</span>
                 <div class="foobar">
