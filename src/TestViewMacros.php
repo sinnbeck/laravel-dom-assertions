@@ -121,7 +121,7 @@ class TestViewMacros
                 sprintf('No element found with selector: %s', $selector)
             );
 
-            if (empty($attributes)) {
+            if ($attributes === []) {
                 return $this;
             }
 
