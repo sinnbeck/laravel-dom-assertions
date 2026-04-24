@@ -74,6 +74,11 @@ it('assertContainsElement matches any element not just the first', function (): 
         ->assertContainsElement('li', ['data-id' => 2]);
 });
 
+it('assertContainsElement matches multiline text in pre element', function (): void {
+    $this->component(NestedComponent::class)
+        ->assertContainsElement('pre.code', ['text' => "line one\nline two"]);
+});
+
 it('assertFormExists works as expects', function (): void {
     $this->component(FormComponent::class)
         ->assertFormExists('#form1', static function (AssertForm $form): void {

@@ -30,6 +30,9 @@ class NestedComponent extends Component
                     Foo
                     <span>Bar</span>
                 </p>
+                <pre class="code">line one
+        line two
+        line three</pre>
             </div>
         </div>
         HTML;

@@ -59,6 +59,11 @@ it('assertContainsElement matches any element not just the first', function (): 
         ->assertContainsElement('li', ['data-id' => 2]);
 });
 
+it('assertContainsElement matches multiline text in pre element', function (): void {
+    $this->get('nesting')
+        ->assertContainsElement('pre.code', ['text' => "line one\nline two"]);
+});
+
 it('can handle an empty view', function (): void {
     $this->get('empty')
         ->assertElementExists();

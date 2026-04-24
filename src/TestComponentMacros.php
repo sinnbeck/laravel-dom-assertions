@@ -136,8 +136,11 @@ class TestComponentMacros
                     }
 
                     if ($attribute === 'text') {
-                        $actual = Normalize::text($element->textContent);
-                        if (str_contains($actual, (string) $expected)) {
+                        $needle         = (string) $expected;
+                        $rawText        = $element->textContent;
+                        $normalizedText = Normalize::text($rawText);
+
+                        if (str_contains($normalizedText, $needle) || str_contains($rawText, $needle)) {
                             $matched = true;
                             break;
                         }
