@@ -30,6 +30,9 @@
                 Foo<br>
                 Bar
             </small>
+            <pre class="code">line one
+line two
+line three</pre>
         </div>
     </body>
 </html>
