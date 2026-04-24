@@ -137,19 +137,6 @@ class TestViewMacros
 
                     if ($attribute === 'text') {
                         $actual = Normalize::text($element->textContent);
-                        Assert::assertStringContainsString(
-                            $expected,
-                            $actual,
-                            sprintf(
-                                'Failed asserting that element [%s] text contains "%s". Actual: "%s".',
-                                $selector,
-                                $expected,
-                                $actual
-                            )
-                        );
-                        break;
-
-                    default:
                         if (str_contains($actual, (string) $expected)) {
                             $matched = true;
                             break;
@@ -163,23 +150,6 @@ class TestViewMacros
                     }
                 }
 
-                        Assert::assertNotEmpty(
-                            $actual,
-                            sprintf('Attribute [%s] not found in element [%s].', $attribute, $selector)
-                        );
-
-                        Assert::assertStringContainsString(
-                            $expected,
-                            $actual,
-                            sprintf(
-                                'Failed asserting that attribute [%s] of element [%s] contains "%s". Actual: "%s".',
-                                $attribute,
-                                $selector,
-                                $expected,
-                                $actual
-                            )
-                        );
-                        break;
                 if (! $matched) {
                     $attribute === 'text'
                         ? Assert::fail(sprintf('Failed asserting that any element [%s] text contains "%s".', $selector, $expected))
