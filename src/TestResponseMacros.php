@@ -141,7 +141,7 @@ class TestResponseMacros
                     case 'text':
                         $actual = Normalize::text($element->textContent);
                         Assert::assertStringContainsString(
-                            $expected,
+                            (string) $expected,
                             $actual,
                             sprintf(
                                 'Failed asserting that element [%s] text contains "%s". Actual: "%s".',
@@ -160,7 +160,7 @@ class TestResponseMacros
                         );
 
                         Assert::assertStringContainsString(
-                            $expected,
+                            (string) $expected,
                             $actual,
                             sprintf(
                                 'Failed asserting that attribute [%s] of element [%s] contains "%s". Actual: "%s".',
