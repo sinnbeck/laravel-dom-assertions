@@ -31,12 +31,12 @@ it('assertContainsElement throws if selector not found', function (): void {
 it('assertContainsElement throws if contains text does not exist', function (): void {
     $this->get('nesting')
         ->assertContainsElement('span.foo', ['text' => 'non-existing']);
-})->throws(AssertionFailedError::class, 'Failed asserting that element [span.foo] text contains "non-existing". Actual: "Foo"');
+})->throws(AssertionFailedError::class, 'Failed asserting that any element [span.foo] text contains "non-existing".');
 
 it('assertContainsElement throws if contains attribute does not exist', function (): void {
     $this->view('nesting')
         ->assertContainsElement('span.foo', ['non-existing-attribute' => 'non-existing']);
-})->throws(AssertionFailedError::class, 'Attribute [non-existing-attribute] not found in element [span.foo]');
+})->throws(AssertionFailedError::class, 'Failed asserting that attribute [non-existing-attribute] of any element [span.foo] contains "non-existing".');
 
 it('assertContainsElement matches text across child elements', function (): void {
     $this->get('nesting')
@@ -46,6 +46,17 @@ it('assertContainsElement matches text across child elements', function (): void
 it('assertContainsElement matches text separated by a br tag', function (): void {
     $this->get('nesting')
         ->assertContainsElement('small.multi-line', ['text' => 'Foo Bar']);
+});
+
+it('assertContainsElement accepts integer attribute value', function (): void {
+    $this->get('nesting')
+        ->assertContainsElement('nav', ['data-id' => 42]);
+});
+
+it('assertContainsElement matches any element not just the first', function (): void {
+    $this->get('nesting')
+        ->assertContainsElement('li', ['data-id' => 1])
+        ->assertContainsElement('li', ['data-id' => 2]);
 });
 
 it('can handle an empty view', function (): void {
