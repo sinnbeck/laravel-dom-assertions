@@ -63,6 +63,11 @@ it('assertContainsElement matches text separated by a br tag', function (): void
         ->assertContainsElement('small.multi-line', ['text' => 'Foo Bar']);
 });
 
+it('assertContainsElement accepts integer attribute value', function (): void {
+    $this->component(NestedComponent::class)
+        ->assertContainsElement('nav', ['data-id' => 42]);
+});
+
 it('assertFormExists works as expects', function (): void {
     $this->component(FormComponent::class)
         ->assertFormExists('#form1', static function (AssertForm $form): void {

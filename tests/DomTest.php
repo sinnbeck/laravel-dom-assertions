@@ -48,6 +48,11 @@ it('assertContainsElement matches text separated by a br tag', function (): void
         ->assertContainsElement('small.multi-line', ['text' => 'Foo Bar']);
 });
 
+it('assertContainsElement accepts integer attribute value', function (): void {
+    $this->get('nesting')
+        ->assertContainsElement('nav', ['data-id' => 42]);
+});
+
 it('can handle an empty view', function (): void {
     $this->get('empty')
         ->assertElementExists();

@@ -40,6 +40,11 @@ it('assertContainsElement matches text separated by a br tag', function (): void
         ->assertContainsElement('small.multi-line', ['text' => 'Foo Bar']);
 });
 
+it('assertContainsElement accepts integer attribute value', function (): void {
+    $this->view('nesting')
+        ->assertContainsElement('nav', ['data-id' => 42]);
+});
+
 it('assertElement alias works for assertElementExists', function (): void {
     $this->view('nesting')
         ->assertElement('body', static function (AssertElement $assert): void {
