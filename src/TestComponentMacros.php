@@ -137,7 +137,7 @@ class TestComponentMacros
 
                     if ($attribute === 'text') {
                         $needle = (string) $expected;
-                        $rawText = $element->textContent;
+                        $rawText = str_replace("\r\n", "\n", $element->textContent);
                         $normalizedText = Normalize::text($rawText);
 
                         if (str_contains($normalizedText, $needle) || str_contains($rawText, $needle)) {
