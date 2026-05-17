@@ -4,7 +4,7 @@ use PHPUnit\Framework\AssertionFailedError;
 use Sinnbeck\DomAssertions\Asserts\AssertElement;
 
 it('assertDoesntExist works as expected', function (): void {
-    $this->get('nesting')
+    $this->view('nesting')
         ->assertDoesntExist('span.fake')
         ->assertDoesntExist('nav.fake');
 });
@@ -444,22 +444,29 @@ it('can match on livewire contains as attribute', function (): void {
 });
 
 it('multiple views can be tested in the same test', function (): void {
-    $this->get('nesting')
+    $this->view('nesting')
         ->assertDoesntExist('span.fake')
         ->assertDoesntExist('nav.fake')
         ->assertElementExists(static function (AssertElement $element): void {
             $element->contains('nav');
         });
 
-    $this->get('livewire')
+    $this->view('livewire')
         ->assertElementExists('input')
         ->assertElementExists(static function (AssertElement $element): void {
             $element->contains('input[wire\:model="foo"]');
         });
 
-    $this->get('nesting')
+    $this->view('nesting')
         ->assertContainsElement('span.foo', ['text' => 'Foo']);
 
-    expect(fn () => $this->get('livewire')->assertContainsElement('span.foo', ['text' => 'Foo']))
+    expect(fn () => $this->view('livewire')->assertContainsElement('span.foo', ['text' => 'Foo']))
         ->toThrow(AssertionFailedError::class, 'No element found with selector: span.foo');
+
+    it('can find text simplified', function (): void {
+        $this->view('nesting')
+            ->assertElementExists(static function (AssertElement $element): void {
+                $element->contains('span', 'Foo');
+            });
+    });
 });
