@@ -546,3 +546,11 @@ it('multiple views can be tested in the same test', function (): void {
         ->toThrow(AssertionFailedError::class, 'No element found with selector: span.foo');
 
 });
+
+
+it('can find text simplified', function (): void {
+    $this->get('nesting')
+        ->assertElementExists(static function (AssertElement $element): void {
+            $element->contains('span', 'Foo');
+        });
+});
