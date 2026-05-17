@@ -2,6 +2,19 @@
 
 All notable changes to `laravel-dom-assertion` will be documented in this file.
 
+## v3.0.6 - 2026-05-17
+
+### What's Changed
+
+* Adjust tests by @jackbayliss in https://github.com/sinnbeck/laravel-dom-assertions/pull/70
+* Allow `contains('selector', 'text value')` shorthand by @weshooper in https://github.com/sinnbeck/laravel-dom-assertions/pull/71
+
+### New Contributors
+
+* @weshooper made their first contribution in https://github.com/sinnbeck/laravel-dom-assertions/pull/71
+
+**Full Changelog**: https://github.com/sinnbeck/laravel-dom-assertions/compare/v3.0.5...v3.0.6
+
 ## v3.0.5 - 2026-04-24
 
 ### What's Changed
