@@ -547,7 +547,6 @@ it('multiple views can be tested in the same test', function (): void {
 
 });
 
-
 it('can find text simplified', function (): void {
     $this->get('nesting')
         ->assertElementExists(static function (AssertElement $element): void {
