@@ -462,11 +462,11 @@ it('multiple views can be tested in the same test', function (): void {
 
     expect(fn () => $this->view('livewire')->assertContainsElement('span.foo', ['text' => 'Foo']))
         ->toThrow(AssertionFailedError::class, 'No element found with selector: span.foo');
+});
 
-    it('can find text simplified', function (): void {
-        $this->view('nesting')
-            ->assertElementExists(static function (AssertElement $element): void {
-                $element->contains('span', 'Foo');
-            });
-    });
+it('can find text simplified', function (): void {
+    $this->view('nesting')
+        ->assertElementExists(static function (AssertElement $element): void {
+            $element->contains('span', 'Foo');
+        });
 });
