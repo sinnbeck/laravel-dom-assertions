@@ -104,6 +104,10 @@ trait UsesElementAsserts
             $attributes = null;
         }
 
+        if (is_string($attributes)) {
+            $attributes = ['text' => $attributes];
+        }
+
         if (! $attributes && ! $count) {
             return $this;
         }
