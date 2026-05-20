@@ -6,6 +6,7 @@ use Illuminate\Testing\Assert as PHPUnit;
 use PHPUnit\Framework\Assert;
 use Sinnbeck\DomAssertions\Asserts\AssertElement;
 use Sinnbeck\DomAssertions\Support\CompareAttributes;
+use Sinnbeck\DomAssertions\Support\Normalize;
 
 /**
  * @internal
@@ -172,17 +173,16 @@ trait UsesElementAsserts
 
     public function containsText(string $needle, bool $ignoreCase = false): self
     {
-        $text = $this->getAttribute('text');
+        $rawText = $this->getAttribute('text');
+        $normalizedText = Normalize::text($rawText);
 
-        $assertFunction = $ignoreCase ?
-            'assertStringContainsStringIgnoringCase' :
-            'assertStringContainsString';
+        $compare = $ignoreCase
+            ? static fn (string $haystack, string $needle): bool => stripos($haystack, $needle) !== false
+            : static fn (string $haystack, string $needle): bool => str_contains($haystack, $needle);
 
-        call_user_func(
-            [PHPUnit::class, $assertFunction],
-            $needle,
-            $text,
-            sprintf('Could not find text content "%s" containing %s within: %s', $text, $needle, $this->getSelectors())
+        PHPUnit::assertTrue(
+            $compare($normalizedText, $needle) || $compare($rawText, $needle),
+            sprintf('Could not find text content "%s" containing %s within: %s', $rawText, $needle, $this->getSelectors())
         );
 
         return $this;
@@ -190,17 +190,16 @@ trait UsesElementAsserts
 
     public function doesntContainText(string $needle, bool $ignoreCase = false): self
     {
-        $text = $this->getAttribute('text');
+        $rawText = $this->getAttribute('text');
+        $normalizedText = Normalize::text($rawText);
 
-        $assertFunction = $ignoreCase ?
-            'assertStringNotContainsStringIgnoringCase' :
-            'assertStringNotContainsString';
+        $compare = $ignoreCase
+            ? static fn (string $haystack, string $needle): bool => stripos($haystack, $needle) !== false
+            : static fn (string $haystack, string $needle): bool => str_contains($haystack, $needle);
 
-        call_user_func(
-            [PHPUnit::class, $assertFunction],
-            $needle,
-            $text,
-            sprintf('Found text content "%s" containing %s within: %s', $text, $needle, $this->getSelectors())
+        PHPUnit::assertFalse(
+            $compare($normalizedText, $needle) || $compare($rawText, $needle),
+            sprintf('Found text content "%s" containing %s within: %s', $rawText, $needle, $this->getSelectors())
         );
 
         return $this;
