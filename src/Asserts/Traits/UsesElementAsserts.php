@@ -171,35 +171,47 @@ trait UsesElementAsserts
         return $this;
     }
 
-    public function containsText(string $needle, bool $ignoreCase = false): self
+    public function containsText(string $needle, bool $ignoreCase = false, bool $normalizeWhitespace = false): self
     {
-        $rawText = $this->getAttribute('text');
-        $normalizedText = Normalize::text($rawText);
+        $text = $this->getAttribute('text');
 
-        $compare = $ignoreCase
-            ? static fn (string $haystack, string $needle): bool => stripos($haystack, $needle) !== false
-            : static fn (string $haystack, string $needle): bool => str_contains($haystack, $needle);
+        if ($normalizeWhitespace) {
+            $needle = Normalize::text($needle);
+            $text = Normalize::text($text);
+        }
 
-        PHPUnit::assertTrue(
-            $compare($normalizedText, $needle) || $compare($rawText, $needle),
-            sprintf('Could not find text content "%s" containing %s within: %s', $rawText, $needle, $this->getSelectors())
+        $assertFunction = $ignoreCase ?
+            'assertStringContainsStringIgnoringCase' :
+            'assertStringContainsString';
+
+        call_user_func(
+            [PHPUnit::class, $assertFunction],
+            $needle,
+            $text,
+            sprintf('Could not find text content "%s" containing %s within: %s', $text, $needle, $this->getSelectors())
         );
 
         return $this;
     }
 
-    public function doesntContainText(string $needle, bool $ignoreCase = false): self
+    public function doesntContainText(string $needle, bool $ignoreCase = false, bool $normalizeWhitespace = false): self
     {
-        $rawText = $this->getAttribute('text');
-        $normalizedText = Normalize::text($rawText);
+        $text = $this->getAttribute('text');
 
-        $compare = $ignoreCase
-            ? static fn (string $haystack, string $needle): bool => stripos($haystack, $needle) !== false
-            : static fn (string $haystack, string $needle): bool => str_contains($haystack, $needle);
+        if ($normalizeWhitespace) {
+            $needle = Normalize::text($needle);
+            $text = Normalize::text($text);
+        }
 
-        PHPUnit::assertFalse(
-            $compare($normalizedText, $needle) || $compare($rawText, $needle),
-            sprintf('Found text content "%s" containing %s within: %s', $rawText, $needle, $this->getSelectors())
+        $assertFunction = $ignoreCase ?
+            'assertStringNotContainsStringIgnoringCase' :
+            'assertStringNotContainsString';
+
+        call_user_func(
+            [PHPUnit::class, $assertFunction],
+            $needle,
+            $text,
+            sprintf('Found text content "%s" containing %s within: %s', $text, $needle, $this->getSelectors())
         );
 
         return $this;

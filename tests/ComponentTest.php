@@ -280,17 +280,17 @@ it('can match text content not containing a string', function (): void {
         });
 });
 
-it('matches containsText across collapsed whitespace', function (): void {
+it('matches containsText across collapsed whitespace when normalizing', function (): void {
     $this->component(Html5Component::class)
         ->assertElementExists('p.foo.bar', static function (AssertElement $element): void {
-            $element->containsText('Foo Bar');
+            $element->containsText('Foo Bar', normalizeWhitespace: true);
         });
 });
 
-it('matches doesntContainText against collapsed whitespace', function (): void {
+it('matches doesntContainText across collapsed whitespace when normalizing', function (): void {
     $this->component(Html5Component::class)
         ->assertElementExists('p.foo.bar', static function (AssertElement $element): void {
-            $element->doesntContainText('Bar Foo');
+            $element->doesntContainText('Bar Foo', normalizeWhitespace: true);
         });
 });
 

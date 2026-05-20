@@ -263,24 +263,17 @@ it('can match text content not containing a string', function (): void {
         });
 });
 
-it('matches containsText across collapsed whitespace', function (): void {
+it('matches containsText across collapsed whitespace when normalizing', function (): void {
     $this->view('nesting')
         ->assertElementExists('p.foo.bar', static function (AssertElement $element): void {
-            $element->containsText('Foo Bar');
+            $element->containsText('Foo Bar', normalizeWhitespace: true);
         });
 });
 
-it('matches containsText against raw multiline text as a fallback', function (): void {
-    $this->view('nesting')
-        ->assertElementExists('pre.code', static function (AssertElement $element): void {
-            $element->containsText("line one\nline two");
-        });
-});
-
-it('matches doesntContainText against collapsed whitespace', function (): void {
+it('matches doesntContainText across collapsed whitespace when normalizing', function (): void {
     $this->view('nesting')
         ->assertElementExists('p.foo.bar', static function (AssertElement $element): void {
-            $element->doesntContainText('Bar Foo');
+            $element->doesntContainText('Bar Foo', normalizeWhitespace: true);
         });
 });
 
