@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-dom-assertion` will be documented in this file.
 
+## v3.0.7 - 2026-05-21
+
+### What's Changed
+
+* containsText normalisation option by @jackbayliss in https://github.com/sinnbeck/laravel-dom-assertions/pull/72
+
+**Full Changelog**: https://github.com/sinnbeck/laravel-dom-assertions/compare/v3.0.6...v3.0.7
+
 ## v3.0.6 - 2026-05-17
 
 ### What's Changed
