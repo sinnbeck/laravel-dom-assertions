@@ -36,7 +36,7 @@ By default `containsText()` / `doesntContainText()` compare text exactly as it a
 $element->containsText('Hello World', ignoreCase: false, normalizeWhitespace: true);
 ```
 
-**Globally, this can be done via `TestCase::setUp()` or `AppServiceProvider::boot()`:
+**Globally, this can be done in your `TestCase::setUp()` or `AppServiceProvider::boot()`:
 
 ```php
 config()->set('dom-assertions.normalize_whitespace', true);
@@ -48,7 +48,7 @@ config()->set('dom-assertions.normalize_whitespace', true);
 php artisan vendor:publish --tag=dom-assertions-config
 ```
 
-This will create `config/dom-assertions.php`:
+This will create a file at `config/dom-assertions.php`:
 
 ```php
 return [
