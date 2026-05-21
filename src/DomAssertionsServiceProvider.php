@@ -9,8 +9,17 @@ use Illuminate\Testing\TestView;
 
 class DomAssertionsServiceProvider extends ServiceProvider
 {
+    public function register(): void
+    {
+        $this->mergeConfigFrom(__DIR__.'/../config/dom-assertions.php', 'dom-assertions');
+    }
+
     public function boot(): void
     {
+        $this->publishes([
+            __DIR__.'/../config/dom-assertions.php' => $this->app->configPath('dom-assertions.php'),
+        ], 'dom-assertions-config');
+
         if ($this->app->runningUnitTests()) {
             TestResponse::mixin(new TestResponseMacros);
             TestView::mixin(new TestViewMacros);

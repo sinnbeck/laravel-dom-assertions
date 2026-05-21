@@ -263,6 +263,20 @@ it('can match text content not containing a string', function (): void {
         });
 });
 
+it('matches containsText across collapsed whitespace when normalizing', function (): void {
+    $this->view('nesting')
+        ->assertElementExists('p.foo.bar', static function (AssertElement $element): void {
+            $element->containsText('Foo Bar', normalizeWhitespace: true);
+        });
+});
+
+it('matches doesntContainText across collapsed whitespace when normalizing', function (): void {
+    $this->view('nesting')
+        ->assertElementExists('p.foo.bar', static function (AssertElement $element): void {
+            $element->doesntContainText('Bar Foo', normalizeWhitespace: true);
+        });
+});
+
 it('can match a class no matter the order', function (): void {
     $this->view('nesting')
         ->assertElementExists(static function (AssertElement $element): void {

@@ -6,6 +6,7 @@ use Illuminate\Testing\Assert as PHPUnit;
 use PHPUnit\Framework\Assert;
 use Sinnbeck\DomAssertions\Asserts\AssertElement;
 use Sinnbeck\DomAssertions\Support\CompareAttributes;
+use Sinnbeck\DomAssertions\Support\Normalize;
 
 /**
  * @internal
@@ -170,9 +171,14 @@ trait UsesElementAsserts
         return $this;
     }
 
-    public function containsText(string $needle, bool $ignoreCase = false): self
+    public function containsText(string $needle, bool $ignoreCase = false, ?bool $normalizeWhitespace = null): self
     {
         $text = $this->getAttribute('text');
+
+        if ($normalizeWhitespace ?? (bool) config('dom-assertions.normalize_whitespace', false)) {
+            $needle = Normalize::text($needle);
+            $text = Normalize::text($text);
+        }
 
         $assertFunction = $ignoreCase ?
             'assertStringContainsStringIgnoringCase' :
@@ -188,9 +194,14 @@ trait UsesElementAsserts
         return $this;
     }
 
-    public function doesntContainText(string $needle, bool $ignoreCase = false): self
+    public function doesntContainText(string $needle, bool $ignoreCase = false, ?bool $normalizeWhitespace = null): self
     {
         $text = $this->getAttribute('text');
+
+        if ($normalizeWhitespace ?? (bool) config('dom-assertions.normalize_whitespace', false)) {
+            $needle = Normalize::text($needle);
+            $text = Normalize::text($text);
+        }
 
         $assertFunction = $ignoreCase ?
             'assertStringNotContainsStringIgnoringCase' :
