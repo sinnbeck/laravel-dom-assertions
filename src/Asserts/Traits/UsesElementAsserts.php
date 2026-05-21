@@ -171,11 +171,11 @@ trait UsesElementAsserts
         return $this;
     }
 
-    public function containsText(string $needle, bool $ignoreCase = false, bool $normalizeWhitespace = false): self
+    public function containsText(string $needle, bool $ignoreCase = false, ?bool $normalizeWhitespace = null): self
     {
         $text = $this->getAttribute('text');
 
-        if ($normalizeWhitespace) {
+        if ($normalizeWhitespace ?? (bool) config('dom-assertions.normalize_whitespace', false)) {
             $needle = Normalize::text($needle);
             $text = Normalize::text($text);
         }
@@ -194,11 +194,11 @@ trait UsesElementAsserts
         return $this;
     }
 
-    public function doesntContainText(string $needle, bool $ignoreCase = false, bool $normalizeWhitespace = false): self
+    public function doesntContainText(string $needle, bool $ignoreCase = false, ?bool $normalizeWhitespace = null): self
     {
         $text = $this->getAttribute('text');
 
-        if ($normalizeWhitespace) {
+        if ($normalizeWhitespace ?? (bool) config('dom-assertions.normalize_whitespace', false)) {
             $needle = Normalize::text($needle);
             $text = Normalize::text($text);
         }

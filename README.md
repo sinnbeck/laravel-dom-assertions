@@ -25,6 +25,47 @@ composer require sinnbeck/laravel-dom-assertions --dev
  composer require sinnbeck/laravel-dom-assertions:^2.0 --dev
  ```
 
+
+### Whitespace normalisation
+
+By default `containsText()` / `doesntContainText()` compare text exactly as it appears in the DOM. If your templates produce a lot of incidental whitespace (indented Blade, multi-line content, `\r\n` line endings) you have a few options.
+
+**Per call:**
+
+```php
+$element->containsText('Hello World', ignoreCase: false, normalizeWhitespace: true);
+```
+
+**Globally, this can be done via `TestCase::setUp()` or `AppServiceProvider::boot()`:
+
+```php
+config()->set('dom-assertions.normalize_whitespace', true);
+```
+
+**or via a published config file** if you prefer files:
+
+```bash
+php artisan vendor:publish --tag=dom-assertions-config
+```
+
+This will create `config/dom-assertions.php`:
+
+```php
+return [
+    /*
+    | When enabled, text comparisons performed by `containsText` and
+    | `doesntContainText` will collapse consecutive whitespace and trim
+    | vertical whitespace from both the needle and haystack by default.
+    |
+    | This can still be overridden per-call by passing an explicit boolean
+    | as the third argument to those assertions.
+    */
+    'normalize_whitespace' => true,
+];
+```
+
+With the global default enabled, you can still force the original strict behaviour for a single assertion by passing `normalizeWhitespace: false`.
+
 ## Example
 
 Imagine we have a view with this html
@@ -434,10 +475,10 @@ $this->component(Navigation::class)
 | `->isDiv()`                                    | Magic method. Same as `->is('div')`                                                  |
 | `->contains($selector, $attributes, $count)`   | Checks for any children of the current element                                       |
 | `->containsDiv, ['class' => 'foo'], 3)`        | Magic method. Same as `->contains('div', ['class' => 'foo'], 3)`                     |
-| `->containsText($needle, $ignoreCase)`         | Checks if the element's text content contains a specified string                     |
+| `->containsText($needle, $ignoreCase, $normalizeWhitespace)` | Checks if the element's text content contains a specified string. `$normalizeWhitespace` defaults to the `dom-assertions.normalize_whitespace` config value when null |
 | `->doesntContain($selector, $attributes)`      | Ensures that there are no matching children                                          |
 | `->doesntContainDiv, ['class' => 'foo'])`      | Magic method. Same as `->doesntContain('div', ['class' => 'foo'])`                   |
-| `->doesntContainText($needle, $ignoreCase)`    | Checks if the element's text content doesn't contain a specified string              |
+| `->doesntContainText($needle, $ignoreCase, $normalizeWhitespace)` | Checks if the element's text content doesn't contain a specified string. `$normalizeWhitespace` defaults to the `dom-assertions.normalize_whitespace` config value when null |
 | `->find($selector, $callback)`                 | Find a specific child element and get a new AssertElement. Returns the first match.  |
 | `->findDiv(fn (AssertElement $element) => {})` | Magic method. Same as `->find('div', fn (AssertElement $element) => {})`             |
 
