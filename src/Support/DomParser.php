@@ -38,7 +38,7 @@ final class DomParser
         $dom = new DOMDocument;
 
         $html = '<?xml encoding="UTF-8">'.trim($html);
-        $dom->loadHTML($html, LIBXML_NOERROR | LIBXML_COMPACT | LIBXML_HTML_NODEFDTD | LIBXML_NOBLANKS | LIBXML_NOXMLDECL);
+        $dom->loadHTML($html, LIBXML_NOERROR | LIBXML_COMPACT | LIBXML_HTML_NODEFDTD | LIBXML_NOBLANKS);
         $this->document = $dom;
         $root = $dom->getElementsByTagName('html')->item(0);
 

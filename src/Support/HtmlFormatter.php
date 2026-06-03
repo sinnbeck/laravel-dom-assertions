@@ -22,7 +22,7 @@ class HtmlFormatter
     {
         $dom = new \DOMDocument;
 
-        $dom->loadHTML($html, LIBXML_NOERROR | LIBXML_COMPACT | LIBXML_HTML_NODEFDTD | LIBXML_NOBLANKS | LIBXML_NOXMLDECL);
+        $dom->loadHTML($html, LIBXML_NOERROR | LIBXML_COMPACT | LIBXML_HTML_NODEFDTD | LIBXML_NOBLANKS);
         $dom->formatOutput = true;
         // remove <html><body></body></html>
         $dom->replaceChild($dom->firstChild->firstChild, $dom->firstChild);
