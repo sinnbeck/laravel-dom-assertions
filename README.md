@@ -26,29 +26,364 @@ composer require sinnbeck/laravel-dom-assertions --dev
  ```
 
 
-### Whitespace normalisation
+## Table of contents
 
-By default `containsText()` / `doesntContainText()` compare text exactly as it appears in the DOM. If your templates produce a lot of incidental whitespace (indented Blade, multi-line content, `\r\n` line endings) you have a few options.
+- [Asserting on elements](#asserting-on-elements)
+- [Asserting on forms](#asserting-on-forms)
+- [Asserting on selects](#asserting-on-selects)
+- [Asserting on datalists](#asserting-on-datalists)
+- [Asserting on text](#asserting-on-text)
+- [Quick existence checks](#quick-existence-checks)
+- [Usage with Livewire](#usage-with-livewire)
+- [Usage with Blade views and components](#usage-with-blade-views-and-components)
+- [Method reference](#method-reference)
+- [Rector rules](#rector-rules)
+- [Contributing](#contributing)
+- [Credits](#credits)
+- [License](#license)
 
-**Per call:**
+## Asserting on elements
+
+Use `assertElementExists()` (or its alias `assertElement()`) on a test response to assert against the DOM. This package assumes a valid HTML document and will wrap your markup in `<html>`, `<head>`, and `<body>` tags if they are missing.
+
+Called with no arguments, it simply asserts that a `<body>` element was parsed:
 
 ```php
-$element->containsText('Hello World', ignoreCase: false, normalizeWhitespace: true);
+$this->get('/some-route')
+    ->assertElementExists();
 ```
 
-**Globally, this can be done in your `TestCase::setUp()` or `AppServiceProvider::boot()`:
+Pass a CSS selector as the first argument to target a specific element:
+
+```php
+$this->get('/some-route')
+    ->assertElementExists('#nav');
+```
+
+The second argument is a closure that receives an `AssertElement` instance, which is where all of the fluent assertions below live.
+
+### Asserting the element type
+
+```php
+$this->get('/some-route')
+    ->assertElementExists('#overview', function (AssertElement $assert) {
+        $assert->is('div');
+    });
+```
+
+### Asserting attributes
+
+Assert that an attribute is present, optionally with a specific value:
+
+```php
+$this->get('/some-route')
+    ->assertElementExists('#overview', function (AssertElement $assert) {
+        $assert->has('x-data', '{foo: 1}');
+    });
+```
+
+Or assert that it is absent:
+
+```php
+$this->get('/some-route')
+    ->assertElementExists('#overview', function (AssertElement $assert) {
+        $assert->doesntHave('x-data', '{foo: 2}');
+    });
+```
+
+### Asserting on children
+
+Confirm a child element exists:
+
+```php
+$this->get('/some-route')
+    ->assertElementExists('#overview', function (AssertElement $assert) {
+        $assert->contains('div');
+    });
+```
+
+Narrow it down with a CSS selector:
+
+```php
+$this->get('/some-route')
+    ->assertElementExists('#overview', function (AssertElement $assert) {
+        $assert->contains('div:nth-of-type(3)');
+    });
+```
+
+Assert that the child carries certain attributes:
+
+```php
+$this->get('/some-route')
+    ->assertElementExists('#overview', function (AssertElement $assert) {
+        $assert->contains('li.list-item', ['x-data' => 'foobar']);
+    });
+```
+
+Assert it appears an exact number of times by passing a count as the final argument:
+
+```php
+$this->get('/some-route')
+    ->assertElementExists('#overview', function (AssertElement $assert) {
+        $assert->contains('li.list-item', ['x-data' => 'foobar'], 3);
+    });
+```
+
+When you only care about the count, drop the attributes argument:
+
+```php
+$this->get('/some-route')
+    ->assertElementExists('#overview', function (AssertElement $assert) {
+        $assert->contains('li.list-item', 3);
+    });
+```
+
+Or assert that no matching child exists:
+
+```php
+$this->get('/some-route')
+    ->assertElementExists('#overview', function (AssertElement $assert) {
+        $assert->doesntContain('li.list-item', ['x-data' => 'foobar']);
+    });
+```
+
+### Drilling into a child
+
+`find()` selects the first matching child and lets you assert against it. Pass a closure to receive a fresh `AssertElement` for that child:
+
+```php
+$this->get('/some-route')
+    ->assertElementExists('#overview', function (AssertElement $assert) {
+        $assert->find('li:nth-of-type(3)', function (AssertElement $element) {
+            $element->is('li');
+        });
+    });
+```
+
+To assert against *every* matching element rather than just the first, use `each()`:
+
+```php
+$this->get('/some-route')
+    ->assertElementExists('#overview', function (AssertElement $assert) {
+        $assert->each('li', function (AssertElement $element) {
+            $element->has('class', 'list-item');
+        });
+    });
+```
+
+Because each `find()` hands you another `AssertElement`, you can drill arbitrarily deep into the DOM:
+
+```php
+$this->get('/some-route')
+    ->assertElementExists(function (AssertElement $element) {
+        $element->find('div', function (AssertElement $element) {
+            $element->is('div');
+
+            $element->find('p', function (AssertElement $element) {
+                $element->is('p');
+                $element->find('#label', fn (AssertElement $element) => $element->is('span'));
+            });
+
+            $element->find('p:nth-of-type(2)', function (AssertElement $element) {
+                $element->is('p');
+                $element->find('.sub-header', fn (AssertElement $element) => $element->is('h4'));
+            });
+        });
+    });
+```
+
+### Magic methods
+
+Element type and attribute assertions have convenient magic-method shortcuts:
+
+```php
+$assert->isDiv();                              // is('div')
+$assert->hasXData('{foo: 1}');                 // has('x-data', '{foo: 1}')
+$assert->containsDiv(['class' => 'foo'], 3);   // contains('div', ['class' => 'foo'], 3)
+$assert->doesntContainSpan(['class' => 'foo']); // doesntContain('span', ['class' => 'foo'])
+$assert->findDiv(fn (AssertElement $el) => $el->isDiv()); // find('div', ...)
+```
+
+## Asserting on forms
+
+Forms support every element assertion above, plus a handful of form-specific helpers. Use `assertFormExists()` (alias `assertForm()`), which targets the first `<form>` on the page by default:
+
+```php
+$this->get('/some-route')
+    ->assertFormExists();
+```
+
+Pass a selector to target a specific form:
+
+```php
+$this->get('/some-route')
+    ->assertFormExists('#users-form');
+```
+
+The closure receives an `AssertForm` instance. Assert on the action and method:
+
+```php
+$this->get('/some-route')
+    ->assertFormExists('#form1', function (AssertForm $form) {
+        $form->hasAction('/logout')
+            ->hasMethod('post');
+    });
+```
+
+Omit the selector entirely and pass the closure directly to target the first form:
+
+```php
+$this->get('/some-route')
+    ->assertFormExists(function (AssertForm $form) {
+        $form->hasAction('/logout')->hasMethod('post');
+    });
+```
+
+### CSRF tokens and method spoofing
+
+```php
+$this->get('/some-route')
+    ->assertFormExists(function (AssertForm $form) {
+        $form->hasAction('/update-user')
+            ->hasMethod('post')
+            ->hasCSRF()
+            ->hasSpoofMethod('PUT');
+    });
+```
+
+Any method other than `GET` or `POST` is automatically treated as a spoofed method, so this is equivalent to calling `hasSpoofMethod('PUT')`:
+
+```php
+$this->get('/some-route')
+    ->assertFormExists(function (AssertForm $form) {
+        $form->hasMethod('PUT');
+    });
+```
+
+Arbitrary attributes are supported too, including via magic methods:
+
+```php
+$this->get('/some-route')
+    ->assertFormExists(function (AssertForm $form) {
+        $form->has('x-data', 'foo')
+            ->hasEnctype('multipart/form-data'); // magic method
+    });
+```
+
+### Inputs, textareas, and buttons
+
+```php
+$this->get('/some-route')
+    ->assertFormExists(function (AssertForm $form) {
+        $form->containsInput(['name' => 'first_name', 'value' => 'Gunnar'])
+            ->containsTextarea(['name' => 'comment', 'value' => '...']);
+    });
+```
+
+You can also assert on arbitrary children, or their absence:
+
+```php
+$this->get('/some-route')
+    ->assertFormExists(function (AssertForm $form) {
+        $form->contains('label', ['for' => 'username'])
+            ->containsButton(['type' => 'submit']) // magic method
+            ->doesntContain('label', ['for' => 'password']);
+    });
+```
+
+## Asserting on selects
+
+`findSelect()` takes a selector and a closure that receives an `AssertSelect` instance. Assert on the select's own attributes:
+
+```php
+$this->get('/some-route')
+    ->assertFormExists(function (AssertForm $form) {
+        $form->findSelect('select:nth-of-type(2)', function (AssertSelect $select) {
+            $select->has('name', 'country');
+        });
+    });
+```
+
+Assert on its options. Check one at a time with `containsOption()`, or several at once with `containsOptions()`:
+
+```php
+$this->get('/some-route')
+    ->assertFormExists(function (AssertForm $form) {
+        $form->findSelect('select:nth-of-type(2)', function (AssertSelect $select) {
+            $select->containsOption([
+                'x-data' => 'none',
+                'value'  => 'none',
+                'text'   => 'None',
+            ])->containsOptions(
+                ['value' => 'dk', 'text' => 'Denmark'],
+                ['value' => 'us', 'text' => 'USA'],
+            );
+        });
+    });
+```
+
+Assert on the selected value, or on multiple selected values for a multi-select:
+
+```php
+$this->get('/some-route')
+    ->assertFormExists('#form1', function (AssertForm $form) {
+        $form->findSelect('select', function (AssertSelect $select) {
+            $select->hasValue('da');
+            $select->hasValues(['da', 'en']);
+        });
+    });
+```
+
+## Asserting on datalists
+
+Datalists work like selects via `findDatalist()`, which provides an `AssertDatalist` instance. The selector must be either `datalist` or an id such as `#skills`:
+
+```php
+$this->get('/some-route')
+    ->assertFormExists('#form1', function (AssertForm $form) {
+        $form->findDatalist('#skills', function (AssertDatalist $list) {
+            $list->containsOptions(
+                ['value' => 'PHP'],
+                ['value' => 'Javascript'],
+            );
+        });
+    });
+```
+
+## Asserting on text
+
+`containsText()` and `doesntContainText()` assert against an element's text content:
+
+```php
+$this->get('/some-route')
+    ->assertElementExists('#overview', function (AssertElement $assert) {
+        $assert->containsText('Hello World');
+    });
+```
+
+### Whitespace normalisation
+
+By default these comparisons match text exactly as it appears in the DOM. Templates often introduce a lot of incidental whitespace, such as indented Blade, multi-line content, or `\r\n` line endings, so you can collapse and trim it instead.
+
+Enable it for a single call:
+
+```php
+$assert->containsText('Hello World', ignoreCase: false, normalizeWhitespace: true);
+```
+
+Enable it globally from `TestCase::setUp()` or `AppServiceProvider::boot()`:
 
 ```php
 config()->set('dom-assertions.normalize_whitespace', true);
 ```
 
-**or via a published config file** if you prefer files:
+Or publish the config file if you prefer:
 
 ```bash
 php artisan vendor:publish --tag=dom-assertions-config
 ```
 
-This will create a file at `config/dom-assertions.php`:
+This creates `config/dom-assertions.php`:
 
 ```php
 return [
@@ -64,376 +399,34 @@ return [
 ];
 ```
 
-With the global default enabled, you can still force the original strict behaviour for a single assertion by passing `normalizeWhitespace: false`.
+When `normalizeWhitespace` is left as `null`, it falls back to this config value. With the global default on, pass `normalizeWhitespace: false` to force strict matching for a single assertion.
 
-## Example
+## Quick existence checks
 
-Imagine we have a view with this html
-```html
-<nav>
-    <ul>
-        @foreach ($menuItems as $menuItem)
-            <li @class([
-                "p-3 text-white",
-                "text-blue-500 active" => Route::is($menuItem->route)
-            ])>
-            <a href="{{route($menuItem->route)}}">{{$menuItem->name}}</a>
-        </li>
-        @endforeach
-    </ul>
-</nav>
-```
-Now we want to make sure that the correct menu item is selected when on this route. 
-We could try with some regex to match it, but it might be easily break.
-```php
-$response = $this->get(route('about'))
-    ->assertOk();
-$this->assertMatchesRegularExpression(
-    '/<li(.)*class="(.)*active(.)*">(.|\n)*About(.|\n)*?<\/li>/',
-    $response->getContent()
-);
-```
-But this can be very brittle, and a simple linebreak can cause it to fail.
-
-With this package you can now use an expressive syntax like this.
-```php
-$this->get(route('about'))
-    ->assertOk()
-    ->assertElementExists('nav > ul', function(\Sinnbeck\DomAssertions\Asserts\AssertElement $ul) {
-        $ul->contains('li', [
-            'class' => 'active',
-            'text' => 'About'
-        ]);
-        $ul->doesntContain('li', [
-            'class' => 'active',
-            'text' => 'Home'
-        ]);
-    });
-```
-## Usage
-
-### Testing the DOM
-When calling a route in a test you might want to make sure that the view contains certain elements. To test this, you can use the `->assertElementExists()` method on the test response or the alias `assertElement()`.
-The following will ensure that there is a body tag in the parsed response. Be aware that this package assumes a proper html structure and will wrap your html in a html, head and body tag if they are missing!
-```php
-$this->get('/some-route')
-    ->assertElementExists();
-```
-In case you want to get a specific element on the page, you can supply a css selector as the first argument to get a specific one.
-```php
-$this->get('/some-route')
-    ->assertElementExists('#nav');
-```
-The second argument of `->assertElementExists()` is a closure that receives an instance of `\Sinnbeck\DomAssertions\Asserts\AssertElement`. This allows you to assert things about the element itself. Here we are asserting that the element is a `div`.
+For simple checks where a full closure is overkill, use `assertContainsElement()` and `assertDoesntExist()` directly on the response. `assertContainsElement()` optionally accepts an array of expected attributes:
 
 ```php
-$this->get('/some-route')
-    ->assertElementExists('#overview', function (AssertElement $assert) {
-        $assert->is('div');
-    });
-```
-Just like with forms you can assert that certain attributes are present
-```php
-$this->get('/some-route')
-    ->assertElementExists('#overview', function (AssertElement $assert) {
-        $assert->has('x-data', '{foo: 1}');
-    });
-```
-or doesnt exist
-```php
-$this->get('/some-route')
-    ->assertElementExists('#overview', function (AssertElement $assert) {
-        $assert->doesntHave('x-data', '{foo: 2}');
-    });
-```
-You can also ensure that certain children exist.
-```php
-$this->get('/some-route')
-    ->assertElementExists('#overview', function (AssertElement $assert) {
-        $assert->contains('div');
-    });
-```
-If you need to be more specific you can use a css selector.
-```php
-$this->get('/some-route')
-    ->assertElementExists('#overview', function (AssertElement $assert) {
-        $assert->contains('div:nth-of-type(3)');
-    });
-```
-You can also check that the child element has certain attributes.
-```php
-$this->get('/some-route')
-    ->assertElementExists('#overview', function (AssertElement $assert) {
-        $assert->contains('li.list-item', [
-            'x-data' => 'foobar'
-        ]);
-    });
-```
-or ensure that certain children does not exist
-```php
-$this->get('/some-route')
-    ->assertElementExists('#overview', function (AssertElement $assert) {
-        $assert->doesntContain('li.list-item', [
-            'x-data' => 'foobar'
-        ]);
-    });
-```
-Contains also allow a third argument to specify how many times the element should be matched.
-```php
-$this->get('/some-route')
-    ->assertElementExists('#overview', function (AssertElement $assert) {
-        $assert->contains('li.list-item', [
-            'x-data' => 'foobar'
-        ], 3);
-    });
-```
-If you just want to check for the element type you can leave out the second argument.
-```php
-$this->get('/some-route')
-    ->assertElementExists('#overview', function (AssertElement $assert) {
-        $assert->contains('li.list-item', 3);
-    });
-```
-You can also find a certain element and do assertions on it. Be aware that it will only check the first matching element.
-```php
-$this->get('/some-route')
-    ->assertElementExists('#overview', function (AssertElement $assert) {
-        $assert->find('li.list-item');
-    });
-```
-You can add a closure as the second argument which receives an instance of `\Sinnbeck\DomAssertions\Asserts\AssertElement`.
-```php
-$this->get('/some-route')
-    ->assertElementExists('#overview', function (AssertElement $assert) {
-        $assert->find('li.nth-of-type(3)', function (AssertElement $element) {
-            $element->is('li');
-        });
-    });
-```
-If you want to make an assertion against all elements that match the selection, you may use 'each'.
-
-```php
-$this->get('/some-route')
-    ->assertElementExists('#overview', function (AssertElement $assert) {
-        $assert->each('li', function (AssertElement $element) {
-            $element->has('class', 'list-item');
-        });
-    });
-```
-
-You can also infinitely assert down the dom structure.
-```php
-$this->get('/some-route')
-    ->assertElementExists(function (AssertElement $element) {
-        $element->find('div', function (AssertElement $element) {
-            $element->is('div');
-            $element->find('p', function (AssertElement $element) {
-                $element->is('p');
-                $element->find('#label', function (AssertElement $element) {
-                    $element->is('span');
-                });
-            });
-            $element->find('p:nth-of-type(2)', function (AssertElement $element) {
-                $element->is('p');
-                $element->find('.sub-header', function (AssertElement $element) {
-                    $element->is('h4');
-                });
-            });
-        });
-    });
-```
-
-
-For simple and quick checks, you can use  `assertContainsElement` or `assertDoesntExist` 
-These methods allow you to verify that a specific element exists on the page.
-
-`assertContainsElement` optionally allows an array of expected attributes
-```
 $this->get('/some-route')
     ->assertContainsElement('#content')
     ->assertContainsElement('div.banner', ['text' => 'Successfully deleted', 'data-status' => 'success'])
     ->assertDoesntExist('div.not-here');
 ```
 
-While using either `assertContainsElement` or `assertDoesntExist` you can use the `ddContent` method to dump the content of the page to aid with debugging
-```
+When a check fails, chain `ddContent()` to dump the parsed page and see what was actually rendered:
+
+```php
 $this->blade('<x-some-blade>')
     ->assertContainsElement('#content')
-    ->ddContent();`
+    ->ddContent();
 ```
 
 > [!TIP]
-> Because this method is shared across the Test macros (response, view and component), it's technically available anywhere.
+> These methods are shared across the response, view, and component macros, so they are available anywhere this package can be used.
 
-### Testing forms
-Testing forms allows using all the dom asserts from above, but has a few special helpers to help test for forms.
-Instead of using `->assertElementExists()` you can use `->assertFormExists()`, or the alias `assertForm()` on the test response.
-```php
-$this->get('/some-route')
-    ->assertFormExists();
-```
-The `->assertFormExists()` method will check the first form it finds. In case you have more than one form, and want to use a different form that the first, you can supply a css selector as the first argument to get a specific one.
-```php
-$this->get('/some-route')
-    ->assertFormExists('#users-form');
-```
-If there is more than one hit, it will return the first matching form.
-```php
-$this->get('/some-route')
-    ->assertFormExists(null, 'nav .logout-form');
-```
-The second argument of `->assertFormExists()` is a closure that receives an instance of `\Sinnbeck\DomAssertions\Asserts\AssertForm`. This allows you to assert things about the form itself. Here we are asserting that it has a certain action and method
-```php
-$this->get('/some-route')
-    ->assertFormExists('#form1', function (AssertForm $form) {
-        $form->hasAction('/logout')
-            ->hasMethod('post');
-    });
-```
-If you leave out the css selector, it will automatically default to finding the first form on the page
-```php
-$this->get('/some-route')
-    ->assertFormExists(function (AssertForm $form) {
-        $form->hasAction('/logout')
-            ->hasMethod('post');
-    });
-```
+## Usage with Livewire
 
-You can also check for csrf and method spoofing
-```php
-$this->get('/some-route')
-    ->assertFormExists(function (AssertForm $form) {
-        $form->hasAction('/update-user')
-            ->hasMethod('post')
-            ->hasCSRF()
-            ->hasSpoofMethod('PUT');
-    });
-```
-Checking for methods other than GET and POST will automatically forward the call to `->hasSpoofMethod()`
-```php
-$this->get('/some-route')
-    ->assertFormExists(function (AssertForm $form) {
-        $form->hasMethod('PUT');
-    });
-```
-Or even arbitrary attributes
-```php
-$this->get('/some-route')
-    ->assertFormExists(function (AssertForm $form) {
-        $form->has('x-data', 'foo')
-        $form->hasEnctype('multipart/form-data'); //it also works with magic methods
-    });
-```
+Livewire's testing helpers return Laravel's `TestResponse`, so everything works without any changes:
 
-You can also easily test for inputs or text areas 
-```php
-$this->get('/some-route')
-    ->assertFormExists(function (AssertForm $form) {
-        $form->containsInput([
-            'name' => 'first_name',
-            'value' => 'Gunnar',
-        ])
-        ->containsTextarea([
-            'name' => 'comment',
-            'value' => '...',
-        ]);
-    });
-```
-Or arbitrary children
-```php
-$this->get('/some-route')
-    ->assertFormExists(function (AssertForm $form) {
-        $form->contains('label', [
-            'for' => 'username',
-        ])
-        ->containsButton([ //or use a magic method
-            'type' => 'submit',
-        ]);
-    });
-```
-You can also ensure that certain children does not exist.
-```php
-$this->get('/some-route')
-    ->assertFormExists(function (AssertForm $form) {
-        $form->doesntContain('label', [
-            'for' => 'username',
-        ]);
-    });
-```
-Testing for selects is also easy and works a bit like the `assertFormExists()`. It takes a selector as the first argument, and closure as the second argument. The second argument returns an instance of `\Sinnbeck\DomAssertions\Asserts\AssertSelect`. This can be used to assert that the select has certain attributes.
-```php
-$this->get('/some-route')
-    ->assertFormExists(function (AssertForm $form) {
-        $form->findSelect('select:nth-of-type(2)', function (AssertSelect $select) {
-            $select->has('name', 'country');
-        });
-    });
-```
-You can also assert that it has certain options. You can either check for one specific or an array of options
-```php
-$this->get('/some-route')
-    ->assertFormExists(function (AssertForm $form) {
-        $form->findSelect('select:nth-of-type(2)', function (AssertSelect $select) {
-            $select->containsOption([
-                [
-                    'x-data' => 'none',
-                    'value'  => 'none',
-                    'text'   => 'None',
-                ]
-            ])
-            ->containsOptions(
-                [
-                    'value' => 'dk',
-                    'text'  => 'Denmark',
-                ],
-                [
-                    'value' => 'us',
-                    'text'  => 'USA',
-                ],
-            );
-        });
-    });
-```
-You can check if a select has a value.
-```php
-$this->get('/some-route')
-        ->assertFormExists('#form1', function (AssertForm $form) {
-            $form->findSelect('select', function (AssertSelect $select) {
-                $select->hasValue('da');
-            });
-        });
-```
-
-
-You can also check selects with multiple values
-```php
-$this->get('/some-route')
-        ->assertFormExists('#form1', function (AssertForm $form) {
-            $form->findSelect('select', function (AssertSelect $select) {
-                $select->hasValues(['da', 'en']);
-            });
-        });
-```
-Testing for datalists works mostly the same as selects. Only difference is that the selector needs to be either `datalist` or an id (eg. `#my-list`).
-The assertion uses the `\Sinnbeck\DomAssertions\Asserts\AssertDatalist` class.
-```php
-$this->get('/some-route')
-        ->assertFormExists('#form1', function (AssertForm $form) {
-            $form->findDatalist('#skills', function (AssertDatalist $list) {
-                $list->containsOptions(
-                    [
-                        'value' => 'PHP',
-                    ],
-                    [
-                        'value' => 'Javascript',
-                    ],
-                );
-            });
-        });
-```
-
-### Usage with Livewire
-As livewire uses the `TestResponse` class from laravel, you can easily use this package with Livewire without any changes
 ```php
 Livewire::test(UserForm::class)
     ->assertElementExists('form', function (AssertElement $form) {
@@ -444,68 +437,80 @@ Livewire::test(UserForm::class)
     });
 ```
 
-### Usage with Blade views
-You can also use this package to test blade views.
+## Usage with Blade views and components
+
+Test a Blade view directly:
+
 ```php
 $this->view('navigation')
-    ->assertElementExists('nav > ul', function(AssertElement $ul) {
-        $ul->contains('li', [
-            'class' => 'active',
-        ]);
+    ->assertElementExists('nav > ul', function (AssertElement $ul) {
+        $ul->contains('li', ['class' => 'active']);
     });
 ```
 
-### Usage with Blade components
+Or a Blade component:
+
 ```php
 $this->component(Navigation::class)
-    ->assertElementExists('nav > ul', function(AssertElement $ul) {
-        $ul->contains('li', [
-            'class' => 'active',
-        ]);
+    ->assertElementExists('nav > ul', function (AssertElement $ul) {
+        $ul->contains('li', ['class' => 'active']);
     });
 ```
 
-## Overview of methods
-| Base methods                                   | Description                                                                          |
-|------------------------------------------------|--------------------------------------------------------------------------------------|
-| `->has($attribute, $value)`                    | Checks if element has a certain attribute with a certain value. Value is optional    |
-| `->hasXdata('foo')`                            | Magic method. Same as `->has('x-data', 'foo')`                                       |
-| `->doesntHave($attribute, $value)`             | Checks if element doesnt a certain attribute with a certain value. Value is optional |
-| `->is($type)`                                  | Checks if the element is of a specific type (div, span etc)                          |
-| `->isDiv()`                                    | Magic method. Same as `->is('div')`                                                  |
-| `->contains($selector, $attributes, $count)`   | Checks for any children of the current element                                       |
-| `->containsDiv, ['class' => 'foo'], 3)`        | Magic method. Same as `->contains('div', ['class' => 'foo'], 3)`                     |
-| `->containsText($needle, $ignoreCase, $normalizeWhitespace)` | Checks if the element's text content contains a specified string. `$normalizeWhitespace` defaults to the `dom-assertions.normalize_whitespace` config value when null |
-| `->doesntContain($selector, $attributes)`      | Ensures that there are no matching children                                          |
-| `->doesntContainDiv, ['class' => 'foo'])`      | Magic method. Same as `->doesntContain('div', ['class' => 'foo'])`                   |
-| `->doesntContainText($needle, $ignoreCase, $normalizeWhitespace)` | Checks if the element's text content doesn't contain a specified string. `$normalizeWhitespace` defaults to the `dom-assertions.normalize_whitespace` config value when null |
-| `->find($selector, $callback)`                 | Find a specific child element and get a new AssertElement. Returns the first match.  |
-| `->findDiv(fn (AssertElement $element) => {})` | Magic method. Same as `->find('div', fn (AssertElement $element) => {})`             |
+## Method reference
 
-| Form specific methods                | Description                            |
-|--------------------------------------|----------------------------------------|
-| `->hasAction($url)`                  | Ensures the form has a specific action |
-| `->hasMethod($method)`               | Ensures a form has a specific method   |
-| `->hasSpoofMethod($method)`          | Ensures form has a spoofed method      |
-| `->hasCSRF()`                        | Ensures form has a csrf token          |
-| `->findSelect($selector, $callback)` | Finds a select to run assertions on    |
+### Element methods (`AssertElement`)
 
-| Select specific methods          | Description                                                        |
-|----------------------------------|--------------------------------------------------------------------|
-| `->hasValue($value)`             | Ensures a select has a specific value                              |
-| `->hasValues($values)`           | Ensures a select has an array of values (multiple select)          |
-| `->containsOption($attributes)`  | Checks for an option with the given attributes                     |
-| `->containsOptions($attributes)` | Checks for any options with the given attributes (array of arrays) |
+| Method | Description |
+|--------|-------------|
+| `is($type)` | Assert the element is of a given type (`div`, `span`, etc). |
+| `isDiv()` | Magic method. Same as `is('div')`. |
+| `has($attribute, $value = null)` | Assert the element has an attribute, optionally with a given value. |
+| `hasXData('foo')` | Magic method. Same as `has('x-data', 'foo')`. |
+| `doesntHave($attribute, $value = null)` | Assert the element does not have the attribute/value. |
+| `contains($selector, $attributes = [], $count = null)` | Assert a child element exists, optionally with attributes and/or an exact count. |
+| `containsDiv(['class' => 'foo'], 3)` | Magic method. Same as `contains('div', ['class' => 'foo'], 3)`. |
+| `doesntContain($selector, $attributes = [])` | Assert no matching child exists. |
+| `doesntContainDiv(['class' => 'foo'])` | Magic method. Same as `doesntContain('div', ['class' => 'foo'])`. |
+| `containsText($needle, $ignoreCase = false, $normalizeWhitespace = null)` | Assert the element's text contains a string. `$normalizeWhitespace` defaults to the `dom-assertions.normalize_whitespace` config value when `null`. |
+| `doesntContainText($needle, $ignoreCase = false, $normalizeWhitespace = null)` | Assert the element's text does not contain a string. Same `$normalizeWhitespace` behaviour. |
+| `find($selector, $callback)` | Drill into the first matching child and receive a new `AssertElement`. |
+| `findDiv(fn (AssertElement $el) => ...)` | Magic method. Same as `find('div', ...)`. |
+| `each($selector, $callback)` | Run the callback against every matching child. |
 
-## Rector
+### Form methods (`AssertForm`)
 
-This package includes [Rector](https://getrector.com/) rules to help keep test assertions consistent and up to date as the package evolves.
+| Method | Description |
+|--------|-------------|
+| `hasAction($url)` | Assert the form posts to a given action. |
+| `hasMethod($method)` | Assert the form uses a given method (non-GET/POST forwards to `hasSpoofMethod`). |
+| `hasSpoofMethod($method)` | Assert the form contains a spoofed `_method` field. |
+| `hasCSRF()` | Assert the form contains a CSRF token. |
+| `containsInput($attributes)` | Assert a matching `<input>` exists. |
+| `containsTextarea($attributes)` | Assert a matching `<textarea>` exists. |
+| `findSelect($selector, $callback)` | Drill into a `<select>` and receive an `AssertSelect`. |
+| `findDatalist($selector, $callback)` | Drill into a `<datalist>` and receive an `AssertDatalist`. |
+
+All `AssertElement` methods are also available on forms.
+
+### Select methods (`AssertSelect`)
+
+| Method | Description |
+|--------|-------------|
+| `hasValue($value)` | Assert the select's selected value. |
+| `hasValues($values)` | Assert the selected values of a multiple select. |
+| `containsOption($attributes)` | Assert a single option with the given attributes exists. |
+| `containsOptions(...$attributes)` | Assert several options exist (one array per option). |
+
+## Rector rules
+
+This package ships [Rector](https://getrector.com/) rules to keep your assertions consistent as the package evolves.
 
 | Rule | Description |
 |------|-------------|
-| `AssertElementToAssertContainsElementRule` | Converts verbose `assertElement()` closures to flat `assertContainsElement()` chains |
+| `AssertElementToAssertContainsElementRule` | Converts verbose `assertElement()` closures into flat `assertContainsElement()` chains. |
 
-To register a rule, add it to your `rector.php`:
+Register a rule in your `rector.php`:
 
 ```php
 use Rector\Config\RectorConfig;
@@ -519,7 +524,7 @@ return RectorConfig::configure()
 
 ### `AssertElementToAssertContainsElementRule`
 
-Converts `assertElement()` calls whose closures only use `find`, `contains`, `containsText`, or `has` into flat `assertContainsElement()` chains.
+Converts `assertElement()` calls whose closures only use `find`, `contains`, `containsText`, or `has` into flat `assertContainsElement()` chains:
 
 ```php
 // Before
