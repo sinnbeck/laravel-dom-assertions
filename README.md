@@ -304,7 +304,7 @@ $this->get('/some-route')
     });
 ```
 
-Assert on its options — one at a time with `containsOption()`, or several at once with `containsOptions()`:
+Assert on its options. Check one at a time with `containsOption()`, or several at once with `containsOptions()`:
 
 ```php
 $this->get('/some-route')
@@ -363,7 +363,7 @@ $this->get('/some-route')
 
 ### Whitespace normalisation
 
-By default these comparisons match text exactly as it appears in the DOM. Templates often introduce a lot of incidental whitespace — indented Blade, multi-line content, `\r\n` line endings — so you can collapse and trim it instead.
+By default these comparisons match text exactly as it appears in the DOM. Templates often introduce a lot of incidental whitespace, such as indented Blade, multi-line content, or `\r\n` line endings, so you can collapse and trim it instead.
 
 Enable it for a single call:
 
@@ -463,7 +463,7 @@ $this->component(Navigation::class)
 
 | Method | Description |
 |--------|-------------|
-| `is($type)` | Assert the element is of a given type (`div`, `span`, …). |
+| `is($type)` | Assert the element is of a given type (`div`, `span`, etc). |
 | `isDiv()` | Magic method. Same as `is('div')`. |
 | `has($attribute, $value = null)` | Assert the element has an attribute, optionally with a given value. |
 | `hasXData('foo')` | Magic method. Same as `has('x-data', 'foo')`. |
@@ -475,7 +475,7 @@ $this->component(Navigation::class)
 | `containsText($needle, $ignoreCase = false, $normalizeWhitespace = null)` | Assert the element's text contains a string. `$normalizeWhitespace` defaults to the `dom-assertions.normalize_whitespace` config value when `null`. |
 | `doesntContainText($needle, $ignoreCase = false, $normalizeWhitespace = null)` | Assert the element's text does not contain a string. Same `$normalizeWhitespace` behaviour. |
 | `find($selector, $callback)` | Drill into the first matching child and receive a new `AssertElement`. |
-| `findDiv(fn (AssertElement $el) => …)` | Magic method. Same as `find('div', …)`. |
+| `findDiv(fn (AssertElement $el) => ...)` | Magic method. Same as `find('div', ...)`. |
 | `each($selector, $callback)` | Run the callback against every matching child. |
 
 ### Form methods (`AssertForm`)
