@@ -361,6 +361,16 @@ $this->get('/some-route')
     });
 ```
 
+For the common case of asserting a single element contains some text, `assertElementContainsText()` is a shorthand that skips the closure:
+
+```php
+$this->get('/some-route')
+    ->assertElementContainsText('#overview', 'Hello World')
+    ->assertElementContainsText('#overview', 'hello world', ignoreCase: true);
+```
+
+It selects the element (failing if the selector matches nothing), asserts its text contains the needle, and returns the response so calls can be chained.
+
 ### Whitespace normalisation
 
 By default these comparisons match text exactly as it appears in the DOM. Templates often introduce a lot of incidental whitespace, such as indented Blade, multi-line content, or `\r\n` line endings, so you can collapse and trim it instead.
