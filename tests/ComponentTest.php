@@ -515,6 +515,11 @@ it('assertElementContainsText can ignore case', function (): void {
         ->assertElementContainsText('p.foo.bar', 'bar', true);
 });
 
+it('assertElementContainsText can normalize whitespace', function (): void {
+    $this->component(NestedComponent::class)
+        ->assertElementContainsText('p.foo.bar', 'Foo Bar', normalizeWhitespace: true);
+});
+
 it('assertElementContainsText is chainable', function (): void {
     $this->component(NestedComponent::class)
         ->assertElementContainsText('span.foo', 'Foo')

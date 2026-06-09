@@ -369,7 +369,12 @@ $this->get('/some-route')
     ->assertElementContainsText('#overview', 'hello world', ignoreCase: true);
 ```
 
-It selects the element (failing if the selector matches nothing), asserts its text contains the needle, and returns the response so calls can be chained.
+It selects the element (failing if the selector matches nothing), asserts its text contains the needle, and returns the response so calls can be chained. It takes the same `$ignoreCase` and `$normalizeWhitespace` arguments as `containsText()`:
+
+```php
+$this->get('/some-route')
+    ->assertElementContainsText('#overview', 'Hello World', normalizeWhitespace: true);
+```
 
 ### Whitespace normalisation
 

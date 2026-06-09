@@ -107,10 +107,10 @@ class TestComponentMacros
 
     public function assertElementContainsText(): Closure
     {
-        return function (string $selector, string $needle, bool $ignoreCase = false): TestComponent {
+        return function (string $selector, string $needle, bool $ignoreCase = false, ?bool $normalizeWhitespace = null): TestComponent {
             /** @var TestComponent $this */
-            return $this->assertElementExists($selector, static function (AssertElement $assert) use ($needle, $ignoreCase): void {
-                $assert->containsText($needle, $ignoreCase);
+            return $this->assertElementExists($selector, static function (AssertElement $assert) use ($needle, $ignoreCase, $normalizeWhitespace): void {
+                $assert->containsText($needle, $ignoreCase, $normalizeWhitespace);
             });
         };
     }
