@@ -484,3 +484,34 @@ it('can find text simplified', function (): void {
             $element->contains('span', 'Foo');
         });
 });
+
+it('assertElementContainsText works as expected', function (): void {
+    $this->view('nesting')
+        ->assertElementContainsText('span.foo', 'Foo');
+});
+
+it('assertElementContainsText can ignore case', function (): void {
+    $this->view('nesting')
+        ->assertElementContainsText('p.foo.bar', 'bar', true);
+});
+
+it('assertElementContainsText can normalize whitespace', function (): void {
+    $this->view('nesting')
+        ->assertElementContainsText('p.foo.bar', 'Foo Bar', normalizeWhitespace: true);
+});
+
+it('assertElementContainsText is chainable', function (): void {
+    $this->view('nesting')
+        ->assertElementContainsText('span.foo', 'Foo')
+        ->assertElementContainsText('p.foo.bar', 'Bar');
+});
+
+it('assertElementContainsText throws if selector not found', function (): void {
+    $this->view('nesting')
+        ->assertElementContainsText('span.non-existing', 'Foo');
+})->throws(AssertionFailedError::class, 'No element found with selector: span.non-existing');
+
+it('assertElementContainsText throws if text does not match', function (): void {
+    $this->view('nesting')
+        ->assertElementContainsText('span.foo', 'non-existing');
+})->throws(AssertionFailedError::class);

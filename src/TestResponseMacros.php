@@ -114,6 +114,16 @@ class TestResponseMacros
         };
     }
 
+    public function assertElementContainsText(): Closure
+    {
+        return function (string $selector, string $needle, bool $ignoreCase = false, ?bool $normalizeWhitespace = null): TestResponse {
+            /** @var TestResponse $this */
+            return $this->assertElementExists($selector, static function (AssertElement $assert) use ($needle, $ignoreCase, $normalizeWhitespace): void {
+                $assert->containsText($needle, $ignoreCase, $normalizeWhitespace);
+            });
+        };
+    }
+
     public function assertContainsElement(): Closure
     {
         return function (string $selector, array $attributes = []): TestResponse {
