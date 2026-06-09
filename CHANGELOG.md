@@ -2,6 +2,21 @@
 
 All notable changes to `laravel-dom-assertion` will be documented in this file.
 
+## v3.0.8 - 2026-06-09
+
+### What's Changed
+
+* Bump actions/checkout from 6.0.2 to 6.0.3 by @dependabot[bot] in https://github.com/sinnbeck/laravel-dom-assertions/pull/73
+* Bump shivammathur/setup-php from 2.37.1 to 2.37.2 by @dependabot[bot] in https://github.com/sinnbeck/laravel-dom-assertions/pull/74
+* Update README.md by @jackbayliss in https://github.com/sinnbeck/laravel-dom-assertions/pull/75
+* feat: add assertElementContainsText shorthand macro by @howdu in https://github.com/sinnbeck/laravel-dom-assertions/pull/76
+
+### New Contributors
+
+* @howdu made their first contribution in https://github.com/sinnbeck/laravel-dom-assertions/pull/76
+
+**Full Changelog**: https://github.com/sinnbeck/laravel-dom-assertions/compare/v3.0.7...v3.0.8
+
 ## v3.0.7 - 2026-05-21
 
 ### What's Changed
