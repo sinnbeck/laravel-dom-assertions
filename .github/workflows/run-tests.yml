@@ -7,6 +7,9 @@ on:
   pull_request:
     branches:
       - main
+  schedule:
+    - cron: '0 11 * * *'
+  workflow_dispatch:
 
 jobs:
   test:
@@ -107,3 +110,23 @@ jobs:
 
       - name: Execute Rector tests
         run: vendor/bin/pest --testsuite=Rector
+
+  notify:
+    needs: [ test, test-rector ]
+    if: failure() && github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+
+    steps:
+      - name: Create issue on failure
+        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
+        with:
+          script: |
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `Scheduled test run failed (run #${context.runNumber})`,
+              body: `The [scheduled test run](${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}) failed.\n\nThis usually means a new release of an upstream dependency (e.g. Laravel or Symfony) is no longer compatible with the version constraints in \`composer.json\`.`,
+              assignees: ['jackbayliss']
+            })
