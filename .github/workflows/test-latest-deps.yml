@@ -1,0 +1,106 @@
+name: Test latest dependencies
+
+on:
+  schedule:
+    - cron: '0 11 * * *'
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-latest ]
+        php: [ 8.3, 8.2, 8.1 ]
+        laravel: [ 10.*, 11.*, 12.*, 13.* ]
+        include:
+          - laravel: 10.*
+            testbench: 8.*
+          - laravel: 11.*
+            testbench: 9.*
+          - laravel: 12.*
+            testbench: 10.*
+          - laravel: 13.*
+            testbench: 11.*
+        exclude:
+          - laravel: 11.*
+            php: 8.1
+          - laravel: 12.*
+            php: 8.1
+          - laravel: 13.*
+            php: 8.1
+          - laravel: 13.*
+            php: 8.2
+
+    name: PHP-${{ matrix.php }} - Laravel-${{ matrix.laravel }} - ${{ matrix.os }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick, fileinfo
+          coverage: none
+
+      - name: Setup problem matchers
+        run: |
+          echo "::add-matcher::${{ runner.tool_cache }}/php.json"
+          echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+
+      - name: Install dependencies
+        shell: bash
+        run: |
+          # Install Laravel + Testbench first
+          composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --dev --no-interaction --no-update
+
+          # Pin Pest and PHPUnit for PHP 8.1
+          # https://github.com/pestphp/pest/issues/1618
+          if [ "${{ matrix.php }}" = "8.1" ]; then
+            composer require "pestphp/pest:2.36.0" "phpunit/phpunit:10.5.36" --no-update
+          fi
+
+          # Remove rector (not needed for tests; conflicts with larastan phpstan version)
+          composer remove rector/rector --dev --no-update --no-interaction
+
+          # Update all dependencies to their latest allowed versions, ignoring the lock file
+          rm -f composer.lock
+          composer update --prefer-stable --prefer-dist --no-interaction
+
+      - name: List Installed Dependencies
+        run: composer show -D
+
+      - name: Execute tests
+        run: vendor/bin/pest --testsuite="Test Suite"
+
+      - name: Run PHPStan
+        shell: bash
+        run: |
+          LARAVEL_VERSION="${{ matrix.laravel }}"
+          LARAVEL_VERSION="${LARAVEL_VERSION%%.*}"
+          vendor/bin/phpstan analyse -c "./phpstan/laravel-${LARAVEL_VERSION}.neon" src
+
+  notify:
+    needs: test
+    if: failure()
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+
+    steps:
+      - name: Create issue on failure
+        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
+        with:
+          script: |
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `Latest dependency test failed (run #${context.runNumber})`,
+              body: `The [scheduled latest-dependencies workflow](${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}) failed.\n\nThis usually means a new release of an upstream dependency (e.g. Laravel or Symfony) is no longer compatible with the version constraints in \`composer.json\`.\n\ncc @jackbayliss`,
+              assignees: ['jackbayliss']
+            })
