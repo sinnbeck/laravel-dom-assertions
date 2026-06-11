@@ -127,6 +127,6 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               title: `Scheduled test run failed (run #${context.runNumber})`,
-              body: `The [scheduled test run](${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}) failed.\n\nThis usually means a new release of an upstream dependency (e.g. Laravel or Symfony) is no longer compatible with the version constraints in \`composer.json\`.\n\ncc @jackbayliss`,
+              body: `The [scheduled test run](${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}) failed.\n\nThis usually means a new release of an upstream dependency (e.g. Laravel or Symfony) is no longer compatible with the version constraints in \`composer.json\`.`,
               assignees: ['jackbayliss']
             })
