@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-dom-assertion` will be documented in this file.
 
+## v3.0.9 - 2026-06-11
+
+### What's Changed
+
+* Bump css-selector by @jackbayliss in https://github.com/sinnbeck/laravel-dom-assertions/pull/78
+
+**Full Changelog**: https://github.com/sinnbeck/laravel-dom-assertions/compare/v3.0.8...v3.0.9
+
 ## v3.0.8 - 2026-06-09
 
 ### What's Changed
