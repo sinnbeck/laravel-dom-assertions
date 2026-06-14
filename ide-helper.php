@@ -57,6 +57,12 @@ namespace Illuminate\Testing {
             return $instance;
         }
 
+        public function assertElementContainsText($selector, $needle, $ignoreCase = false, $normalizeWhitespace = null)
+        {
+            /** @var TestResponse $instance */
+            return $instance;
+        }
+
         public function ddContent(): void {}
     }
 
@@ -116,6 +122,12 @@ namespace Illuminate\Testing {
             return $instance;
         }
 
+        public function assertElementContainsText($selector, $needle, $ignoreCase = false, $normalizeWhitespace = null)
+        {
+            /** @var TestView $instance */
+            return $instance;
+        }
+
         public function ddContent(): void {}
     }
 
@@ -170,6 +182,12 @@ namespace Illuminate\Testing {
         }
 
         public function assertDoesntExist($selector)
+        {
+            /** @var TestComponent $instance */
+            return $instance;
+        }
+
+        public function assertElementContainsText($selector, $needle, $ignoreCase = false, $normalizeWhitespace = null)
         {
             /** @var TestComponent $instance */
             return $instance;
