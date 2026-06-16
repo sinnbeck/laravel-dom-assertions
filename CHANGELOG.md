@@ -2,6 +2,17 @@
 
 All notable changes to `laravel-dom-assertion` will be documented in this file.
 
+## v3.0.10 - 2026-06-16
+
+### What's Changed
+
+* Add assertElementContainsText to ide helper
+  in [98737a8a60e50bfb9ed6b76c0cf11bae189525c9](https://github.com/sinnbeck/laravel-dom-assertions/commit/98737a8a60e50bfb9ed6b76c0cf11bae189525c9)
+* Adjust tests to run daily by @jackbayliss in https://github.com/sinnbeck/laravel-dom-assertions/pull/79
+* Bump actions/github-script from 8.0.0 to 9.0.0 by @dependabot[bot] in https://github.com/sinnbeck/laravel-dom-assertions/pull/80
+
+**Full Changelog**: https://github.com/sinnbeck/laravel-dom-assertions/compare/v3.0.9...v3.0.10
+
 ## v3.0.9 - 2026-06-11
 
 ### What's Changed
