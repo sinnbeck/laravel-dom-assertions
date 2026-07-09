@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-use Rector\CodingStyle\Rector\ArrowFunction\StaticArrowFunctionRector;
-use Rector\CodingStyle\Rector\Closure\StaticClosureRector;
 use Rector\Config\RectorConfig;
 
 return RectorConfig::configure()
@@ -21,8 +19,4 @@ return RectorConfig::configure()
         typeDeclarations: true,
         privatization: false,
         earlyReturn: true,
-    )
-    ->withRules([
-        StaticArrowFunctionRector::class,
-        StaticClosureRector::class,
-    ]);
+    );
