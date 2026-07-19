@@ -2,6 +2,20 @@
 
 All notable changes to `laravel-dom-assertion` will be documented in this file.
 
+## v3.1.0 - 2026-07-19
+
+### What's Changed
+
+* Bump actions/checkout from 6.0.3 to 7.0.0 by @dependabot[bot] in https://github.com/sinnbeck/laravel-dom-assertions/pull/81
+* Bump actions/cache from 5.0.5 to 6.0.0 by @dependabot[bot] in https://github.com/sinnbeck/laravel-dom-assertions/pull/82
+* Bump actions/cache from 6.0.0 to 6.1.0 by @dependabot[bot] in https://github.com/sinnbeck/laravel-dom-assertions/pull/83
+* Bump stefanzweifel/git-auto-commit-action from 7.1.0 to 7.2.0 by @dependabot[bot] in https://github.com/sinnbeck/laravel-dom-assertions/pull/84
+* Remove deprecated Rector Rules by @MizouziE in https://github.com/sinnbeck/laravel-dom-assertions/pull/85
+* Add .gitattributes so composer install only provides files the end user needs by @jackbayliss in https://github.com/sinnbeck/laravel-dom-assertions/pull/87
+* Duplicate mixin methods into abstract class by @jackbayliss in https://github.com/sinnbeck/laravel-dom-assertions/pull/86
+
+**Full Changelog**: https://github.com/sinnbeck/laravel-dom-assertions/compare/v3.0.10...v3.1.0
+
 ## v3.0.10 - 2026-06-16
 
 ### What's Changed
