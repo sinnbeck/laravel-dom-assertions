@@ -16,7 +16,7 @@ class TestResponseMacros extends DomAssertionMacros
 {
     public function emptyMessage(): string
     {
-        return 'The view is empty!';
+        return 'The response is empty!';
     }
 
     public function content(): Closure
