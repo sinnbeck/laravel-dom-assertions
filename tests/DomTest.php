@@ -64,12 +64,12 @@ it('assertContainsElement matches multiline text in pre element', function (): v
         ->assertContainsElement('pre.code', ['text' => "line one\nline two"]);
 });
 
-it('can handle an empty view', function (): void {
+it('can handle an empty response', function (): void {
     $this->get('empty')
         ->assertElementExists();
 })->throws(
     AssertionFailedError::class,
-    'The view is empty!'
+    'The response is empty!'
 );
 
 it('can handle an empty body', function (): void {
