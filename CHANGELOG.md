@@ -2,6 +2,15 @@
 
 All notable changes to `laravel-dom-assertion` will be documented in this file.
 
+## v3.1.1 - 2026-07-23
+
+### What's Changed
+
+* Bump actions/checkout from 7.0.0 to 7.0.1 by @dependabot[bot] in https://github.com/sinnbeck/laravel-dom-assertions/pull/88
+* adjust response message by @jackbayliss in https://github.com/sinnbeck/laravel-dom-assertions/pull/90
+
+**Full Changelog**: https://github.com/sinnbeck/laravel-dom-assertions/compare/v3.1.0...v3.1.1
+
 ## v3.1.0 - 2026-07-19
 
 ### What's Changed
