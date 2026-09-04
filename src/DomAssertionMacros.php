@@ -118,6 +118,14 @@ abstract class DomAssertionMacros
         };
     }
 
+    public function assertElementContainsNormalizedText(): Closure
+    {
+        return function (string $selector, string $needle, bool $ignoreCase = false): TestComponent|TestResponse|TestView {
+            /** @var TestComponent|TestResponse|TestView $this */
+            return $this->assertElementContainsText($selector, $needle, $ignoreCase, true);
+        };
+    }
+
     public function assertContainsElement(): Closure
     {
         $emptyMessage = $this->emptyMessage();

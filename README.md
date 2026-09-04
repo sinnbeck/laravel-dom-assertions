@@ -386,6 +386,13 @@ Enable it for a single call:
 $assert->containsText('Hello World', ignoreCase: false, normalizeWhitespace: true);
 ```
 
+Or use the dedicated methods, which always normalise regardless of the config value:
+
+```php
+$assert->containsNormalizedText('Hello World');
+$assert->doesntContainNormalizedText('Goodbye World');
+```
+
 Enable it globally from `TestCase::setUp()` or `AppServiceProvider::boot()`:
 
 ```php
@@ -489,6 +496,8 @@ $this->component(Navigation::class)
 | `doesntContainDiv(['class' => 'foo'])` | Magic method. Same as `doesntContain('div', ['class' => 'foo'])`. |
 | `containsText($needle, $ignoreCase = false, $normalizeWhitespace = null)` | Assert the element's text contains a string. `$normalizeWhitespace` defaults to the `dom-assertions.normalize_whitespace` config value when `null`. |
 | `doesntContainText($needle, $ignoreCase = false, $normalizeWhitespace = null)` | Assert the element's text does not contain a string. Same `$normalizeWhitespace` behaviour. |
+| `containsNormalizedText($needle, $ignoreCase = false)` | Same as `containsText()` with whitespace normalisation always on. |
+| `doesntContainNormalizedText($needle, $ignoreCase = false)` | Same as `doesntContainText()` with whitespace normalisation always on. |
 | `find($selector, $callback)` | Drill into the first matching child and receive a new `AssertElement`. |
 | `findDiv(fn (AssertElement $el) => ...)` | Magic method. Same as `find('div', ...)`. |
 | `each($selector, $callback)` | Run the callback against every matching child. |

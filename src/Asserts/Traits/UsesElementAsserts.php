@@ -217,6 +217,16 @@ trait UsesElementAsserts
         return $this;
     }
 
+    public function containsNormalizedText(string $needle, bool $ignoreCase = false): self
+    {
+        return $this->containsText($needle, $ignoreCase, true);
+    }
+
+    public function doesntContainNormalizedText(string $needle, bool $ignoreCase = false): self
+    {
+        return $this->doesntContainText($needle, $ignoreCase, true);
+    }
+
     public function is(string $type): self
     {
         PHPUnit::assertEquals(

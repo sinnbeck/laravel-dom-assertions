@@ -8,5 +8,6 @@ parameters:
     ignoreErrors:
         - '#Call to an undefined method.*::getDomParser#' # We macro the parser so stan complains
         - '#Call to an undefined method.*::assertElementExists#' # We macro the assertion so stan complains
+        - '#Call to an undefined method.*::assertElementContainsText#' # We macro the assertion so stan complains
     excludePaths:
         - %rootDir%/../../../src/Rector
