@@ -376,6 +376,13 @@ $this->get('/some-route')
     ->assertElementContainsText('#overview', 'Hello World', normalizeWhitespace: true);
 ```
 
+`assertElementContainsNormalizedText()` is the same shorthand with whitespace normalisation always on, regardless of the config value:
+
+```php
+$this->get('/some-route')
+    ->assertElementContainsNormalizedText('#overview', 'Hello World');
+```
+
 ### Whitespace normalisation
 
 By default these comparisons match text exactly as it appears in the DOM. Templates often introduce a lot of incidental whitespace, such as indented Blade, multi-line content, or `\r\n` line endings, so you can collapse and trim it instead.
