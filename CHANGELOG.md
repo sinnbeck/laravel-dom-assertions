@@ -2,6 +2,19 @@
 
 All notable changes to `laravel-dom-assertion` will be documented in this file.
 
+## v3.1.2 - 2026-09-04
+
+### What's Changed
+
+* Add containsNormalizedText and doesntContainNormalizedText by @Wraxton in https://github.com/sinnbeck/laravel-dom-assertions/pull/91
+* Update README.md by @jackbayliss in https://github.com/sinnbeck/laravel-dom-assertions/pull/92
+
+### New Contributors
+
+* @Wraxton made their first contribution in https://github.com/sinnbeck/laravel-dom-assertions/pull/91
+
+**Full Changelog**: https://github.com/sinnbeck/laravel-dom-assertions/compare/v3.1.1...v3.1.2
+
 ## v3.1.1 - 2026-07-23
 
 ### What's Changed
