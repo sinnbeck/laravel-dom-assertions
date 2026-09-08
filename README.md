@@ -91,6 +91,18 @@ $this->get('/some-route')
     });
 ```
 
+You can also check multiple attributes at once by passing an array of `attribute => value` pairs:
+
+```php
+$this->get('/some-route')
+    ->assertElementExists('#overview', function (AssertElement $assert) {
+        $assert->has([
+            'data-x' => 'a',
+            'data-y' => 'b',
+        ]);
+    });
+```
+
 ### Asserting on children
 
 Confirm a child element exists:
@@ -494,9 +506,9 @@ $this->component(Navigation::class)
 |--------|-------------|
 | `is($type)` | Assert the element is of a given type (`div`, `span`, etc). |
 | `isDiv()` | Magic method. Same as `is('div')`. |
-| `has($attribute, $value = null)` | Assert the element has an attribute, optionally with a given value. |
+| `has($attribute, $value = null)` | Assert the element has an attribute, optionally with a given value. Also accepts an array of `attribute => value` pairs (or a list of attribute names). |
 | `hasXData('foo')` | Magic method. Same as `has('x-data', 'foo')`. |
-| `doesntHave($attribute, $value = null)` | Assert the element does not have the attribute/value. |
+| `doesntHave($attribute, $value = null)` | Assert the element does not have the attribute/value. Also accepts an array of `attribute => value` pairs (or a list of attribute names). |
 | `contains($selector, $attributes = [], $count = null)` | Assert a child element exists, optionally with attributes and/or an exact count. |
 | `containsDiv(['class' => 'foo'], 3)` | Magic method. Same as `contains('div', ['class' => 'foo'], 3)`. |
 | `doesntContain($selector, $attributes = [])` | Assert no matching child exists. |
