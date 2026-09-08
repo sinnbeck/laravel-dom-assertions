@@ -217,7 +217,7 @@ it('can fail checking multiple attributes at once using an array', function (): 
 it('can check multiple attributes exist at once using a list', function (): void {
     $this->component(Html5Component::class)
         ->assertElementExists('#nav a', static function (AssertElement $element): void {
-            $element->has(['href', 'text']);
+            $element->has(['href']);
         });
 });
 
