@@ -177,6 +177,59 @@ it('can fail when finding a href with matching value that isnt expected', functi
     'Found an attribute "href" with value "/foo"'
 );
 
+it('can check multiple attributes at once using an array', function (): void {
+    $this->view('nesting')
+        ->assertElementExists('#nav', static function (AssertElement $element): void {
+            $element->has([
+                'id' => 'nav',
+                'data-id' => '42',
+            ]);
+        });
+});
+
+it('can fail checking multiple attributes at once using an array', function (): void {
+    $this->view('nesting')
+        ->assertElementExists('#nav', static function (AssertElement $element): void {
+            $element->has([
+                'id' => 'nav',
+                'data-id' => '43',
+            ]);
+        });
+})->throws(
+    AssertionFailedError::class,
+    'Could not find an attribute "data-id" with value "43"'
+);
+
+it('can check multiple attributes exist at once using a list', function (): void {
+    $this->view('nesting')
+        ->assertElementExists('#nav', static function (AssertElement $element): void {
+            $element->has(['id', 'data-id']);
+        });
+});
+
+it('can check multiple attributes are absent at once using an array', function (): void {
+    $this->view('nesting')
+        ->assertElementExists('#nav', static function (AssertElement $element): void {
+            $element->doesntHave([
+                'id' => 'other',
+                'data-id' => '43',
+            ]);
+        });
+});
+
+it('can fail checking multiple attributes are absent at once using an array', function (): void {
+    $this->view('nesting')
+        ->assertElementExists('#nav', static function (AssertElement $element): void {
+            $element->doesntHave([
+                'id' => 'other',
+                'data-id' => '42',
+            ]);
+        });
+})->throws(
+    AssertionFailedError::class,
+    'Found an attribute "data-id" with value "42"'
+);
+
 it('can find an element by selector', function (): void {
     $this->view('nesting')
         ->assertElementExists('#nav');

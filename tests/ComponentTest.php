@@ -191,6 +191,59 @@ it('can fail when finding a href with matching value that isnt expected', functi
     'Found an attribute "href" with value "/foo"'
 );
 
+it('can check multiple attributes at once using an array', function (): void {
+    $this->component(Html5Component::class)
+        ->assertElementExists('#nav a', static function (AssertElement $element): void {
+            $element->has([
+                'href' => '/foo',
+                'text' => 'Foo',
+            ]);
+        });
+});
+
+it('can fail checking multiple attributes at once using an array', function (): void {
+    $this->component(Html5Component::class)
+        ->assertElementExists('#nav a', static function (AssertElement $element): void {
+            $element->has([
+                'href' => '/foo',
+                'text' => 'Bar',
+            ]);
+        });
+})->throws(
+    AssertionFailedError::class,
+    'Could not find an attribute "text" with value "Bar"'
+);
+
+it('can check multiple attributes exist at once using a list', function (): void {
+    $this->component(Html5Component::class)
+        ->assertElementExists('#nav a', static function (AssertElement $element): void {
+            $element->has(['href']);
+        });
+});
+
+it('can check multiple attributes are absent at once using an array', function (): void {
+    $this->component(Html5Component::class)
+        ->assertElementExists('#nav a', static function (AssertElement $element): void {
+            $element->doesntHave([
+                'href' => '/bar',
+                'id' => 'foo',
+            ]);
+        });
+});
+
+it('can fail checking multiple attributes are absent at once using an array', function (): void {
+    $this->component(Html5Component::class)
+        ->assertElementExists('#nav a', static function (AssertElement $element): void {
+            $element->doesntHave([
+                'href' => '/bar',
+                'text' => 'Foo',
+            ]);
+        });
+})->throws(
+    AssertionFailedError::class,
+    'Found an attribute "text" with value "Foo"'
+);
+
 it('can find an element by selector', function (): void {
     $this->component(Html5Component::class)
         ->assertElementExists('#nav');
