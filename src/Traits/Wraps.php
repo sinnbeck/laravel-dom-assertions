@@ -5,15 +5,17 @@ declare(strict_types=1);
 namespace Sinnbeck\DomAssertions\Traits;
 
 use Closure;
+use Illuminate\Testing\TestComponent;
 use InvalidArgumentException;
 use PHPUnit\Framework\Assert;
+use Sinnbeck\DomAssertions\DomAssertionMacros;
 use Sinnbeck\DomAssertions\Support\Html;
 use Sinnbeck\DomAssertions\TestHtml;
 
 /**
  * @internal
  *
- * @mixin \Sinnbeck\DomAssertions\DomAssertionMacros
+ * @mixin DomAssertionMacros
  */
 trait Wraps
 {
@@ -22,7 +24,7 @@ trait Wraps
         $emptyMessage = $this->emptyMessage();
 
         return function (string $element, array $attributes = []) use ($emptyMessage): TestHtml {
-            /** @var \Illuminate\Testing\TestComponent|TestHtml $this */
+            /** @var TestComponent|TestHtml $this */
             Assert::assertNotEmpty(
                 $this->content(),
                 $emptyMessage
