@@ -7,6 +7,8 @@ namespace Sinnbeck\DomAssertions;
 use Closure;
 use DOMElement;
 use DOMException;
+use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\View;
 use Illuminate\Testing\TestComponent;
 use PHPUnit\Framework\Assert;
 use Sinnbeck\DomAssertions\Asserts\AssertElement;
@@ -289,6 +291,13 @@ class TestComponentMacros
         return function (): void {
             /** @var TestComponent $this */
             dd((string) $this);
+        };
+    }
+
+    public function wrap($selector = 'body'): Closure
+    {
+        return function () use ($selector): TestComponent {
+            return new TestComponent($this, View::make('<'.$selector.'>'. $this->__get('component').'</'.$selector.'>'));
         };
     }
 }

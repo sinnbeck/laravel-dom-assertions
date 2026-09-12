@@ -12,6 +12,7 @@ use Tests\Views\Components\FormComponent;
 use Tests\Views\Components\Html5Component;
 use Tests\Views\Components\LivewireAttributeComponent;
 use Tests\Views\Components\NestedComponent;
+use Tests\Views\Components\OptionsComponent;
 
 beforeEach(function (): void {
     if (! version_compare(app()->version(), '11.41.0', '>=')) {
@@ -83,6 +84,19 @@ it('assertFormExists works as expects', function (): void {
     $this->component(FormComponent::class)
         ->assertFormExists('#form1', static function (AssertForm $form): void {
             $form->hasAction('store-comment');
+        });
+});
+
+it('can assert on options after wrapping with select', function (): void {
+    $this->component(OptionsComponent::class)
+        ->wrap('select')
+        ->assertSelect(static function (AssertSelect $select): void {
+            $select->containsOptions(
+                ['value' => '1', 'text' => 'Option 1'],
+                ['value' => '2', 'text' => 'Option 2', 'selected' => 'selected'],
+                ['value' => '3', 'text' => 'Option 3'],
+            );
+            $select->hasValue('2');
         });
 });
 
