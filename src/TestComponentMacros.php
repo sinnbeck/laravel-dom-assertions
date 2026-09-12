@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Sinnbeck\DomAssertions;
 
 use Closure;
-use Illuminate\Support\Facades\View;
 use Illuminate\Testing\TestComponent;
 
 /**
@@ -25,13 +24,6 @@ class TestComponentMacros extends DomAssertionMacros
         return function (): string {
             /** @var TestComponent $this */
             return (string) $this;
-        };
-    }
-
-    public function wrap($selector = 'body'): Closure
-    {
-        return function () use ($selector): TestComponent {
-            return new TestComponent($this, View::make('<'.$selector.'>'. $this->__get('component').'</'.$selector.'>'));
         };
     }
 }
