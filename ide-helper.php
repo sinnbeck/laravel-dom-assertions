@@ -1,6 +1,8 @@
 <?php
 
 namespace Illuminate\Testing {
+    use Sinnbeck\DomAssertions\TestHtml;
+
     class TestResponse
     {
         public function assertHtml5()
@@ -66,6 +68,12 @@ namespace Illuminate\Testing {
         public function assertElementContainsNormalizedText($selector, $needle, $ignoreCase = false)
         {
             /** @var TestResponse $instance */
+            return $instance;
+        }
+
+        public function wrap($element, array $attributes = []): TestHtml
+        {
+            /** @var TestHtml $instance */
             return $instance;
         }
 
@@ -140,6 +148,12 @@ namespace Illuminate\Testing {
             return $instance;
         }
 
+        public function wrap($element, array $attributes = []): TestHtml
+        {
+            /** @var TestHtml $instance */
+            return $instance;
+        }
+
         public function ddContent(): void {}
     }
 
@@ -208,6 +222,12 @@ namespace Illuminate\Testing {
         public function assertElementContainsNormalizedText($selector, $needle, $ignoreCase = false)
         {
             /** @var TestComponent $instance */
+            return $instance;
+        }
+
+        public function wrap($element, array $attributes = []): TestHtml
+        {
+            /** @var TestHtml $instance */
             return $instance;
         }
 
