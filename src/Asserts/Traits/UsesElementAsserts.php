@@ -13,8 +13,16 @@ use Sinnbeck\DomAssertions\Support\Normalize;
  */
 trait UsesElementAsserts
 {
-    public function has(string $attribute, mixed $value = null): self
+    public function has(string|array $attribute, mixed $value = null): self
     {
+        if (is_array($attribute)) {
+            foreach ($attribute as $key => $val) {
+                is_int($key) ? $this->has($val) : $this->has($key, $val);
+            }
+
+            return $this;
+        }
+
         if (! $value) {
             PHPUnit::assertTrue(
                 $this->hasAttribute($attribute),
@@ -36,8 +44,16 @@ trait UsesElementAsserts
         return $this;
     }
 
-    public function doesntHave(string $attribute, mixed $value = null): self
+    public function doesntHave(string|array $attribute, mixed $value = null): self
     {
+        if (is_array($attribute)) {
+            foreach ($attribute as $key => $val) {
+                is_int($key) ? $this->doesntHave($val) : $this->doesntHave($key, $val);
+            }
+
+            return $this;
+        }
+
         if (! $value) {
             PHPUnit::assertFalse(
                 $this->hasAttribute($attribute),
@@ -215,6 +231,16 @@ trait UsesElementAsserts
         );
 
         return $this;
+    }
+
+    public function containsNormalizedText(string $needle, bool $ignoreCase = false): self
+    {
+        return $this->containsText($needle, $ignoreCase, true);
+    }
+
+    public function doesntContainNormalizedText(string $needle, bool $ignoreCase = false): self
+    {
+        return $this->doesntContainText($needle, $ignoreCase, true);
     }
 
     public function is(string $type): self

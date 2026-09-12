@@ -63,6 +63,12 @@ namespace Illuminate\Testing {
             return $instance;
         }
 
+        public function assertElementContainsNormalizedText($selector, $needle, $ignoreCase = false)
+        {
+            /** @var TestResponse $instance */
+            return $instance;
+        }
+
         public function ddContent(): void {}
     }
 
@@ -128,6 +134,12 @@ namespace Illuminate\Testing {
             return $instance;
         }
 
+        public function assertElementContainsNormalizedText($selector, $needle, $ignoreCase = false)
+        {
+            /** @var TestView $instance */
+            return $instance;
+        }
+
         public function ddContent(): void {}
     }
 
@@ -188,6 +200,12 @@ namespace Illuminate\Testing {
         }
 
         public function assertElementContainsText($selector, $needle, $ignoreCase = false, $normalizeWhitespace = null)
+        {
+            /** @var TestComponent $instance */
+            return $instance;
+        }
+
+        public function assertElementContainsNormalizedText($selector, $needle, $ignoreCase = false)
         {
             /** @var TestComponent $instance */
             return $instance;

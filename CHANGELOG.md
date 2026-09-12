@@ -2,6 +2,50 @@
 
 All notable changes to `laravel-dom-assertion` will be documented in this file.
 
+## v3.1.3 - 2026-09-10
+
+### What's Changed
+
+* [3.x] add support for has to accept an array by @jackbayliss in https://github.com/sinnbeck/laravel-dom-assertions/pull/94
+
+**Full Changelog**: https://github.com/sinnbeck/laravel-dom-assertions/compare/v3.1.2...v3.1.3
+
+## v3.1.2 - 2026-09-04
+
+### What's Changed
+
+* Add containsNormalizedText and doesntContainNormalizedText by @Wraxton in https://github.com/sinnbeck/laravel-dom-assertions/pull/91
+* Update README.md by @jackbayliss in https://github.com/sinnbeck/laravel-dom-assertions/pull/92
+
+### New Contributors
+
+* @Wraxton made their first contribution in https://github.com/sinnbeck/laravel-dom-assertions/pull/91
+
+**Full Changelog**: https://github.com/sinnbeck/laravel-dom-assertions/compare/v3.1.1...v3.1.2
+
+## v3.1.1 - 2026-07-23
+
+### What's Changed
+
+* Bump actions/checkout from 7.0.0 to 7.0.1 by @dependabot[bot] in https://github.com/sinnbeck/laravel-dom-assertions/pull/88
+* adjust response message by @jackbayliss in https://github.com/sinnbeck/laravel-dom-assertions/pull/90
+
+**Full Changelog**: https://github.com/sinnbeck/laravel-dom-assertions/compare/v3.1.0...v3.1.1
+
+## v3.1.0 - 2026-07-19
+
+### What's Changed
+
+* Bump actions/checkout from 6.0.3 to 7.0.0 by @dependabot[bot] in https://github.com/sinnbeck/laravel-dom-assertions/pull/81
+* Bump actions/cache from 5.0.5 to 6.0.0 by @dependabot[bot] in https://github.com/sinnbeck/laravel-dom-assertions/pull/82
+* Bump actions/cache from 6.0.0 to 6.1.0 by @dependabot[bot] in https://github.com/sinnbeck/laravel-dom-assertions/pull/83
+* Bump stefanzweifel/git-auto-commit-action from 7.1.0 to 7.2.0 by @dependabot[bot] in https://github.com/sinnbeck/laravel-dom-assertions/pull/84
+* Remove deprecated Rector Rules by @MizouziE in https://github.com/sinnbeck/laravel-dom-assertions/pull/85
+* Add .gitattributes so composer install only provides files the end user needs by @jackbayliss in https://github.com/sinnbeck/laravel-dom-assertions/pull/87
+* Duplicate mixin methods into abstract class by @jackbayliss in https://github.com/sinnbeck/laravel-dom-assertions/pull/86
+
+**Full Changelog**: https://github.com/sinnbeck/laravel-dom-assertions/compare/v3.0.10...v3.1.0
+
 ## v3.0.10 - 2026-06-16
 
 ### What's Changed

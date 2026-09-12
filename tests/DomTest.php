@@ -64,12 +64,12 @@ it('assertContainsElement matches multiline text in pre element', function (): v
         ->assertContainsElement('pre.code', ['text' => "line one\nline two"]);
 });
 
-it('can handle an empty view', function (): void {
+it('can handle an empty response', function (): void {
     $this->get('empty')
         ->assertElementExists();
 })->throws(
     AssertionFailedError::class,
-    'The view is empty!'
+    'The response is empty!'
 );
 
 it('can handle an empty body', function (): void {
@@ -178,6 +178,59 @@ it('can fail when finding a href with matching value that isnt expected', functi
     'Found an attribute "href" with value "/foo"'
 );
 
+it('can check multiple attributes at once using an array', function (): void {
+    $this->get('nesting')
+        ->assertElementExists('#nav', static function (AssertElement $element): void {
+            $element->has([
+                'id' => 'nav',
+                'data-id' => '42',
+            ]);
+        });
+});
+
+it('can fail checking multiple attributes at once using an array', function (): void {
+    $this->get('nesting')
+        ->assertElementExists('#nav', static function (AssertElement $element): void {
+            $element->has([
+                'id' => 'nav',
+                'data-id' => '43',
+            ]);
+        });
+})->throws(
+    AssertionFailedError::class,
+    'Could not find an attribute "data-id" with value "43"'
+);
+
+it('can check multiple attributes exist at once using a list', function (): void {
+    $this->get('nesting')
+        ->assertElementExists('#nav', static function (AssertElement $element): void {
+            $element->has(['id', 'data-id']);
+        });
+});
+
+it('can check multiple attributes are absent at once using an array', function (): void {
+    $this->get('nesting')
+        ->assertElementExists('#nav', static function (AssertElement $element): void {
+            $element->doesntHave([
+                'id' => 'other',
+                'data-id' => '43',
+            ]);
+        });
+});
+
+it('can fail checking multiple attributes are absent at once using an array', function (): void {
+    $this->get('nesting')
+        ->assertElementExists('#nav', static function (AssertElement $element): void {
+            $element->doesntHave([
+                'id' => 'other',
+                'data-id' => '42',
+            ]);
+        });
+})->throws(
+    AssertionFailedError::class,
+    'Found an attribute "data-id" with value "42"'
+);
+
 it('can find an element by selector', function (): void {
     $this->get('nesting')
         ->assertElementExists('#nav');
@@ -277,6 +330,50 @@ it('matches doesntContainText across collapsed whitespace when normalizing', fun
             $element->doesntContainText('Bar Foo', normalizeWhitespace: true);
         });
 });
+
+it('matches containsNormalizedText across collapsed whitespace', function (): void {
+    $this->get('nesting')
+        ->assertElementExists('p.foo.bar', static function (AssertElement $element): void {
+            $element->containsNormalizedText('Foo Bar');
+        });
+});
+
+it('matches containsNormalizedText ignoring case', function (): void {
+    $this->get('nesting')
+        ->assertElementExists('p.foo.bar', static function (AssertElement $element): void {
+            $element->containsNormalizedText('foo bar', ignoreCase: true);
+        });
+});
+
+it('normalizes with containsNormalizedText when the config disables it', function (): void {
+    config()->set('dom-assertions.normalize_whitespace', false);
+
+    $this->get('nesting')
+        ->assertElementExists('p.foo.bar', static function (AssertElement $element): void {
+            $element->containsNormalizedText('Foo Bar');
+        });
+});
+
+it('fails containsNormalizedText when the text is missing', function (): void {
+    $this->get('nesting')
+        ->assertElementExists('p.foo.bar', static function (AssertElement $element): void {
+            $element->containsNormalizedText('Bar Foo');
+        });
+})->throws(AssertionFailedError::class, 'Could not find text content "Foo Bar" containing Bar Foo');
+
+it('matches doesntContainNormalizedText across collapsed whitespace', function (): void {
+    $this->get('nesting')
+        ->assertElementExists('p.foo.bar', static function (AssertElement $element): void {
+            $element->doesntContainNormalizedText('Bar Foo');
+        });
+});
+
+it('fails doesntContainNormalizedText when the text is present', function (): void {
+    $this->get('nesting')
+        ->assertElementExists('p.foo.bar', static function (AssertElement $element): void {
+            $element->doesntContainNormalizedText('Foo Bar');
+        });
+})->throws(AssertionFailedError::class, 'Found text content "Foo Bar" containing Foo Bar');
 
 it('can match a class no matter the order', function (): void {
     $this->get('nesting')
@@ -597,4 +694,19 @@ it('assertElementContainsText throws if selector not found', function (): void {
 it('assertElementContainsText throws if text does not match', function (): void {
     $this->get('nesting')
         ->assertElementContainsText('span.foo', 'non-existing');
+})->throws(AssertionFailedError::class);
+
+it('assertElementContainsNormalizedText works as expected', function (): void {
+    $this->get('nesting')
+        ->assertElementContainsNormalizedText('p.foo.bar', 'Foo Bar');
+});
+
+it('assertElementContainsNormalizedText can ignore case', function (): void {
+    $this->get('nesting')
+        ->assertElementContainsNormalizedText('p.foo.bar', 'foo bar', ignoreCase: true);
+});
+
+it('assertElementContainsNormalizedText throws if text does not match', function (): void {
+    $this->get('nesting')
+        ->assertElementContainsNormalizedText('p.foo.bar', 'Bar Foo');
 })->throws(AssertionFailedError::class);

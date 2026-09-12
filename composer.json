@@ -1,5 +1,6 @@
 {
     "name": "sinnbeck/laravel-dom-assertions",
+    "description": "Adds fluent DOM assertion helpers to Laravel's test responses",
     "homepage": "https://github.com/sinnbeck/laravel-dom-assertions",
     "license": "MIT",
     "keywords": [
@@ -14,6 +15,12 @@
             "name": "René Sinnbeck",
             "email": "rene.sinnbeck@gmail.com",
             "homepage": "https://sinnbeck.dev",
+            "role": "Developer"
+        },
+        {
+            "name": "Jack Bayliss",
+            "email": "github@jackbayliss.com",
+            "homepage": "https://jackbayliss.com",
             "role": "Developer"
         }
     ],
