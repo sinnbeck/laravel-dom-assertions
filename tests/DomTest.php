@@ -710,11 +710,3 @@ it('assertElementContainsNormalizedText throws if text does not match', function
     $this->get('nesting')
         ->assertElementContainsNormalizedText('p.foo.bar', 'Bar Foo');
 })->throws(AssertionFailedError::class);
-
-it('can wrap a response', function (): void {
-    $this->get('nesting')
-        ->wrap('div', ['class' => 'wrapper'])
-        ->assertElementExists('div.wrapper', static function (AssertElement $assert): void {
-            $assert->contains('span.foo', ['text' => 'Foo']);
-        });
-});

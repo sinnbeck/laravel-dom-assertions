@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Sinnbeck\DomAssertions;
 
 use Closure;
+use Sinnbeck\DomAssertions\Traits\Wraps;
 
 /**
  * @internal
@@ -13,6 +14,8 @@ use Closure;
  */
 class TestHtmlMacros extends DomAssertionMacros
 {
+    use Wraps;
+
     public function emptyMessage(): string
     {
         return 'The html is empty!';

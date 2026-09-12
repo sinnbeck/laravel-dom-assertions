@@ -6,6 +6,7 @@ namespace Sinnbeck\DomAssertions;
 
 use Closure;
 use Illuminate\Testing\TestComponent;
+use Sinnbeck\DomAssertions\Traits\Wraps;
 
 /**
  * @internal
@@ -14,6 +15,8 @@ use Illuminate\Testing\TestComponent;
  */
 class TestComponentMacros extends DomAssertionMacros
 {
+    use Wraps;
+
     public function emptyMessage(): string
     {
         return 'The component is empty!';

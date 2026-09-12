@@ -2,7 +2,6 @@
 
 use PHPUnit\Framework\AssertionFailedError;
 use Sinnbeck\DomAssertions\Asserts\AssertElement;
-use Sinnbeck\DomAssertions\Asserts\AssertSelect;
 
 it('assertDoesntExist works as expected', function (): void {
     $this->view('nesting')
@@ -628,21 +627,3 @@ it('assertElementContainsNormalizedText throws if text does not match', function
     $this->view('nesting')
         ->assertElementContainsNormalizedText('p.foo.bar', 'Bar Foo');
 })->throws(AssertionFailedError::class);
-
-it('can assert on options after wrapping a view with select', function (): void {
-    $this->view('options')
-        ->wrap('select')
-        ->assertSelect(static function (AssertSelect $select): void {
-            $select->containsOptions(
-                ['value' => '1', 'text' => 'Option 1'],
-                ['value' => '2', 'text' => 'Option 2', 'selected' => 'selected'],
-                ['value' => '3', 'text' => 'Option 3'],
-            );
-            $select->hasValue('2');
-        });
-});
-
-it('fails when wrapping an empty view', function (): void {
-    $this->view('empty')
-        ->wrap('select');
-})->throws(AssertionFailedError::class, 'The view is empty!');

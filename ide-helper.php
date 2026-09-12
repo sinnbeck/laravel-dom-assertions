@@ -71,12 +71,6 @@ namespace Illuminate\Testing {
             return $instance;
         }
 
-        public function wrap($element, array $attributes = []): TestHtml
-        {
-            /** @var TestHtml $instance */
-            return $instance;
-        }
-
         public function ddContent(): void {}
     }
 
@@ -145,12 +139,6 @@ namespace Illuminate\Testing {
         public function assertElementContainsNormalizedText($selector, $needle, $ignoreCase = false)
         {
             /** @var TestView $instance */
-            return $instance;
-        }
-
-        public function wrap($element, array $attributes = []): TestHtml
-        {
-            /** @var TestHtml $instance */
             return $instance;
         }
 
