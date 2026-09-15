@@ -498,6 +498,33 @@ $this->component(Navigation::class)
     });
 ```
 
+### Wrapping partial output
+
+Form element components sometimes render a fragment. An `<x-select>` renders `<option>` tags with no surrounding `<select>`. `wrap()` supplies the missing parent so `assertSelect()` and `assertForm()` can be used:
+
+```php
+$this->component(OptionsComponent::class)
+    ->wrap('select')
+    ->assertSelect(function (AssertSelect $select) {
+        $select->hasValue('2');
+    });
+```
+
+Pass an array as the second argument to give the wrapping element attributes:
+
+```php
+$this->component(TextInput::class)
+    ->wrap('form', ['method' => 'post', 'action' => '/login'])
+    ->assertForm(function (AssertForm $form) {
+        $form->hasMethod('post');
+        $form->containsInput(['name' => 'email']);
+    });
+```
+
+Attribute names may use Alpine and Livewire syntax such as `wire:model.live`, `x-on:click` and `:bound`, but not the `@click` shorthand — `@` is not valid in a parsed attribute name, so `wrap()` rejects it rather than silently dropping it. Use `x-on:click` instead.
+
+Calls nest, and `wrap()` is available on responses and views too. It returns a `TestHtml`, which carries the same assertions — you can also build one directly from any html string with `TestHtml::make($html)`.
+
 ## Method reference
 
 ### Element methods (`AssertElement`)

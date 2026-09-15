@@ -8,11 +8,13 @@ use DOMException;
 use Illuminate\Testing\TestComponent;
 use Illuminate\Testing\TestResponse;
 use Illuminate\Testing\TestView;
+use InvalidArgumentException;
 use PHPUnit\Framework\Assert;
 use Sinnbeck\DomAssertions\Asserts\AssertElement;
 use Sinnbeck\DomAssertions\Asserts\AssertForm;
 use Sinnbeck\DomAssertions\Asserts\AssertSelect;
 use Sinnbeck\DomAssertions\Support\DomParser;
+use Sinnbeck\DomAssertions\Support\Html;
 use Sinnbeck\DomAssertions\Support\Normalize;
 
 abstract class DomAssertionMacros
@@ -27,7 +29,7 @@ abstract class DomAssertionMacros
     protected function getDomParser(): Closure
     {
         return function (): DomParser {
-            /** @var TestComponent|TestResponse|TestView $this */
+            /** @var TestComponent|TestHtml|TestResponse|TestView $this */
             $content = $this->content();
 
             $hash = hash('xxh128', $content);
@@ -50,8 +52,8 @@ abstract class DomAssertionMacros
     {
         $emptyMessage = $this->emptyMessage();
 
-        return function () use ($emptyMessage): TestComponent|TestResponse|TestView {
-            /** @var TestComponent|TestResponse|TestView $this */
+        return function () use ($emptyMessage): TestComponent|TestHtml|TestResponse|TestView {
+            /** @var TestComponent|TestHtml|TestResponse|TestView $this */
             Assert::assertNotEmpty(
                 $this->content(),
                 $emptyMessage
@@ -78,8 +80,8 @@ abstract class DomAssertionMacros
     {
         $emptyMessage = $this->emptyMessage();
 
-        return function ($selector = 'body', $callback = null) use ($emptyMessage): TestComponent|TestResponse|TestView {
-            /** @var TestComponent|TestResponse|TestView $this */
+        return function ($selector = 'body', $callback = null) use ($emptyMessage): TestComponent|TestHtml|TestResponse|TestView {
+            /** @var TestComponent|TestHtml|TestResponse|TestView $this */
             Assert::assertNotEmpty(
                 $this->content(),
                 $emptyMessage
@@ -110,19 +112,23 @@ abstract class DomAssertionMacros
 
     public function assertElementContainsText(): Closure
     {
-        return function (string $selector, string $needle, bool $ignoreCase = false, ?bool $normalizeWhitespace = null): TestComponent|TestResponse|TestView {
-            /** @var TestComponent|TestResponse|TestView $this */
-            return $this->assertElementExists($selector, static function (AssertElement $assert) use ($needle, $ignoreCase, $normalizeWhitespace): void {
+        return function (string $selector, string $needle, bool $ignoreCase = false, ?bool $normalizeWhitespace = null): TestComponent|TestHtml|TestResponse|TestView {
+            /** @var TestComponent|TestHtml|TestResponse|TestView $this */
+            $this->assertElementExists($selector, static function (AssertElement $assert) use ($needle, $ignoreCase, $normalizeWhitespace): void {
                 $assert->containsText($needle, $ignoreCase, $normalizeWhitespace);
             });
+
+            return $this;
         };
     }
 
     public function assertElementContainsNormalizedText(): Closure
     {
-        return function (string $selector, string $needle, bool $ignoreCase = false): TestComponent|TestResponse|TestView {
-            /** @var TestComponent|TestResponse|TestView $this */
-            return $this->assertElementContainsText($selector, $needle, $ignoreCase, true);
+        return function (string $selector, string $needle, bool $ignoreCase = false): TestComponent|TestHtml|TestResponse|TestView {
+            /** @var TestComponent|TestHtml|TestResponse|TestView $this */
+            $this->assertElementContainsText($selector, $needle, $ignoreCase, true);
+
+            return $this;
         };
     }
 
@@ -130,8 +136,8 @@ abstract class DomAssertionMacros
     {
         $emptyMessage = $this->emptyMessage();
 
-        return function (string $selector, array $attributes = []) use ($emptyMessage): TestComponent|TestResponse|TestView {
-            /** @var TestComponent|TestResponse|TestView $this */
+        return function (string $selector, array $attributes = []) use ($emptyMessage): TestComponent|TestHtml|TestResponse|TestView {
+            /** @var TestComponent|TestHtml|TestResponse|TestView $this */
             Assert::assertNotEmpty(
                 $this->content(),
                 $emptyMessage
@@ -191,8 +197,8 @@ abstract class DomAssertionMacros
     {
         $emptyMessage = $this->emptyMessage();
 
-        return function (string $selector) use ($emptyMessage): TestComponent|TestResponse|TestView {
-            /** @var TestComponent|TestResponse|TestView $this */
+        return function (string $selector) use ($emptyMessage): TestComponent|TestHtml|TestResponse|TestView {
+            /** @var TestComponent|TestHtml|TestResponse|TestView $this */
             Assert::assertNotEmpty(
                 $this->content(),
                 $emptyMessage
@@ -220,8 +226,8 @@ abstract class DomAssertionMacros
     {
         $emptyMessage = $this->emptyMessage();
 
-        return function ($selector = 'form', $callback = null) use ($emptyMessage): TestComponent|TestResponse|TestView {
-            /** @var TestComponent|TestResponse|TestView $this */
+        return function ($selector = 'form', $callback = null) use ($emptyMessage): TestComponent|TestHtml|TestResponse|TestView {
+            /** @var TestComponent|TestHtml|TestResponse|TestView $this */
             Assert::assertNotEmpty(
                 $this->content(),
                 $emptyMessage
@@ -266,8 +272,8 @@ abstract class DomAssertionMacros
     {
         $emptyMessage = $this->emptyMessage();
 
-        return function ($selector = 'select', $callback = null) use ($emptyMessage): TestComponent|TestResponse|TestView {
-            /** @var TestComponent|TestResponse|TestView $this */
+        return function ($selector = 'select', $callback = null) use ($emptyMessage): TestComponent|TestHtml|TestResponse|TestView {
+            /** @var TestComponent|TestHtml|TestResponse|TestView $this */
             Assert::assertNotEmpty(
                 $this->content(),
                 $emptyMessage
@@ -300,6 +306,27 @@ abstract class DomAssertionMacros
             }
 
             return $this;
+        };
+    }
+
+    public function wrap(): Closure
+    {
+        $emptyMessage = $this->emptyMessage();
+
+        return function (string $element, array $attributes = []) use ($emptyMessage): TestHtml {
+            /** @var TestComponent|TestHtml|TestResponse|TestView $this */
+            Assert::assertNotEmpty(
+                $this->content(),
+                $emptyMessage
+            );
+
+            try {
+                $html = Html::element($element, $this->content(), $attributes);
+            } catch (InvalidArgumentException $exception) {
+                Assert::fail($exception->getMessage());
+            }
+
+            return TestHtml::make($html);
         };
     }
 

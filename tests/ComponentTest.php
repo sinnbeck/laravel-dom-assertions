@@ -9,9 +9,11 @@ use Tests\Views\Components\BrokenComponent;
 use Tests\Views\Components\EmptyBodyComponent;
 use Tests\Views\Components\EmptyComponent;
 use Tests\Views\Components\FormComponent;
+use Tests\Views\Components\FormFieldsComponent;
 use Tests\Views\Components\Html5Component;
 use Tests\Views\Components\LivewireAttributeComponent;
 use Tests\Views\Components\NestedComponent;
+use Tests\Views\Components\OptionsComponent;
 
 beforeEach(function (): void {
     if (! version_compare(app()->version(), '11.41.0', '>=')) {
@@ -85,6 +87,46 @@ it('assertFormExists works as expects', function (): void {
             $form->hasAction('store-comment');
         });
 });
+
+it('can assert on options after wrapping with select', function (): void {
+    $this->component(OptionsComponent::class)
+        ->wrap('select')
+        ->assertSelect(static function (AssertSelect $select): void {
+            $select->containsOptions(
+                ['value' => '1', 'text' => 'Option 1'],
+                ['value' => '2', 'text' => 'Option 2', 'selected' => 'selected'],
+                ['value' => '3', 'text' => 'Option 3'],
+            );
+            $select->hasValue('2');
+        });
+});
+
+it('can assert on form fields after wrapping with form', function (): void {
+    $this->component(FormFieldsComponent::class)
+        ->wrap('form', ['method' => 'post', 'action' => '/login'])
+        ->assertForm(static function (AssertForm $form): void {
+            $form->hasMethod('post');
+            $form->hasAction('/login');
+            $form->containsInput(['name' => 'email', 'type' => 'email']);
+            $form->containsTextarea(['name' => 'message', 'text' => 'Hello']);
+        });
+});
+
+it('can wrap more than once', function (): void {
+    $this->component(OptionsComponent::class)
+        ->wrap('select', ['name' => 'things'])
+        ->wrap('form')
+        ->assertForm(static function (AssertForm $form): void {
+            $form->findSelect('[name="things"]', static function (AssertSelect $select): void {
+                $select->hasValue('2');
+            });
+        });
+});
+
+it('fails when wrapping an empty component', function (): void {
+    $this->component(EmptyComponent::class)
+        ->wrap('select');
+})->throws(AssertionFailedError::class, 'The component is empty!');
 
 it('assertSelectExists works as expects', function (): void {
     $this->component(FormComponent::class)
