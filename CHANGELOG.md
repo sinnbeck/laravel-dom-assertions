@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-dom-assertion` will be documented in this file.
 
+## v3.2 - 2026-09-16
+
+### What's Changed
+
+* [feat] Add `wrap()` Method for Testing Form Fragment Components by @MizouziE in https://github.com/sinnbeck/laravel-dom-assertions/pull/95
+
+**Full Changelog**: https://github.com/sinnbeck/laravel-dom-assertions/compare/v3.1.3...v3.2
+
 ## v3.1.3 - 2026-09-10
 
 ### What's Changed
