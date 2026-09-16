@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-dom-assertion` will be documented in this file.
 
+## v3.2.0 - 2026-09-16
+
+Tag fix
+
 ## v3.2 - 2026-09-16
 
 ### What's Changed
