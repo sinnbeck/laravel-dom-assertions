@@ -17,6 +17,13 @@ use Symfony\Component\CssSelector\CssSelectorConverter;
  */
 final class DomParser
 {
+    private static ?CssSelectorConverter $converter = null;
+
+    /**
+     * @var array<string, string>
+     */
+    private static array $xpathCache = [];
+
     protected DOMElement $root;
 
     protected DOMDocument $document;
@@ -31,6 +38,19 @@ final class DomParser
     public static function new($html = ''): self
     {
         return new DomParser($html);
+    }
+
+    public static function fromElement(DOMElement $element): self
+    {
+        $parser = new self;
+
+        $document = $element->ownerDocument;
+
+        if ($document instanceof DOMDocument) {
+            $parser->document = $document;
+        }
+
+        return $parser->setRoot($element);
     }
 
     public function setContent($html): void
@@ -69,11 +89,6 @@ final class DomParser
         $this->root = $root;
 
         return $this;
-    }
-
-    public function cloneFromRoot(): self
-    {
-        return new self($this->getContent());
     }
 
     public function getAttributeForRoot(string $attribute): string
@@ -126,23 +141,26 @@ final class DomParser
         return $this->root->nodeName;
     }
 
-    public function query(string $selector): ?DOMNode
+    public function query(string $selector): ?DOMElement
     {
-        return $this->queryAll($selector)->item(0);
+        $node = $this->queryAll($selector)->item(0);
+
+        return $node instanceof DOMElement ? $node : null;
     }
 
     public function queryAll(string $selector): DOMNodeList
     {
-        return (new DOMXPath($this->cloneFromRoot()->getRoot()->ownerDocument))
-            ->query($this->cssSelectorToXpath($selector));
+        return (new DOMXPath($this->root->ownerDocument))
+            ->query($this->cssSelectorToXpath($selector), $this->root);
     }
 
     private function cssSelectorToXpath(string $selector): string
     {
-        $converter = new CssSelectorConverter;
-        $xpath = $converter->toXpath($selector);
-
-        return str_replace('\\', '', $xpath);
+        return self::$xpathCache[$selector] ??= str_replace(
+            '\\',
+            '',
+            (self::$converter ??= new CssSelectorConverter)->toXpath($selector)
+        );
     }
 
     public function getText(): ?string

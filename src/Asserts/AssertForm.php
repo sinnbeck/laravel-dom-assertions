@@ -78,11 +78,11 @@ class AssertForm extends BaseAssert
             $selector = 'select';
         }
 
-        if (! ($select = $this->getParser()->query($selector)) instanceof \DOMNode) {
+        if (! ($select = $this->getParser()->query($selector)) instanceof \DOMElement) {
             Assert::fail(sprintf('No select found for selector: %s', $selector));
         }
 
-        $callback(new AssertSelect($this->getContent(), $select));
+        $callback(AssertSelect::fromElement($select));
 
         return $this;
     }
@@ -98,11 +98,11 @@ class AssertForm extends BaseAssert
             Assert::fail(sprintf('Selectors for datalists must be an id, given: %s', $selector));
         }
 
-        if (! ($select = $this->getParser()->query($selector)) instanceof \DOMNode) {
+        if (! ($select = $this->getParser()->query($selector)) instanceof \DOMElement) {
             Assert::fail(sprintf('No datalist found for datalist: %s', $selector));
         }
 
-        $callback(new AssertDatalist($this->getContent(), $select));
+        $callback(AssertDatalist::fromElement($select));
 
         return $this;
     }

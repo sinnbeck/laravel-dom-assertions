@@ -2,6 +2,7 @@
 
 namespace Sinnbeck\DomAssertions\Asserts\Traits;
 
+use DOMElement;
 use Illuminate\Testing\Assert as PHPUnit;
 use PHPUnit\Framework\Assert;
 use Sinnbeck\DomAssertions\Asserts\AssertElement;
@@ -83,7 +84,7 @@ trait UsesElementAsserts
         );
 
         if (! is_null($callback)) {
-            $elementAssert = new AssertElement($this->getContent(), $element);
+            $elementAssert = AssertElement::fromElement($element);
 
             $elementAssert->withSelectors($this->selectorPath, $selector);
 
@@ -102,7 +103,11 @@ trait UsesElementAsserts
         );
 
         foreach ($elements as $index => $element) {
-            $elementAssert = new AssertElement($this->getContent(), $element);
+            if (! $element instanceof DOMElement) {
+                continue;
+            }
+
+            $elementAssert = AssertElement::fromElement($element);
             $callback($elementAssert, $index);
         }
 
