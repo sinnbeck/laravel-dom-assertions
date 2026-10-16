@@ -3,6 +3,8 @@
 namespace Sinnbeck\DomAssertions\Asserts;
 
 use BadMethodCallException;
+use DOMDocument;
+use DOMElement;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
 use Sinnbeck\DomAssertions\Asserts\Traits\CanGatherAttributes;
@@ -14,6 +16,8 @@ use Sinnbeck\DomAssertions\Support\DomParser;
 
 /**
  * @internal
+ *
+ * @phpstan-consistent-constructor
  */
 abstract class BaseAssert
 {
@@ -30,11 +34,25 @@ abstract class BaseAssert
 
     public function __construct($html, $element = null)
     {
+        if ($element instanceof DOMElement && $element->ownerDocument instanceof DOMDocument) {
+            $this->parser = DomParser::fromElement($element);
+
+            return;
+        }
+
         $this->parser = DomParser::new($html);
 
         if (! is_null($element)) {
             $this->parser->setRoot($element);
         }
+    }
+
+    /**
+     * @internal
+     */
+    public static function fromElement(DOMElement $element): static
+    {
+        return new static('', $element);
     }
 
     public function __call(string $method, array $arguments)
