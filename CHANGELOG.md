@@ -2,6 +2,15 @@
 
 All notable changes to `laravel-dom-assertion` will be documented in this file.
 
+## v3.3.0 - 2026-10-22
+
+### What's Changed
+
+* Bump shivammathur/setup-php from 2.37.2 to 2.40.0 by @dependabot[bot] in https://github.com/sinnbeck/laravel-dom-assertions/pull/96
+* speed up assertions by @jackbayliss in https://github.com/sinnbeck/laravel-dom-assertions/pull/97
+
+**Full Changelog**: https://github.com/sinnbeck/laravel-dom-assertions/compare/v3.2.0...v3.3.0
+
 ## v3.2.0 - 2026-09-16
 
 Tag fix
