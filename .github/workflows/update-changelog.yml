@@ -4,10 +4,14 @@ on:
   release:
     types: [released]
 
+permissions: {}
+
 jobs:
   update:
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout code

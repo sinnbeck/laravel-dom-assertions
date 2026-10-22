@@ -2,10 +2,14 @@ name: Fix PHP code style issues
 
 on: [push]
 
+permissions: {}
+
 jobs:
   php-code-styling:
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout code
