@@ -9,22 +9,32 @@
 
 This package provides some extra assertion helpers to use in HTTP Tests. If you have ever needed more control over your view assertions than `assertSee`, `assertSeeInOrder`, `assertSeeText`, `assertSeeTextInOrder`, `assertDontSee`, and `assertDontSeeText` then this is the package for you.
 
+## Compatibility
+
+| Laravel | PHP    | Package version | Supported            |
+|---------|--------|-----------------|----------------------|
+| 13.x    | 8.3+   | 4.x             | :white_check_mark:   |
+| 12.x    | 8.2+   | 4.x             | :white_check_mark:   |
+| 11.x    | 8.2+   | 3.x             | :x: (no new releases) |
+| 10.x    | 8.1+   | 3.x             | :x: (no new releases) |
+| 9.x     | 8.0+   | 2.x             | :x: (no new releases) |
+
+Only the versions marked as supported receive new features and bug fixes.
+
 ## Installation
 
 You can install the package via composer:
-
-> Version 3.x and above requires PHP 8.1+ and Laravel 10+.
 
 ```bash
 composer require sinnbeck/laravel-dom-assertions --dev
 ```
 
-> **Note:** If you're using PHP 8.0 or Laravel 9, please use version 2.x:
- 
-```bash
- composer require sinnbeck/laravel-dom-assertions:^2.0 --dev
- ```
+Composer resolves the right package version for your Laravel version automatically. To pin an older line explicitly:
 
+```bash
+composer require sinnbeck/laravel-dom-assertions:^3.0 --dev # Laravel 10 / 11
+composer require sinnbeck/laravel-dom-assertions:^2.0 --dev # Laravel 9
+```
 
 ## Table of contents
 
