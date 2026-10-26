@@ -2,6 +2,15 @@
 
 All notable changes to `laravel-dom-assertion` will be documented in this file.
 
+## v4.0.0 - 2026-10-26
+
+### What's Changed
+
+* improve workflows by @jackbayliss in https://github.com/sinnbeck/laravel-dom-assertions/pull/98
+* Drop support for Laravel 10 / 11 by @jackbayliss in https://github.com/sinnbeck/laravel-dom-assertions/pull/99
+
+**Full Changelog**: https://github.com/sinnbeck/laravel-dom-assertions/compare/v3.3.0...v4.0.0
+
 ## v3.3.0 - 2026-10-22
 
 ### What's Changed
