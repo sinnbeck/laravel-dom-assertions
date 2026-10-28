@@ -88,7 +88,7 @@ Assert that an attribute is present, optionally with a specific value:
 ```php
 $this->get('/some-route')
     ->assertElementExists('#overview', function (AssertElement $assert) {
-        $assert->has('x-data', '{foo: 1}');
+        $assert->hasAttribute('x-data', '{foo: 1}');
     });
 ```
 
@@ -97,7 +97,17 @@ Or assert that it is absent:
 ```php
 $this->get('/some-route')
     ->assertElementExists('#overview', function (AssertElement $assert) {
-        $assert->doesntHave('x-data', '{foo: 2}');
+        $assert->doesntHaveAttribute('x-data', '{foo: 2}');
+    });
+```
+
+Both also work as magic methods, with the attribute name baked in:
+
+```php
+$this->get('/some-route')
+    ->assertElementExists('#overview', function (AssertElement $assert) {
+        $assert->hasXData('{foo: 1}');
+        $assert->doesntHaveWireModel();
     });
 ```
 
@@ -106,11 +116,18 @@ You can also check multiple attributes at once by passing an array of `attribute
 ```php
 $this->get('/some-route')
     ->assertElementExists('#overview', function (AssertElement $assert) {
-        $assert->has([
+        $assert->hasAttribute([
             'data-x' => 'a',
             'data-y' => 'b',
         ]);
     });
+```
+
+`has()` and `doesntHave()` are shorter aliases for the same two assertions and are fully supported:
+
+```php
+$assert->has('accept');          // shorter
+$assert->hasAttribute('accept'); // explicit — same assertion
 ```
 
 ### Asserting on children
@@ -543,9 +560,12 @@ Calls nest, and `wrap()` is available on responses and views too. It returns a `
 |--------|-------------|
 | `is($type)` | Assert the element is of a given type (`div`, `span`, etc). |
 | `isDiv()` | Magic method. Same as `is('div')`. |
-| `has($attribute, $value = null)` | Assert the element has an attribute, optionally with a given value. Also accepts an array of `attribute => value` pairs (or a list of attribute names). |
-| `hasXData('foo')` | Magic method. Same as `has('x-data', 'foo')`. |
-| `doesntHave($attribute, $value = null)` | Assert the element does not have the attribute/value. Also accepts an array of `attribute => value` pairs (or a list of attribute names). |
+| `hasAttribute($attribute, $value = null)` | Assert the element has an attribute, optionally with a given value. Also accepts an array of `attribute => value` pairs (or a list of attribute names). |
+| `hasXData('foo')` | Magic method. Same as `hasAttribute('x-data', 'foo')`. |
+| `doesntHaveAttribute($attribute, $value = null)` | Assert the element does not have the attribute/value. Also accepts an array of `attribute => value` pairs (or a list of attribute names). |
+| `doesntHaveXData('foo')` | Magic method. Same as `doesntHaveAttribute('x-data', 'foo')`. |
+| `has($attribute, $value = null)` | Shorter alias for `hasAttribute()`. |
+| `doesntHave($attribute, $value = null)` | Shorter alias for `doesntHaveAttribute()`. |
 | `contains($selector, $attributes = [], $count = null)` | Assert a child element exists, optionally with attributes and/or an exact count. |
 | `containsDiv(['class' => 'foo'], 3)` | Magic method. Same as `contains('div', ['class' => 'foo'], 3)`. |
 | `doesntContain($selector, $attributes = [])` | Assert no matching child exists. |
@@ -604,7 +624,7 @@ return RectorConfig::configure()
 
 ### `AssertElementToAssertContainsElementRule`
 
-Converts `assertElement()` calls whose closures only use `find`, `contains`, `containsText`, or `has` into flat `assertContainsElement()` chains:
+Converts `assertElement()` calls whose closures only use `find`, `contains`, `containsText`, or `hasAttribute` (or its `has` alias) into flat `assertContainsElement()` chains:
 
 ```php
 // Before

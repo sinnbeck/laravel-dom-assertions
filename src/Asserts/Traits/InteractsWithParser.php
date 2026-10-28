@@ -30,7 +30,7 @@ trait InteractsWithParser
         return $this->getParser()->getAttributeForRoot($attribute);
     }
 
-    protected function hasAttribute(string $attribute): string|bool
+    protected function attributeExists(string $attribute): bool
     {
         return $this->getParser()->hasAttributeForRoot($attribute);
     }

@@ -14,11 +14,11 @@ use Sinnbeck\DomAssertions\Support\Normalize;
  */
 trait UsesElementAsserts
 {
-    public function has(string|array $attribute, mixed $value = null): self
+    public function hasAttribute(string|array $attribute, mixed $value = null): self
     {
         if (is_array($attribute)) {
             foreach ($attribute as $key => $val) {
-                is_int($key) ? $this->has($val) : $this->has($key, $val);
+                is_int($key) ? $this->hasAttribute($val) : $this->hasAttribute($key, $val);
             }
 
             return $this;
@@ -26,8 +26,8 @@ trait UsesElementAsserts
 
         if (! $value) {
             PHPUnit::assertTrue(
-                $this->hasAttribute($attribute),
-                sprintf('Could not find an attribute "%s"', $attribute)
+                $this->attributeExists($attribute),
+                sprintf('Could not find an attribute "%s" within: %s', $attribute, $this->getSelectors())
             );
 
             return $this;
@@ -45,11 +45,11 @@ trait UsesElementAsserts
         return $this;
     }
 
-    public function doesntHave(string|array $attribute, mixed $value = null): self
+    public function doesntHaveAttribute(string|array $attribute, mixed $value = null): self
     {
         if (is_array($attribute)) {
             foreach ($attribute as $key => $val) {
-                is_int($key) ? $this->doesntHave($val) : $this->doesntHave($key, $val);
+                is_int($key) ? $this->doesntHaveAttribute($val) : $this->doesntHaveAttribute($key, $val);
             }
 
             return $this;
@@ -57,8 +57,8 @@ trait UsesElementAsserts
 
         if (! $value) {
             PHPUnit::assertFalse(
-                $this->hasAttribute($attribute),
-                sprintf('Found an attribute "%s"', $attribute)
+                $this->attributeExists($attribute),
+                sprintf('Found an attribute "%s" within: %s', $attribute, $this->getSelectors())
             );
 
             return $this;
@@ -74,6 +74,22 @@ trait UsesElementAsserts
         );
 
         return $this;
+    }
+
+    /**
+     * Alias for hasAttribute().
+     */
+    public function has(string|array $attribute, mixed $value = null): self
+    {
+        return $this->hasAttribute($attribute, $value);
+    }
+
+    /**
+     * Alias for doesntHaveAttribute().
+     */
+    public function doesntHave(string|array $attribute, mixed $value = null): self
+    {
+        return $this->doesntHaveAttribute($attribute, $value);
     }
 
     public function find(string $selector, $callback = null): self
