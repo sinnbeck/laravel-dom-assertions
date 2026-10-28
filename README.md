@@ -123,8 +123,6 @@ $this->get('/some-route')
     });
 ```
 
-> `has()` and `doesntHave()` are the old names for these two assertions. They still work and are not going anywhere in 3.x, but they read as though they could be checking anything — a child element, text, a class — when they only ever look at attributes. Prefer `hasAttribute()` / `doesntHaveAttribute()`.
-
 ### Asserting on children
 
 Confirm a child element exists:
