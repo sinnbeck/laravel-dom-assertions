@@ -123,7 +123,7 @@ $this->get('/some-route')
     });
 ```
 
-`has()` and `doesntHave()` are shorter aliases for the same two assertions and are fully supported — use whichever reads better to you. The longer names exist because `has('accept')` doesn't say *what* is being checked, while `hasAttribute('accept')` does:
+`has()` and `doesntHave()` are shorter aliases for the same two assertions and are fully supported:
 
 ```php
 $assert->has('accept');          // shorter
