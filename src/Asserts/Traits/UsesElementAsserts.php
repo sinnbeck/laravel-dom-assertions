@@ -77,7 +77,7 @@ trait UsesElementAsserts
     }
 
     /**
-     * @deprecated Use hasAttribute() instead. It makes it clear that an attribute is being asserted on.
+     * Alias for hasAttribute().
      */
     public function has(string|array $attribute, mixed $value = null): self
     {
@@ -85,7 +85,7 @@ trait UsesElementAsserts
     }
 
     /**
-     * @deprecated Use doesntHaveAttribute() instead. It makes it clear that an attribute is being asserted on.
+     * Alias for doesntHaveAttribute().
      */
     public function doesntHave(string|array $attribute, mixed $value = null): self
     {

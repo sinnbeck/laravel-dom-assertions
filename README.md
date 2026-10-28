@@ -123,6 +123,13 @@ $this->get('/some-route')
     });
 ```
 
+`has()` and `doesntHave()` are shorter aliases for the same two assertions and are fully supported — use whichever reads better to you. The longer names exist because `has('accept')` doesn't say *what* is being checked, while `hasAttribute('accept')` does:
+
+```php
+$assert->has('accept');          // shorter
+$assert->hasAttribute('accept'); // explicit — same assertion
+```
+
 ### Asserting on children
 
 Confirm a child element exists:
@@ -557,8 +564,8 @@ Calls nest, and `wrap()` is available on responses and views too. It returns a `
 | `hasXData('foo')` | Magic method. Same as `hasAttribute('x-data', 'foo')`. |
 | `doesntHaveAttribute($attribute, $value = null)` | Assert the element does not have the attribute/value. Also accepts an array of `attribute => value` pairs (or a list of attribute names). |
 | `doesntHaveXData('foo')` | Magic method. Same as `doesntHaveAttribute('x-data', 'foo')`. |
-| `has($attribute, $value = null)` | Deprecated alias for `hasAttribute()`. |
-| `doesntHave($attribute, $value = null)` | Deprecated alias for `doesntHaveAttribute()`. |
+| `has($attribute, $value = null)` | Shorter alias for `hasAttribute()`. |
+| `doesntHave($attribute, $value = null)` | Shorter alias for `doesntHaveAttribute()`. |
 | `contains($selector, $attributes = [], $count = null)` | Assert a child element exists, optionally with attributes and/or an exact count. |
 | `containsDiv(['class' => 'foo'], 3)` | Magic method. Same as `contains('div', ['class' => 'foo'], 3)`. |
 | `doesntContain($selector, $attributes = [])` | Assert no matching child exists. |
@@ -617,7 +624,7 @@ return RectorConfig::configure()
 
 ### `AssertElementToAssertContainsElementRule`
 
-Converts `assertElement()` calls whose closures only use `find`, `contains`, `containsText`, or `hasAttribute` (or its deprecated `has` alias) into flat `assertContainsElement()` chains:
+Converts `assertElement()` calls whose closures only use `find`, `contains`, `containsText`, or `hasAttribute` (or its `has` alias) into flat `assertContainsElement()` chains:
 
 ```php
 // Before
