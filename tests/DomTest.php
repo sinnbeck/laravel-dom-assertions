@@ -277,6 +277,44 @@ it('can fail asserting a missing attribute using doesntHaveAttribute', function 
     'Found an attribute "data-id"'
 );
 
+it('reports the selector path when a bare attribute is missing', function (): void {
+    $this->get('nesting')
+        ->assertElementExists('body', static function (AssertElement $assert): void {
+            $assert->find('#nav', static function (AssertElement $element): void {
+                $element->find('a', static function (AssertElement $element): void {
+                    $element->hasAttribute('class');
+                });
+            });
+        });
+})->throws(
+    AssertionFailedError::class,
+    'Could not find an attribute "class" within: #nav > a'
+);
+
+it('reports the selector path when a bare attribute is unexpectedly present', function (): void {
+    $this->get('nesting')
+        ->assertElementExists('body', static function (AssertElement $assert): void {
+            $assert->find('#nav', static function (AssertElement $element): void {
+                $element->find('a', static function (AssertElement $element): void {
+                    $element->doesntHaveAttribute('href');
+                });
+            });
+        });
+})->throws(
+    AssertionFailedError::class,
+    'Found an attribute "href" within: #nav > a'
+);
+
+it('falls back to (root) when no selector path has been tracked', function (): void {
+    $this->get('nesting')
+        ->assertElementExists('#nav', static function (AssertElement $element): void {
+            $element->hasAttribute('class');
+        });
+})->throws(
+    AssertionFailedError::class,
+    'Could not find an attribute "class" within: (root)'
+);
+
 it('can assert an attribute using a magic hasAttribute method', function (): void {
     $this->get('nesting')
         ->assertElementExists('#nav', static function (AssertElement $element): void {
