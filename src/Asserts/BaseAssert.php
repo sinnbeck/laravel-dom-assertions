@@ -60,10 +60,16 @@ abstract class BaseAssert
         if (static::hasMacro($method)) {
             return $this->callMacro($method, $arguments);
         }
+        if (Str::startsWith($method, 'doesntHave')) {
+            $property = Str::of($method)->after('doesntHave')->snake()->slug();
+
+            return $this->doesntHaveAttribute($property, $arguments[0] ?? null);
+        }
+
         if (Str::startsWith($method, 'has')) {
             $property = Str::of($method)->after('has')->snake()->slug();
 
-            return $this->has($property, $arguments[0] ?? null);
+            return $this->hasAttribute($property, $arguments[0] ?? null);
         }
 
         if (Str::startsWith($method, 'is')) {

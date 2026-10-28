@@ -231,6 +231,85 @@ it('can fail checking multiple attributes are absent at once using an array', fu
     'Found an attribute "data-id" with value "42"'
 );
 
+it('can assert an attribute using hasAttribute', function (): void {
+    $this->get('nesting')
+        ->assertElementExists('#nav', static function (AssertElement $element): void {
+            $element->hasAttribute('data-id')
+                ->hasAttribute('data-id', '42')
+                ->hasAttribute(['id', 'data-id'])
+                ->hasAttribute([
+                    'id' => 'nav',
+                    'data-id' => '42',
+                ]);
+        });
+});
+
+it('can fail asserting an attribute using hasAttribute', function (): void {
+    $this->get('nesting')
+        ->assertElementExists('#nav', static function (AssertElement $element): void {
+            $element->hasAttribute('data-id', '43');
+        });
+})->throws(
+    AssertionFailedError::class,
+    'Could not find an attribute "data-id" with value "43"'
+);
+
+it('can assert a missing attribute using doesntHaveAttribute', function (): void {
+    $this->get('nesting')
+        ->assertElementExists('#nav', static function (AssertElement $element): void {
+            $element->doesntHaveAttribute('class')
+                ->doesntHaveAttribute('data-id', '43')
+                ->doesntHaveAttribute(['class', 'title'])
+                ->doesntHaveAttribute([
+                    'id' => 'other',
+                    'data-id' => '43',
+                ]);
+        });
+});
+
+it('can fail asserting a missing attribute using doesntHaveAttribute', function (): void {
+    $this->get('nesting')
+        ->assertElementExists('#nav', static function (AssertElement $element): void {
+            $element->doesntHaveAttribute('data-id');
+        });
+})->throws(
+    AssertionFailedError::class,
+    'Found an attribute "data-id"'
+);
+
+it('can assert an attribute using a magic hasAttribute method', function (): void {
+    $this->get('nesting')
+        ->assertElementExists('#nav', static function (AssertElement $element): void {
+            $element->hasDataId('42');
+        });
+});
+
+it('can assert a missing attribute using a magic doesntHave method', function (): void {
+    $this->get('nesting')
+        ->assertElementExists('#nav', static function (AssertElement $element): void {
+            $element->doesntHaveClass()
+                ->doesntHaveDataId('43');
+        });
+});
+
+it('can fail asserting a missing attribute using a magic doesntHave method', function (): void {
+    $this->get('nesting')
+        ->assertElementExists('#nav', static function (AssertElement $element): void {
+            $element->doesntHaveDataId('42');
+        });
+})->throws(
+    AssertionFailedError::class,
+    'Found an attribute "data-id" with value "42"'
+);
+
+it('keeps has and doesntHave working as aliases', function (): void {
+    $this->get('nesting')
+        ->assertElementExists('#nav', static function (AssertElement $element): void {
+            $element->has('data-id', '42')
+                ->doesntHave('data-id', '43');
+        });
+});
+
 it('can find an element by selector', function (): void {
     $this->get('nesting')
         ->assertElementExists('#nav');

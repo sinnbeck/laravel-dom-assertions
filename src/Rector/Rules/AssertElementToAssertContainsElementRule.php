@@ -160,7 +160,7 @@ final class AssertElementToAssertContainsElementRule extends AbstractRector
 
             if ($this->isName($call->name, 'containsText') && count($call->args) === 1) {
                 $items[] = new ArrayItem($call->args[0]->value, new String_('text'));
-            } elseif ($this->isName($call->name, 'has') && count($call->args) === 2) {
+            } elseif ($this->isNames($call->name, ['has', 'hasAttribute']) && count($call->args) === 2) {
                 $items[] = new ArrayItem($call->args[1]->value, $call->args[0]->value);
             } else {
                 return null;
