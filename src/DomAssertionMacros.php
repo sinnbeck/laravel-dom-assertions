@@ -50,7 +50,7 @@ abstract class DomAssertionMacros
     {
         $emptyMessage = $this->emptyMessage();
 
-        return function () use ($emptyMessage): TestComponent|TestHtml|TestResponse|TestView {
+        return function () use ($emptyMessage): never {
             /** @var TestComponent|TestHtml|TestResponse|TestView $this */
             Assert::assertNotEmpty(
                 $this->content(),
@@ -78,7 +78,7 @@ abstract class DomAssertionMacros
     {
         $emptyMessage = $this->emptyMessage();
 
-        return function ($selector = 'body', $callback = null) use ($emptyMessage): TestComponent|TestHtml|TestResponse|TestView {
+        return function ($selector = 'body', $callback = null) use ($emptyMessage): never {
             /** @var TestComponent|TestHtml|TestResponse|TestView $this */
             Assert::assertNotEmpty(
                 $this->content(),
@@ -110,7 +110,7 @@ abstract class DomAssertionMacros
 
     public function assertElementContainsText(): Closure
     {
-        return function (string $selector, string $needle, bool $ignoreCase = false, ?bool $normalizeWhitespace = null): TestComponent|TestHtml|TestResponse|TestView {
+        return function (string $selector, string $needle, bool $ignoreCase = false, ?bool $normalizeWhitespace = null): never {
             /** @var TestComponent|TestHtml|TestResponse|TestView $this */
             $this->assertElementExists($selector, static function (AssertElement $assert) use ($needle, $ignoreCase, $normalizeWhitespace): void {
                 $assert->containsText($needle, $ignoreCase, $normalizeWhitespace);
@@ -122,7 +122,7 @@ abstract class DomAssertionMacros
 
     public function assertElementContainsNormalizedText(): Closure
     {
-        return function (string $selector, string $needle, bool $ignoreCase = false): TestComponent|TestHtml|TestResponse|TestView {
+        return function (string $selector, string $needle, bool $ignoreCase = false): never {
             /** @var TestComponent|TestHtml|TestResponse|TestView $this */
             $this->assertElementContainsText($selector, $needle, $ignoreCase, true);
 
@@ -134,7 +134,7 @@ abstract class DomAssertionMacros
     {
         $emptyMessage = $this->emptyMessage();
 
-        return function (string $selector, array $attributes = []) use ($emptyMessage): TestComponent|TestHtml|TestResponse|TestView {
+        return function (string $selector, array $attributes = []) use ($emptyMessage): never {
             /** @var TestComponent|TestHtml|TestResponse|TestView $this */
             Assert::assertNotEmpty(
                 $this->content(),
@@ -195,7 +195,7 @@ abstract class DomAssertionMacros
     {
         $emptyMessage = $this->emptyMessage();
 
-        return function (string $selector) use ($emptyMessage): TestComponent|TestHtml|TestResponse|TestView {
+        return function (string $selector) use ($emptyMessage): never {
             /** @var TestComponent|TestHtml|TestResponse|TestView $this */
             Assert::assertNotEmpty(
                 $this->content(),
@@ -224,7 +224,7 @@ abstract class DomAssertionMacros
     {
         $emptyMessage = $this->emptyMessage();
 
-        return function ($selector = 'form', $callback = null) use ($emptyMessage): TestComponent|TestHtml|TestResponse|TestView {
+        return function ($selector = 'form', $callback = null) use ($emptyMessage): never {
             /** @var TestComponent|TestHtml|TestResponse|TestView $this */
             Assert::assertNotEmpty(
                 $this->content(),
@@ -270,7 +270,7 @@ abstract class DomAssertionMacros
     {
         $emptyMessage = $this->emptyMessage();
 
-        return function ($selector = 'select', $callback = null) use ($emptyMessage): TestComponent|TestHtml|TestResponse|TestView {
+        return function ($selector = 'select', $callback = null) use ($emptyMessage): never {
             /** @var TestComponent|TestHtml|TestResponse|TestView $this */
             Assert::assertNotEmpty(
                 $this->content(),
