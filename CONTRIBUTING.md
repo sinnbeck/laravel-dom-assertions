@@ -18,7 +18,6 @@ You can run them locally (recommended) with:
 ```bash
 vendor/bin/pest
 vendor/bin/phpstan analyse
-vendor/bin/phpstan analyse -c phpstan/rector.neon
 vendor/bin/pint
 vendor/bin/rector process
 ```

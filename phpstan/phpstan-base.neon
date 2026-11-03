@@ -5,7 +5,3 @@ parameters:
     tmpDir: build/phpstan
     checkOctaneCompatibility: true
     checkModelProperties: true
-    # The Rector rules do not vary by Laravel version and the test matrix removes
-    # rector/rector before analysing, so they are analysed separately via ./rector.neon.
-    excludePaths:
-        - %rootDir%/../../../src/Rector
