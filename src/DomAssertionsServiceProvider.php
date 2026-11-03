@@ -20,14 +20,12 @@ class DomAssertionsServiceProvider extends ServiceProvider
             __DIR__.'/../config/dom-assertions.php' => $this->app->configPath('dom-assertions.php'),
         ], 'dom-assertions-config');
 
-        if ($this->app->runningUnitTests()) {
-            TestResponse::mixin(new TestResponseMacros);
-            TestView::mixin(new TestViewMacros);
-            TestHtml::mixin(new TestHtmlMacros);
-            if (version_compare($this->app->version(), '11.41.0', '>=')) {
-                // @phpstan-ignore-next-line
-                TestComponent::mixin(new TestComponentMacros);
-            }
+        TestResponse::mixin(new TestResponseMacros);
+        TestView::mixin(new TestViewMacros);
+        TestHtml::mixin(new TestHtmlMacros);
+        if (version_compare($this->app->version(), '11.41.0', '>=')) {
+            // @phpstan-ignore-next-line
+            TestComponent::mixin(new TestComponentMacros);
         }
     }
 }
