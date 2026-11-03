@@ -61,7 +61,8 @@ jobs:
           # Install Laravel + Testbench first
           composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --dev --no-interaction --no-update
 
-          # Remove rector (not needed for tests; conflicts with larastan phpstan version)
+          # Remove rector (not needed for tests; conflicts with larastan phpstan version).
+          # The Rector rules are tested and analysed in the test-rector job instead.
           composer remove rector/rector --dev --no-update --no-interaction
 
           # Update all dependencies
@@ -104,6 +105,9 @@ jobs:
 
       - name: Execute Rector tests
         run: vendor/bin/pest --testsuite=Rector
+
+      - name: Run PHPStan
+        run: vendor/bin/phpstan analyse -c ./phpstan/rector.neon
 
   notify:
     needs: [ test, test-rector ]

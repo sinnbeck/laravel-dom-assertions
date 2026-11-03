@@ -49,6 +49,9 @@ final class AssertElementToAssertContainsElementRule extends AbstractRector
         return [MethodCall::class];
     }
 
+    /**
+     * @param  MethodCall  $node
+     */
     public function refactor(Node $node): ?Node
     {
         if (! $this->isName($node->name, 'assertElement') || count($node->args) !== 2) {
@@ -105,19 +108,21 @@ final class AssertElementToAssertContainsElementRule extends AbstractRector
             }
 
             $call = $stmt->expr;
+            $findClosure = $this->findClosure($call);
+            $containsAttributes = $this->containsAttributes($call);
 
-            if ($this->isFindCall($call)) {
-                $inner = $this->resolveEntries([...$selectors, $call->args[0]->value], $call->args[1]->value);
+            if ($findClosure !== null) {
+                $inner = $this->resolveEntries([...$selectors, $call->args[0]->value], $findClosure);
 
                 if ($inner === null) {
                     return null;
                 }
 
                 $entries = [...$entries, ...$inner];
-            } elseif ($this->isContainsCall($call)) {
+            } elseif ($containsAttributes !== null) {
                 $entries[] = [
                     'selectors' => [...$selectors, $call->args[0]->value],
-                    'items' => array_values(array_filter($call->args[1]->value->items)),
+                    'items' => $containsAttributes->items,
                 ];
             } else {
                 return null;
@@ -127,18 +132,32 @@ final class AssertElementToAssertContainsElementRule extends AbstractRector
         return $entries ?: null;
     }
 
-    private function isFindCall(MethodCall $call): bool
+    /**
+     * The callback of a find() call, or null if the call cannot be flattened.
+     */
+    private function findClosure(MethodCall $call): ?Closure
     {
-        return $this->isName($call->name, 'find')
-            && count($call->args) === 2
-            && $call->args[1]->value instanceof Closure;
+        if (! $this->isName($call->name, 'find') || count($call->args) !== 2) {
+            return null;
+        }
+
+        $closure = $call->args[1]->value;
+
+        return $closure instanceof Closure ? $closure : null;
     }
 
-    private function isContainsCall(MethodCall $call): bool
+    /**
+     * The attributes of a contains() call, or null if the call cannot be flattened.
+     */
+    private function containsAttributes(MethodCall $call): ?Array_
     {
-        return $this->isName($call->name, 'contains')
-            && count($call->args) === 2
-            && $call->args[1]->value instanceof Array_;
+        if (! $this->isName($call->name, 'contains') || count($call->args) !== 2) {
+            return null;
+        }
+
+        $attributes = $call->args[1]->value;
+
+        return $attributes instanceof Array_ ? $attributes : null;
     }
 
     /**

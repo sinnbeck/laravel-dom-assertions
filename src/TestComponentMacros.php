@@ -6,6 +6,7 @@ namespace Sinnbeck\DomAssertions;
 
 use Closure;
 use Illuminate\Testing\TestComponent;
+use Sinnbeck\DomAssertions\Support\MacroTarget;
 use Sinnbeck\DomAssertions\Traits\Wraps;
 
 /**
@@ -22,11 +23,13 @@ class TestComponentMacros extends DomAssertionMacros
         return 'The component is empty!';
     }
 
+    /**
+     * @return Closure(): string
+     */
     public function content(): Closure
     {
         return function (): string {
-            /** @var TestComponent $this */
-            return (string) $this;
+            return (string) MacroTarget::component($this);
         };
     }
 }

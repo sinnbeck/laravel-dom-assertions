@@ -6,6 +6,7 @@ namespace Sinnbeck\DomAssertions;
 
 use Closure;
 use Illuminate\Testing\TestView;
+use Sinnbeck\DomAssertions\Support\MacroTarget;
 
 /**
  * @internal
@@ -19,11 +20,13 @@ class TestViewMacros extends DomAssertionMacros
         return 'The view is empty!';
     }
 
+    /**
+     * @return Closure(): string
+     */
     public function content(): Closure
     {
         return function (): string {
-            /** @var TestView $this */
-            return (string) $this;
+            return (string) MacroTarget::view($this);
         };
     }
 }

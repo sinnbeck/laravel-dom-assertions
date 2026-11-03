@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Sinnbeck\DomAssertions\Traits;
 
 use Closure;
-use Illuminate\Testing\TestComponent;
 use InvalidArgumentException;
 use PHPUnit\Framework\Assert;
 use Sinnbeck\DomAssertions\DomAssertionMacros;
@@ -19,24 +18,29 @@ use Sinnbeck\DomAssertions\TestHtml;
  */
 trait Wraps
 {
+    /**
+     * @return Closure(string, array<array-key, mixed>=): TestHtml
+     */
     public function wrap(): Closure
     {
         $emptyMessage = $this->emptyMessage();
+        $content = $this->content();
 
-        return function (string $element, array $attributes = []) use ($emptyMessage): TestHtml {
-            /** @var TestComponent|TestHtml $this */
+        return function (string $element, array $attributes = []) use ($emptyMessage, $content): TestHtml {
+            $html = $content->call($this);
+
             Assert::assertNotEmpty(
-                $this->content(),
+                $html,
                 $emptyMessage
             );
 
             try {
-                $html = Html::element($element, $this->content(), $attributes);
+                $wrapped = Html::element($element, $html, $attributes);
             } catch (InvalidArgumentException $exception) {
                 Assert::fail($exception->getMessage());
             }
 
-            return TestHtml::make($html);
+            return TestHtml::make($wrapped);
         };
     }
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Sinnbeck\DomAssertions;
 
 use Closure;
+use Sinnbeck\DomAssertions\Support\MacroTarget;
 use Sinnbeck\DomAssertions\Traits\Wraps;
 
 /**
@@ -21,11 +22,13 @@ class TestHtmlMacros extends DomAssertionMacros
         return 'The html is empty!';
     }
 
+    /**
+     * @return Closure(): string
+     */
     public function content(): Closure
     {
         return function (): string {
-            /** @var TestHtml $this */
-            return (string) $this;
+            return (string) MacroTarget::html($this);
         };
     }
 }

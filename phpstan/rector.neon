@@ -1,0 +1,7 @@
+# Standalone config for the Rector rules, which the Laravel matrix excludes.
+# Keep `level` in sync with ./phpstan-base.neon.
+parameters:
+    level: 5
+    paths:
+        - %rootDir%/../../../src/Rector
+    tmpDir: build/phpstan

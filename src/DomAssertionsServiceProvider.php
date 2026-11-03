@@ -24,8 +24,8 @@ class DomAssertionsServiceProvider extends ServiceProvider
             TestResponse::mixin(new TestResponseMacros);
             TestView::mixin(new TestViewMacros);
             TestHtml::mixin(new TestHtmlMacros);
+            // TestComponent only became macroable in Laravel 11.41.
             if (version_compare($this->app->version(), '11.41.0', '>=')) {
-                // @phpstan-ignore-next-line
                 TestComponent::mixin(new TestComponentMacros);
             }
         }

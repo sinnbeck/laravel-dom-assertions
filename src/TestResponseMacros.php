@@ -6,6 +6,7 @@ namespace Sinnbeck\DomAssertions;
 
 use Closure;
 use Illuminate\Testing\TestResponse;
+use Sinnbeck\DomAssertions\Support\MacroTarget;
 
 /**
  * @internal
@@ -19,15 +20,19 @@ class TestResponseMacros extends DomAssertionMacros
         return 'The response is empty!';
     }
 
+    /**
+     * @return Closure(): string
+     */
     public function content(): Closure
     {
         return function (): string {
-            /** @var TestResponse $this */
-            $content = $this->getContent();
+            $response = MacroTarget::response($this);
+
+            $content = $response->getContent();
 
             // Due to being the test response, livewire users can access the DOM assertions.
             // If the component is updated and the content-type is json, we attempt to render the html.
-            if ($this->headers->get('content-type') === 'application/json') {
+            if ($response->headers->get('content-type') === 'application/json') {
                 $json = json_decode($content, true);
                 if (isset($json['components'][0]['effects']['html'])) {
                     $content = $json['components'][0]['effects']['html'];
