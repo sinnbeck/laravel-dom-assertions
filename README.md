@@ -550,7 +550,7 @@ $this->component(TextInput::class)
 
 Attribute names may use Alpine and Livewire syntax such as `wire:model.live`, `x-on:click` and `:bound`, but not the `@click` shorthand — `@` is not valid in a parsed attribute name, so `wrap()` rejects it rather than silently dropping it. Use `x-on:click` instead.
 
-Calls nest, and `wrap()` is available on responses and views too. It returns a `TestHtml`, which carries the same assertions — you can also build one directly from any html string with `TestHtml::make($html)`.
+`wrap()` is available on components and returns a `TestHtml`, which carries the same assertions, so calls nest. You can also build one directly from any html string with `TestHtml::make($html)`.
 
 ## Method reference
 
