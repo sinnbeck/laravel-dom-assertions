@@ -25,6 +25,12 @@ class TestResponseMacros extends DomAssertionMacros
             /** @var TestResponse $this */
             $content = $this->getContent();
 
+            // Streamed and binary file responses are never buffered, so the content
+            // has to be captured by running the response.
+            if ($content === false) {
+                $content = $this->streamedContent();
+            }
+
             // Due to being the test response, livewire users can access the DOM assertions.
             // If the component is updated and the content-type is json, we attempt to render the html.
             if ($this->headers->get('content-type') === 'application/json') {
