@@ -8,6 +8,7 @@ use Illuminate\Foundation\Testing\Concerns\InteractsWithViews;
 use Illuminate\Support\Facades\Route;
 use Livewire\LivewireServiceProvider;
 use Sinnbeck\DomAssertions\DomAssertionsServiceProvider;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class TestCase extends \Orchestra\Testbench\TestCase
 {
@@ -36,6 +37,12 @@ class TestCase extends \Orchestra\Testbench\TestCase
         Route::view('empty-body', 'empty-body');
         Route::view('broken', 'broken');
         Route::view('livewire', 'livewire');
+        Route::get('streamed', static fn (): StreamedResponse => response()->stream(
+            static function (): void {
+                echo view('nesting')->render();
+            },
+            headers: ['content-type' => 'text/html'],
+        ));
         Route::get('about', static function (): Factory|View {
             $menuItems = [
                 [
