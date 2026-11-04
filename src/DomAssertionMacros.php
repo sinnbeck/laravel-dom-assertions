@@ -13,7 +13,6 @@ use Sinnbeck\DomAssertions\Asserts\AssertElement;
 use Sinnbeck\DomAssertions\Asserts\AssertForm;
 use Sinnbeck\DomAssertions\Asserts\AssertSelect;
 use Sinnbeck\DomAssertions\Support\DomParser;
-use Sinnbeck\DomAssertions\Support\Html;
 use Sinnbeck\DomAssertions\Support\MacroTarget;
 use Sinnbeck\DomAssertions\Support\Normalize;
 
