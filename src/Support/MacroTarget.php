@@ -58,7 +58,7 @@ final class MacroTarget
     private static function fail(object $instance, string ...$expected): never
     {
         throw new LogicException(sprintf(
-            'The dom assertions can only be used on %s. Got %s.',
+            'DOM assertions can only be used on %s. Got %s.',
             implode(', ', $expected),
             $instance::class,
         ));
