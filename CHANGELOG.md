@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-dom-assertion` will be documented in this file.
 
+## v4.1.0 - 2026-11-04
+
+### What's Changed
+
+* Add explicit version of has/doesntHave by @jackbayliss in https://github.com/sinnbeck/laravel-dom-assertions/pull/101
+* Bump stefanzweifel/git-auto-commit-action from 7.2.0 to 7.2.1 by @dependabot[bot] in https://github.com/sinnbeck/laravel-dom-assertions/pull/102
+* Fix wrap duplication by @MizouziE in https://github.com/sinnbeck/laravel-dom-assertions/pull/106
+* Ungate running unit tests by @MizouziE in https://github.com/sinnbeck/laravel-dom-assertions/pull/107
+* Fix DOM assertions on streamed responses by @MizouziE in https://github.com/sinnbeck/laravel-dom-assertions/pull/104
+* Adjust return types by @jackbayliss in https://github.com/sinnbeck/laravel-dom-assertions/pull/108
+
+
 ## v4.0.0 - 2026-10-26
 
 ### What's Changed
