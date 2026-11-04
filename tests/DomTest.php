@@ -827,3 +827,12 @@ it('assertElementContainsNormalizedText throws if text does not match', function
     $this->get('nesting')
         ->assertElementContainsNormalizedText('p.foo.bar', 'Bar Foo');
 })->throws(AssertionFailedError::class);
+
+it('can assert against a streamed response', function (): void {
+    $this->get('streamed')
+        ->assertHtml5()
+        ->assertContainsElement('span.foo', ['text' => 'Foo'])
+        ->assertElementExists('nav#nav', static function (AssertElement $assert): void {
+            $assert->has('data-id', '42');
+        });
+});

@@ -8,7 +8,6 @@ use DOMException;
 use Illuminate\Testing\TestComponent;
 use Illuminate\Testing\TestResponse;
 use Illuminate\Testing\TestView;
-use InvalidArgumentException;
 use PHPUnit\Framework\Assert;
 use Sinnbeck\DomAssertions\Asserts\AssertElement;
 use Sinnbeck\DomAssertions\Asserts\AssertForm;
@@ -361,35 +360,6 @@ abstract class DomAssertionMacros
         };
     }
 
-    /**
-     * @return Closure(string, array<array-key, mixed>=): TestHtml
-     */
-    public function wrap(): Closure
-    {
-        $emptyMessage = $this->emptyMessage();
-        $content = $this->content();
-
-        return function (string $element, array $attributes = []) use ($emptyMessage, $content): TestHtml {
-            $html = $content->call($this);
-
-            Assert::assertNotEmpty(
-                $html,
-                $emptyMessage
-            );
-
-            try {
-                $wrapped = Html::element($element, $html, $attributes);
-            } catch (InvalidArgumentException $exception) {
-                Assert::fail($exception->getMessage());
-            }
-
-            return TestHtml::make($wrapped);
-        };
-    }
-
-    /**
-     * @return Closure(): void
-     */
     public function ddContent(): Closure
     {
         $content = $this->content();
