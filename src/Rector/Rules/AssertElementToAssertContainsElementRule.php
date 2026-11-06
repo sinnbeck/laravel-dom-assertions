@@ -111,7 +111,7 @@ final class AssertElementToAssertContainsElementRule extends AbstractRector
             $findClosure = $this->findClosure($call);
             $containsAttributes = $this->containsAttributes($call);
 
-            if ($findClosure !== null) {
+            if ($findClosure instanceof \PhpParser\Node\Expr\Closure) {
                 $inner = $this->resolveEntries([...$selectors, $call->args[0]->value], $findClosure);
 
                 if ($inner === null) {
@@ -119,7 +119,7 @@ final class AssertElementToAssertContainsElementRule extends AbstractRector
                 }
 
                 $entries = [...$entries, ...$inner];
-            } elseif ($containsAttributes !== null) {
+            } elseif ($containsAttributes instanceof \PhpParser\Node\Expr\Array_) {
                 $entries[] = [
                     'selectors' => [...$selectors, $call->args[0]->value],
                     'items' => $containsAttributes->items,
