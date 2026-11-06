@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
-use Rector\DeadCode\Rector\FunctionLike\NarrowWideUnionReturnTypeRector;
 
 return RectorConfig::configure()
     ->withCache(cacheDirectory: __DIR__.'/build/rector')
@@ -20,8 +19,4 @@ return RectorConfig::configure()
         typeDeclarations: true,
         privatization: false,
         earlyReturn: true,
-    )
-    ->withSkip([
-        // Narrows the macro closures to "never" since it can't resolve the bound $this...
-        NarrowWideUnionReturnTypeRector::class,
-    ]);
+    );

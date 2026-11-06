@@ -61,9 +61,6 @@ jobs:
           # Install Laravel + Testbench first
           composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --dev --no-interaction --no-update
 
-          # Remove rector (not needed for tests; conflicts with larastan phpstan version)
-          composer remove rector/rector --dev --no-update --no-interaction
-
           # Update all dependencies
           composer update --prefer-dist --no-interaction
 

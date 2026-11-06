@@ -6,6 +6,7 @@ namespace Sinnbeck\DomAssertions;
 
 use Closure;
 use Illuminate\Testing\TestResponse;
+use Sinnbeck\DomAssertions\Support\Bind;
 
 /**
  * @internal
@@ -19,10 +20,12 @@ class TestResponseMacros extends DomAssertionMacros
         return 'The response is empty!';
     }
 
+    /**
+     * @return Closure(): string
+     */
     public function content(): Closure
     {
-        return function (): string {
-            /** @var TestResponse $this */
+        return Bind::to(TestResponse::class, function (): string {
             $content = $this->getContent();
 
             // Streamed and binary file responses are never buffered, so the content
@@ -41,6 +44,6 @@ class TestResponseMacros extends DomAssertionMacros
             }
 
             return $content;
-        };
+        });
     }
 }

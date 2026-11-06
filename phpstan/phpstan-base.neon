@@ -1,0 +1,7 @@
+parameters:
+    level: 5
+    paths:
+        - %rootDir%/../../../src
+    tmpDir: build/phpstan
+    checkOctaneCompatibility: true
+    checkModelProperties: true
