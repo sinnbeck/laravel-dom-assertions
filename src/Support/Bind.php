@@ -12,7 +12,6 @@ use Closure;
 final class Bind
 {
     /**
-     *
      * @template T of object
      *
      * @param  class-string<T>  $class

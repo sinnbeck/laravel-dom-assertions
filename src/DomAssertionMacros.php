@@ -24,11 +24,21 @@ abstract class DomAssertionMacros
     /**
      * @internal
      *
-     * @return Closure(string): DomParser
+     * @return Closure(): array{string, DomParser}
      */
-    protected function getDomParser(): Closure
+    protected function parseContent(): Closure
     {
-        return function (string $html): DomParser {
+        $emptyMessage = $this->emptyMessage();
+        $content = $this->content();
+
+        return function () use ($emptyMessage, $content): array {
+            $html = $content->call($this);
+
+            Assert::assertNotEmpty(
+                $html,
+                $emptyMessage
+            );
+
             $hash = hash('xxh128', $html);
 
             $cacheKey = 'dom-assertions.parser.'.$hash;
@@ -41,7 +51,7 @@ abstract class DomAssertionMacros
                 }
             }
 
-            return app()->make($cacheKey);
+            return [$html, app()->make($cacheKey)];
         };
     }
 
@@ -50,19 +60,10 @@ abstract class DomAssertionMacros
      */
     public function assertHtml5(): Closure
     {
-        $emptyMessage = $this->emptyMessage();
-        $content = $this->content();
-        $domParser = $this->getDomParser();
+        $parseContent = $this->parseContent();
 
-        return function () use ($emptyMessage, $content, $domParser): static {
-            $html = $content->call($this);
-
-            Assert::assertNotEmpty(
-                $html,
-                $emptyMessage
-            );
-
-            $parser = $domParser($html);
+        return function () use ($parseContent): static {
+            [$html, $parser] = $parseContent->call($this);
 
             Assert::assertEquals(
                 'html',
@@ -87,19 +88,10 @@ abstract class DomAssertionMacros
      */
     public function assertElementExists(): Closure
     {
-        $emptyMessage = $this->emptyMessage();
-        $content = $this->content();
-        $domParser = $this->getDomParser();
+        $parseContent = $this->parseContent();
 
-        return function ($selector = 'body', $callback = null) use ($emptyMessage, $content, $domParser): static {
-            $html = $content->call($this);
-
-            Assert::assertNotEmpty(
-                $html,
-                $emptyMessage
-            );
-
-            $parser = $domParser($html);
+        return function ($selector = 'body', $callback = null) use ($parseContent): static {
+            [$html, $parser] = $parseContent->call($this);
 
             if ($selector instanceof Closure) {
                 $callback = $selector;
@@ -153,19 +145,10 @@ abstract class DomAssertionMacros
      */
     public function assertContainsElement(): Closure
     {
-        $emptyMessage = $this->emptyMessage();
-        $content = $this->content();
-        $domParser = $this->getDomParser();
+        $parseContent = $this->parseContent();
 
-        return function (string $selector, array $attributes = []) use ($emptyMessage, $content, $domParser): static {
-            $html = $content->call($this);
-
-            Assert::assertNotEmpty(
-                $html,
-                $emptyMessage
-            );
-
-            $parser = $domParser($html);
+        return function (string $selector, array $attributes = []) use ($parseContent): static {
+            [$html, $parser] = $parseContent->call($this);
 
             Assert::assertNotNull(
                 $parser->query($selector),
@@ -220,19 +203,10 @@ abstract class DomAssertionMacros
      */
     public function assertDoesntExist(): Closure
     {
-        $emptyMessage = $this->emptyMessage();
-        $content = $this->content();
-        $domParser = $this->getDomParser();
+        $parseContent = $this->parseContent();
 
-        return function (string $selector) use ($emptyMessage, $content, $domParser): static {
-            $html = $content->call($this);
-
-            Assert::assertNotEmpty(
-                $html,
-                $emptyMessage
-            );
-
-            $parser = $domParser($html);
+        return function (string $selector) use ($parseContent): static {
+            [$html, $parser] = $parseContent->call($this);
 
             $element = $parser->query($selector);
 
@@ -258,19 +232,10 @@ abstract class DomAssertionMacros
      */
     public function assertFormExists(): Closure
     {
-        $emptyMessage = $this->emptyMessage();
-        $content = $this->content();
-        $domParser = $this->getDomParser();
+        $parseContent = $this->parseContent();
 
-        return function ($selector = 'form', $callback = null) use ($emptyMessage, $content, $domParser): static {
-            $html = $content->call($this);
-
-            Assert::assertNotEmpty(
-                $html,
-                $emptyMessage
-            );
-
-            $parser = $domParser($html);
+        return function ($selector = 'form', $callback = null) use ($parseContent): static {
+            [$html, $parser] = $parseContent->call($this);
 
             if ($selector instanceof Closure) {
                 $callback = $selector;
@@ -313,19 +278,10 @@ abstract class DomAssertionMacros
      */
     public function assertSelectExists(): Closure
     {
-        $emptyMessage = $this->emptyMessage();
-        $content = $this->content();
-        $domParser = $this->getDomParser();
+        $parseContent = $this->parseContent();
 
-        return function ($selector = 'select', $callback = null) use ($emptyMessage, $content, $domParser): static {
-            $html = $content->call($this);
-
-            Assert::assertNotEmpty(
-                $html,
-                $emptyMessage
-            );
-
-            $parser = $domParser($html);
+        return function ($selector = 'select', $callback = null) use ($parseContent): static {
+            [$html, $parser] = $parseContent->call($this);
 
             if ($selector instanceof Closure) {
                 $callback = $selector;
