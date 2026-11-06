@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Sinnbeck\DomAssertions;
 
 use Closure;
-use Sinnbeck\DomAssertions\Support\MacroTarget;
+use Sinnbeck\DomAssertions\Support\Bind;
 use Sinnbeck\DomAssertions\Traits\Wraps;
 
 /**
@@ -27,8 +27,8 @@ class TestHtmlMacros extends DomAssertionMacros
      */
     public function content(): Closure
     {
-        return function (): string {
-            return (string) MacroTarget::html($this);
-        };
+        return Bind::to(TestHtml::class, function (): string {
+            return (string) $this;
+        });
     }
 }

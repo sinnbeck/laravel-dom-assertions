@@ -6,7 +6,7 @@ namespace Sinnbeck\DomAssertions;
 
 use Closure;
 use Illuminate\Testing\TestComponent;
-use Sinnbeck\DomAssertions\Support\MacroTarget;
+use Sinnbeck\DomAssertions\Support\Bind;
 use Sinnbeck\DomAssertions\Traits\Wraps;
 
 /**
@@ -28,8 +28,8 @@ class TestComponentMacros extends DomAssertionMacros
      */
     public function content(): Closure
     {
-        return function (): string {
-            return (string) MacroTarget::component($this);
-        };
+        return Bind::to(TestComponent::class, function (): string {
+            return (string) $this;
+        });
     }
 }

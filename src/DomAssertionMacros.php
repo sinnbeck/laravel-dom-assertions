@@ -5,15 +5,11 @@ namespace Sinnbeck\DomAssertions;
 use Closure;
 use DOMElement;
 use DOMException;
-use Illuminate\Testing\TestComponent;
-use Illuminate\Testing\TestResponse;
-use Illuminate\Testing\TestView;
 use PHPUnit\Framework\Assert;
 use Sinnbeck\DomAssertions\Asserts\AssertElement;
 use Sinnbeck\DomAssertions\Asserts\AssertForm;
 use Sinnbeck\DomAssertions\Asserts\AssertSelect;
 use Sinnbeck\DomAssertions\Support\DomParser;
-use Sinnbeck\DomAssertions\Support\MacroTarget;
 use Sinnbeck\DomAssertions\Support\Normalize;
 
 abstract class DomAssertionMacros
@@ -50,7 +46,7 @@ abstract class DomAssertionMacros
     }
 
     /**
-     * @return Closure(): (TestComponent|TestHtml|TestResponse|TestView)
+     * @return Closure(): static
      */
     public function assertHtml5(): Closure
     {
@@ -58,7 +54,7 @@ abstract class DomAssertionMacros
         $content = $this->content();
         $domParser = $this->getDomParser();
 
-        return function () use ($emptyMessage, $content, $domParser): TestComponent|TestHtml|TestResponse|TestView {
+        return function () use ($emptyMessage, $content, $domParser): static {
             $html = $content->call($this);
 
             Assert::assertNotEmpty(
@@ -74,12 +70,12 @@ abstract class DomAssertionMacros
                 'Not a html5 doctype!'
             );
 
-            return MacroTarget::from($this);
+            return $this;
         };
     }
 
     /**
-     * @return Closure(string|Closure(AssertElement): void=, ?callable(AssertElement): void=): (TestComponent|TestHtml|TestResponse|TestView)
+     * @return Closure(string|Closure(AssertElement): void=, ?callable(AssertElement): void=): static
      */
     public function assertElement(): Closure
     {
@@ -87,7 +83,7 @@ abstract class DomAssertionMacros
     }
 
     /**
-     * @return Closure(string|Closure(AssertElement): void=, ?callable(AssertElement): void=): (TestComponent|TestHtml|TestResponse|TestView)
+     * @return Closure(string|Closure(AssertElement): void=, ?callable(AssertElement): void=): static
      */
     public function assertElementExists(): Closure
     {
@@ -95,7 +91,7 @@ abstract class DomAssertionMacros
         $content = $this->content();
         $domParser = $this->getDomParser();
 
-        return function ($selector = 'body', $callback = null) use ($emptyMessage, $content, $domParser): TestComponent|TestHtml|TestResponse|TestView {
+        return function ($selector = 'body', $callback = null) use ($emptyMessage, $content, $domParser): static {
             $html = $content->call($this);
 
             Assert::assertNotEmpty(
@@ -122,18 +118,18 @@ abstract class DomAssertionMacros
                 $callback(new AssertElement($html, $element));
             }
 
-            return MacroTarget::from($this);
+            return $this;
         };
     }
 
     /**
-     * @return Closure(string, string, bool=, ?bool=): (TestComponent|TestHtml|TestResponse|TestView)
+     * @return Closure(string, string, bool=, ?bool=): static
      */
     public function assertElementContainsText(): Closure
     {
         $elementExists = $this->assertElementExists();
 
-        return function (string $selector, string $needle, bool $ignoreCase = false, ?bool $normalizeWhitespace = null) use ($elementExists): TestComponent|TestHtml|TestResponse|TestView {
+        return function (string $selector, string $needle, bool $ignoreCase = false, ?bool $normalizeWhitespace = null) use ($elementExists): static {
             return $elementExists->call($this, $selector, static function (AssertElement $assert) use ($needle, $ignoreCase, $normalizeWhitespace): void {
                 $assert->containsText($needle, $ignoreCase, $normalizeWhitespace);
             });
@@ -141,19 +137,19 @@ abstract class DomAssertionMacros
     }
 
     /**
-     * @return Closure(string, string, bool=): (TestComponent|TestHtml|TestResponse|TestView)
+     * @return Closure(string, string, bool=): static
      */
     public function assertElementContainsNormalizedText(): Closure
     {
         $elementContainsText = $this->assertElementContainsText();
 
-        return function (string $selector, string $needle, bool $ignoreCase = false) use ($elementContainsText): TestComponent|TestHtml|TestResponse|TestView {
+        return function (string $selector, string $needle, bool $ignoreCase = false) use ($elementContainsText): static {
             return $elementContainsText->call($this, $selector, $needle, $ignoreCase, true);
         };
     }
 
     /**
-     * @return Closure(string, array<string, mixed>=): (TestComponent|TestHtml|TestResponse|TestView)
+     * @return Closure(string, array<string, mixed>=): static
      */
     public function assertContainsElement(): Closure
     {
@@ -161,7 +157,7 @@ abstract class DomAssertionMacros
         $content = $this->content();
         $domParser = $this->getDomParser();
 
-        return function (string $selector, array $attributes = []) use ($emptyMessage, $content, $domParser): TestComponent|TestHtml|TestResponse|TestView {
+        return function (string $selector, array $attributes = []) use ($emptyMessage, $content, $domParser): static {
             $html = $content->call($this);
 
             Assert::assertNotEmpty(
@@ -177,7 +173,7 @@ abstract class DomAssertionMacros
             );
 
             if ($attributes === []) {
-                return MacroTarget::from($this);
+                return $this;
             }
 
             $elements = $parser->queryAll($selector);
@@ -215,12 +211,12 @@ abstract class DomAssertionMacros
                 }
             }
 
-            return MacroTarget::from($this);
+            return $this;
         };
     }
 
     /**
-     * @return Closure(string): (TestComponent|TestHtml|TestResponse|TestView)
+     * @return Closure(string): static
      */
     public function assertDoesntExist(): Closure
     {
@@ -228,7 +224,7 @@ abstract class DomAssertionMacros
         $content = $this->content();
         $domParser = $this->getDomParser();
 
-        return function (string $selector) use ($emptyMessage, $content, $domParser): TestComponent|TestHtml|TestResponse|TestView {
+        return function (string $selector) use ($emptyMessage, $content, $domParser): static {
             $html = $content->call($this);
 
             Assert::assertNotEmpty(
@@ -245,12 +241,12 @@ abstract class DomAssertionMacros
                 sprintf('Expected no element with selector: %s, but one was found.', $selector)
             );
 
-            return MacroTarget::from($this);
+            return $this;
         };
     }
 
     /**
-     * @return Closure(string|Closure(AssertForm): void=, ?callable(AssertForm): void=): (TestComponent|TestHtml|TestResponse|TestView)
+     * @return Closure(string|Closure(AssertForm): void=, ?callable(AssertForm): void=): static
      */
     public function assertForm(): Closure
     {
@@ -258,7 +254,7 @@ abstract class DomAssertionMacros
     }
 
     /**
-     * @return Closure(string|Closure(AssertForm): void=, ?callable(AssertForm): void=): (TestComponent|TestHtml|TestResponse|TestView)
+     * @return Closure(string|Closure(AssertForm): void=, ?callable(AssertForm): void=): static
      */
     public function assertFormExists(): Closure
     {
@@ -266,7 +262,7 @@ abstract class DomAssertionMacros
         $content = $this->content();
         $domParser = $this->getDomParser();
 
-        return function ($selector = 'form', $callback = null) use ($emptyMessage, $content, $domParser): TestComponent|TestHtml|TestResponse|TestView {
+        return function ($selector = 'form', $callback = null) use ($emptyMessage, $content, $domParser): static {
             $html = $content->call($this);
 
             Assert::assertNotEmpty(
@@ -300,12 +296,12 @@ abstract class DomAssertionMacros
                 $callback(new AssertForm($html, $form));
             }
 
-            return MacroTarget::from($this);
+            return $this;
         };
     }
 
     /**
-     * @return Closure(string|Closure(AssertSelect): void=, ?callable(AssertSelect): void=): (TestComponent|TestHtml|TestResponse|TestView)
+     * @return Closure(string|Closure(AssertSelect): void=, ?callable(AssertSelect): void=): static
      */
     public function assertSelect(): Closure
     {
@@ -313,7 +309,7 @@ abstract class DomAssertionMacros
     }
 
     /**
-     * @return Closure(string|Closure(AssertSelect): void=, ?callable(AssertSelect): void=): (TestComponent|TestHtml|TestResponse|TestView)
+     * @return Closure(string|Closure(AssertSelect): void=, ?callable(AssertSelect): void=): static
      */
     public function assertSelectExists(): Closure
     {
@@ -321,7 +317,7 @@ abstract class DomAssertionMacros
         $content = $this->content();
         $domParser = $this->getDomParser();
 
-        return function ($selector = 'select', $callback = null) use ($emptyMessage, $content, $domParser): TestComponent|TestHtml|TestResponse|TestView {
+        return function ($selector = 'select', $callback = null) use ($emptyMessage, $content, $domParser): static {
             $html = $content->call($this);
 
             Assert::assertNotEmpty(
@@ -355,7 +351,7 @@ abstract class DomAssertionMacros
                 $callback(new AssertSelect($html, $select));
             }
 
-            return MacroTarget::from($this);
+            return $this;
         };
     }
 

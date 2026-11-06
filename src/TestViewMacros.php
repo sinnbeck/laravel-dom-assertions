@@ -6,7 +6,7 @@ namespace Sinnbeck\DomAssertions;
 
 use Closure;
 use Illuminate\Testing\TestView;
-use Sinnbeck\DomAssertions\Support\MacroTarget;
+use Sinnbeck\DomAssertions\Support\Bind;
 
 /**
  * @internal
@@ -25,8 +25,8 @@ class TestViewMacros extends DomAssertionMacros
      */
     public function content(): Closure
     {
-        return function (): string {
-            return (string) MacroTarget::view($this);
-        };
+        return Bind::to(TestView::class, function (): string {
+            return (string) $this;
+        });
     }
 }

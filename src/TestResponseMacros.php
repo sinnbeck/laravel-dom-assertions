@@ -6,7 +6,7 @@ namespace Sinnbeck\DomAssertions;
 
 use Closure;
 use Illuminate\Testing\TestResponse;
-use Sinnbeck\DomAssertions\Support\MacroTarget;
+use Sinnbeck\DomAssertions\Support\Bind;
 
 /**
  * @internal
@@ -25,10 +25,8 @@ class TestResponseMacros extends DomAssertionMacros
      */
     public function content(): Closure
     {
-        return function (): string {
-            $response = MacroTarget::response($this);
-
-            $content = $response->getContent();
+        return Bind::to(TestResponse::class, function (): string {
+            $content = $this->getContent();
 
             // Streamed and binary file responses are never buffered, so the content
             // has to be captured by running the response.
@@ -38,7 +36,7 @@ class TestResponseMacros extends DomAssertionMacros
 
             // Due to being the test response, livewire users can access the DOM assertions.
             // If the component is updated and the content-type is json, we attempt to render the html.
-            if ($response->headers->get('content-type') === 'application/json') {
+            if ($this->headers->get('content-type') === 'application/json') {
                 $json = json_decode($content, true);
                 if (isset($json['components'][0]['effects']['html'])) {
                     $content = $json['components'][0]['effects']['html'];
@@ -46,6 +44,6 @@ class TestResponseMacros extends DomAssertionMacros
             }
 
             return $content;
-        };
+        });
     }
 }
