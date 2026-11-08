@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-dom-assertion` will be documented in this file.
 
+## v4.2.0 - 2026-11-08
+
+### What's Changed
+
+* Drop PHPStan ignores and analyse the Rector rules by @MizouziE in https://github.com/sinnbeck/laravel-dom-assertions/pull/105
+
+**Full Changelog**: https://github.com/sinnbeck/laravel-dom-assertions/compare/v4.1.0...v4.2.0
+
 ## v4.1.0 - 2026-11-04
 
 ### What's Changed
@@ -12,7 +20,6 @@ All notable changes to `laravel-dom-assertion` will be documented in this file.
 * Ungate running unit tests by @MizouziE in https://github.com/sinnbeck/laravel-dom-assertions/pull/107
 * Fix DOM assertions on streamed responses by @MizouziE in https://github.com/sinnbeck/laravel-dom-assertions/pull/104
 * Adjust return types by @jackbayliss in https://github.com/sinnbeck/laravel-dom-assertions/pull/108
-
 
 ## v4.0.0 - 2026-10-26
 
