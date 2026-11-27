@@ -20,7 +20,7 @@ jobs:
           ref: main
 
       - name: Update Changelog
-        uses: stefanzweifel/changelog-updater-action@dd32e02e4c96d6e729bae24bdbcbb92452dbc9ea # v1
+        uses: stefanzweifel/changelog-updater-action@f7c43fed0c8760b25199be6eae5c28fc22830ec6 # v1
         with:
           latest-version: ${{ github.event.release.name }}
           release-notes: ${{ github.event.release.body }}
